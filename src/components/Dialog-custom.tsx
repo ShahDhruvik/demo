@@ -16,6 +16,7 @@ interface Props {
   action: { isAction: boolean; component: ReactNode }
   paddingOfContent?: string
   minWidth?: number
+  minHeight?: number
 }
 
 const CustomDialog = ({
@@ -31,6 +32,7 @@ const CustomDialog = ({
   action,
   paddingOfContent,
   minWidth,
+  minHeight,
 }: Props) => {
   //Dialog Allignment
   const otherProps = { m: '1rem 0.5rem ' }
@@ -86,6 +88,7 @@ const CustomDialog = ({
         '.MuiPaper-root ': {
           borderRadius: '7px',
           minWidth: minWidth ?? 0,
+          minHeight: minHeight ?? 0,
           background: theme.palette.mLightGray?.main,
         },
       }}

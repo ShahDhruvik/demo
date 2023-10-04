@@ -6,7 +6,7 @@ interface IProps {
   svgProp?: React.SVGProps<SVGSVGElement>
 }
 
-function SvgIcon(props: IProps) {
+function FetchSvg(props: IProps) {
   const { iconName, wrapperStyle, svgProp } = props
   const { loading, SvgIcon } = useSvgImport(iconName)
 
@@ -24,4 +24,4 @@ function SvgIcon(props: IProps) {
   )
 }
 
-export default SvgIcon
+export default FetchSvg

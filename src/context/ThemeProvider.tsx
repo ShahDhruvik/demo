@@ -11,6 +11,12 @@ declare module '@mui/material/styles' {
     mPink?: PaletteColor
   }
   interface Palette {
+    mBlack?: PaletteColor
+  }
+  interface Palette {
+    mLightBlack?: PaletteColor
+  }
+  interface Palette {
     mDarkBlue?: PaletteColor
   }
   interface Palette {
@@ -26,10 +32,16 @@ declare module '@mui/material/styles' {
     mGray?: PaletteColor
   }
   interface Palette {
+    mMediumGray?: PaletteColor
+  }
+  interface Palette {
     mDarkGray?: PaletteColor
   }
   interface Palette {
     mOrange?: PaletteColor
+  }
+  interface Palette {
+    mLightOrange?: PaletteColor
   }
   interface Palette {
     mGreen?: PaletteColor
@@ -44,6 +56,12 @@ declare module '@mui/material/styles' {
     mPink?: PaletteColor
   }
   interface PaletteOptions {
+    mBlack?: PaletteColor
+  }
+  interface PaletteOptions {
+    mLightBlack?: PaletteColor
+  }
+  interface PaletteOptions {
     mDarkBlue?: PaletteColor
   }
   interface PaletteOptions {
@@ -57,6 +75,9 @@ declare module '@mui/material/styles' {
   }
   interface PaletteOptions {
     mGray?: PaletteColor
+  }
+  interface PaletteOptions {
+    mMediumGray?: PaletteColor
   }
   interface PaletteOptions {
     mDarkGray?: PaletteColor
@@ -73,18 +94,33 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     mWhite?: PaletteColor
   }
+  interface PaletteOptions {
+    mLightOrange?: PaletteColor
+  }
   interface TypographyVariants {
     btnTxt: React.CSSProperties
   }
   interface TypographyVariantsOptions {}
 }
 
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+    xs: true
+    sm: true
+    md: true
+    lg: true
+    xl: true
+    '2xl': true
+  }
+}
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     dashed: true
   }
   interface ButtonPropsColorOverrides {
     mPink: true
+    mLightBlack: true
+    mOrange: true
   }
 }
 
@@ -128,6 +164,11 @@ export const theme: Theme = createTheme({
       light: '#d4d4d4',
       dark: '#d4d4d4',
     },
+    mMediumGray: {
+      main: '#c1c1c4',
+      light: '#c1c1c4',
+      dark: '#c1c1c4',
+    },
     mDarkGray: {
       main: '#787d78',
       light: '#787d78',
@@ -137,6 +178,11 @@ export const theme: Theme = createTheme({
       main: '#db4437',
       light: '#db4437',
       dark: '#db4437',
+    },
+    mLightOrange: {
+      main: '#de605d',
+      light: '#de605d',
+      dark: '#de605d',
     },
     mGreen: {
       main: '#0f9d58',
@@ -152,6 +198,26 @@ export const theme: Theme = createTheme({
       main: '#ffffff',
       light: '#ffffff',
       dark: '#ffffff',
+    },
+    mLightBlack: {
+      main: '#2b2a2a',
+      light: '#2b2a2a',
+      dark: '#2b2a2a',
+    },
+    mBlack: {
+      main: '#000000',
+      light: '#000000',
+      dark: '#000000',
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1000,
+      xl: 1200,
+      '2xl': 1536,
     },
   },
   typography: {},
@@ -221,6 +287,12 @@ export const theme: Theme = createTheme({
         variant: 'outlined',
       },
     },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {},
+      },
+    },
+    MuiTab: {},
   },
 })
 

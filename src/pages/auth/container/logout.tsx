@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { AUTH_PATH, MAIN_PATH } from '../../../Paths'
+import { AUTH_PATH, MAIN_PATH } from '../../../paths'
 import { useAuth } from '../../../context/AuthContext'
 
 interface Props {}

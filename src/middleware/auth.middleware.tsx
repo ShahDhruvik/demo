@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { AUTH_PATH, MAIN_PATH } from '../Paths'
+import { AUTH_PATH, MAIN_PATH } from '../paths'
 
 const withAuth = (Component: React.ComponentType, allowedRoles?: string[]) => {
   return (props: any) => {

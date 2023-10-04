@@ -107,7 +107,6 @@ export const dateSelectValidation = (name: string) => {
         },
     };
 };
-
 export const txtFieldValidation = (
     isRequired: boolean,
     type?: 'txtArea' | 'Email' | 'Description' | 'ShortName' | 'multiEmail' | 'Password' | 'PositiveNumbers',

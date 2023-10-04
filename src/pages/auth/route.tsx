@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom'
 import RouteWrapper from '../../middleware/routeWrapper'
 import LogIn from './container/login'
 import LogOut from './container/logout'
-import { AUTH_PATH } from '../../Paths'
+import { AUTH_PATH } from '../../paths'
 
 interface Props {}
 

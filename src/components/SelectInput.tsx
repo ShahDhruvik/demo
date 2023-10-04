@@ -7,7 +7,7 @@ import {
   UseFormSetError,
   UseFormSetValue,
 } from 'react-hook-form'
-import SvgIcon from './SvgIcon'
+import SvgIcon from './fetchSvg'
 import { splitDescription } from '../utils/constants'
 import { SelectDDL } from '../types/common'
 

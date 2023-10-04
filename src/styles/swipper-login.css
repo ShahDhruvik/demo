@@ -1,0 +1,29 @@
+.swiper-button-next {
+  @apply text-black-main top-[83%];
+}
+
+.swiper-button-prev {
+  @apply text-black-main top-[83%];
+}
+.swiper-button-prev::after {
+  @apply text-2xl font-bold;
+}
+.swiper-button-next::after {
+  @apply text-2xl font-bold;
+}
+
+.swiper-pagination {
+  @apply text-center mb-2;
+}
+
+.swiper-pagination-bullet {
+  @apply w-[10px] h-[10px] bg-white-main mx-[5px]  cursor-pointer opacity-80;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-black-main mx-[5px]  cursor-pointer opacity-80;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets {
+  @apply w-min left-[40%] bottom-2 flex justify-center;
+}

@@ -2,15 +2,6 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    // colors: {
-    //   blue: '#1fb6ff',
-    //   pink: '#ff49db',
-    //   orange: '#ff7849',
-    //   green: '#13ce66',
-    //   'gray-dark': '#273444',
-    //   gray: '#8492a6',
-    //   'gray-light': '#d3dce6',
-    // },
     backgroundImage: {
       // banner: "url('../../public/images/bannerImage.png')",
       // bannerLaserSkin: "url('../../public/images/laser-skin.png')",
@@ -46,6 +37,11 @@ export default {
         light: '#d4d4d4',
         dark: '#d4d4d4',
       },
+      midGray: {
+        main: '#c1c1c4',
+        light: '#c1c1c4',
+        dark: '#c1c1c4',
+      },
       darkGray: {
         main: '#787d78',
         light: '#787d78',
@@ -55,6 +51,11 @@ export default {
         main: '#db4437',
         light: '#db4437',
         dark: '#db4437',
+      },
+      lightOrange: {
+        main: '#de605d',
+        light: '#de605d',
+        dark: '#de605d',
       },
       green: {
         main: '#0f9d58',
@@ -116,7 +117,7 @@ export default {
       //   cxl: '1440px',
       // },
       aspectRatio: {
-        sliderDragableImage: '3/1',
+        planCardRatio: '2/3',
       },
       fontFamily: {
         sans: ['Poppins', 'sans'],

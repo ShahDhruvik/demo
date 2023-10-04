@@ -1,6 +1,7 @@
 // All the common types are defined here
 import { SetStateAction, Dispatch, } from "react";
-import { ALIGN_DIALOG, FORMTYPE } from "../utils/constants";
+import { ALIGN_DIALOG, } from "../utils/constants";
+import { Theme } from "@mui/material";
 // Other types regarding the individual entity will have separate file (ex: user.types.ts)
 export type PaletteColor = {
     light?: string;
@@ -8,10 +9,19 @@ export type PaletteColor = {
     dark?: string;
     contrastText?: string;
 };
+export type HeaderProps = {
+    theme: Theme;
+    open: boolean;
+};
 
 export type AuthState = {
     isAuthenticated: boolean;
     setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+};
+export type SideBarItemsType = {
+    id: number,
+    listMembers: { id: number, iconName: string, txt: string }[],
+    divideNotRequired?: boolean
 };
 
 export type AuthParams = {
@@ -37,7 +47,4 @@ export type LoadingState = {
     setLoading: Dispatch<SetStateAction<{ isLoading: boolean, isPage: boolean, pageProps?: { image: any, pageTxt: string, } }>>;
 };
 
-export type FormType = FORMTYPE.SIGNIN | FORMTYPE.SIGNUP | FORMTYPE.OTP | FORMTYPE.GUEST
-
-export type FormTypeArray = Array<FormType>
 export type SelectDDL = { label: string, _id: string }
