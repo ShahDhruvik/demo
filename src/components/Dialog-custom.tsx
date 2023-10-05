@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { DialogContent, DialogProps, Dialog } from '@mui/material'
+import { DialogContent, DialogProps, Dialog, Fade, SxProps, Theme } from '@mui/material'
 import { ALIGN_DIALOG } from '../utils/constants'
 import { AlignDialogProp } from '../types/common'
 import { theme } from '../context/ThemeProvider'
@@ -15,8 +15,10 @@ interface Props {
   header: { isHeader: boolean; component: ReactNode }
   action: { isAction: boolean; component: ReactNode }
   paddingOfContent?: string
-  minWidth?: number
+  // minWidth?: number
   minHeight?: number
+  sxProps?: SxProps<Theme>
+  dialogStyleProps?: SxProps<Theme>
 }
 
 const CustomDialog = ({
@@ -31,8 +33,9 @@ const CustomDialog = ({
   header,
   action,
   paddingOfContent,
-  minWidth,
   minHeight,
+  sxProps,
+  dialogStyleProps,
 }: Props) => {
   //Dialog Allignment
   const otherProps = { m: '1rem 0.5rem ' }
@@ -82,15 +85,16 @@ const CustomDialog = ({
     fullScreen: isFullScreen,
   }
   return (
+    // <Fade in={!open}>
     <Dialog
       {...dialogProps}
       sx={{
         '.MuiPaper-root ': {
           borderRadius: '7px',
-          minWidth: minWidth ?? 0,
           minHeight: minHeight ?? 0,
           background: theme.palette.mLightGray?.main,
         },
+        ...sxProps,
       }}
       aria-labelledby='scroll-dialog-title'
       aria-describedby='scroll-dialog-description'
@@ -101,12 +105,14 @@ const CustomDialog = ({
           maxHeight: maxHeight ?? 400,
           overflowY: 'auto',
           padding: paddingOfContent ?? '',
+          ...dialogStyleProps,
         }}
       >
         {children}
       </DialogContent>
       {action.isAction && action.component}
     </Dialog>
+    // </Fade>
   )
 }
 

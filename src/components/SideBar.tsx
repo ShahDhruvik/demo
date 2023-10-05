@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { CustomSideBar } from './MuiStyledComponents'
 import { theme } from '@/context/ThemeProvider'
 import FetchSvg from './fetchSvg'
@@ -14,6 +14,7 @@ import {
   ListSubheader,
 } from '@mui/material'
 import { SideBarItemsType } from '@/types/common'
+import logo from '@/assets/images/logo.webp'
 
 type Props = {
   open: boolean
@@ -22,6 +23,20 @@ type Props = {
 // SideBarItemsType[]
 
 const SideBar = ({ open, setOpen }: Props) => {
+  useEffect(() => {
+    const handleViewportChange = () => {
+      if (window.innerWidth >= 1024) {
+        setOpen(true)
+      } else {
+        setOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleViewportChange)
+    handleViewportChange()
+    return () => {
+      window.removeEventListener('resize', handleViewportChange)
+    }
+  }, [])
   const enum SIDEBAR_NAMES {
     HOME = 'Home',
     ABOUT = 'About',
@@ -68,10 +83,13 @@ const SideBar = ({ open, setOpen }: Props) => {
       }}
     >
       <div className='min-h-screen flex flex-col '>
-        <div className='flex justify-between items-center  min-h-[64px] px-3 mb-3 '>
-          <h1 className='text-2xl font-semibold text-darkBlue-main'>Oppchar</h1>
-          <button onClick={() => setOpen(false)}>
-            <FetchSvg iconName='back' svgProp={{ width: 25, height: 25 }} />
+        <div className='flex justify-between items-center  min-h-[64px] pr-3 mb-3 '>
+          <div className='flex items-center '>
+            <img src={logo} alt='' className='w-14 aspect-square' />
+            <h1 className='text-2xl font-semibold text-darkBlue-main'>Oppchar</h1>
+          </div>
+          <button onClick={() => setOpen(false)} className='-mr-2'>
+            <FetchSvg iconName='back' svgProp={{ width: 30, height: 30 }} />
           </button>
         </div>
         {/* <Divider sx={{ mx: 1, my: 1, border: `1px solid ${theme.palette.mGray?.main}` }} /> */}
@@ -87,6 +105,7 @@ const SideBar = ({ open, setOpen }: Props) => {
                   borderTopLeftRadius: i === 0 ? '10px' : '0px',
                   borderTopRightRadius: i === 0 ? '10px' : '0px',
                 }}
+                key={x.id}
               >
                 <ListItem disablePadding divider={i === sidebarItems.length - 1 ? false : true}>
                   <ListItemButton
@@ -148,7 +167,7 @@ const SideBar = ({ open, setOpen }: Props) => {
                   >
                     {x.subList.map((sub) => {
                       return (
-                        <List disablePadding>
+                        <List disablePadding key={sub.id}>
                           <ListItem disablePadding divider>
                             <ListItemButton
                               sx={{
@@ -188,38 +207,6 @@ const SideBar = ({ open, setOpen }: Props) => {
               </List>
             )
           })}
-        </div>
-        <div>
-          <ListItem disablePadding sx={{ bgcolor: theme.palette.mLightGray?.main }}>
-            <ListItemButton
-              // onClick={() => handleClick(x.mainListName)}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: 2,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 20,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <FetchSvg
-                  iconName='logout2'
-                  svgProp={{
-                    width: 20,
-                    height: 20,
-                    fill: 'black',
-                  }}
-                />
-              </ListItemIcon>
-              <ListItemText primary={'logOut'} />
-            </ListItemButton>
-          </ListItem>
         </div>
       </div>
     </CustomSideBar>

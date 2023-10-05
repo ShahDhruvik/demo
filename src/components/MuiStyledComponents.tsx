@@ -1,5 +1,13 @@
 import { styled } from '@mui/material/styles'
-import { Box, Select, SelectProps, Theme } from '@mui/material'
+import {
+  Box,
+  IconButton,
+  InputBase,
+  Select,
+  SelectProps,
+  TableSortLabel,
+  Theme,
+} from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import MuiDrawer, { DrawerProps as MuiDrawerProps } from '@mui/material/Drawer'
 import { HeaderProps } from '@/types/common'
@@ -63,27 +71,64 @@ export const CustomSideBar = styled(MuiDrawer, {
 
 export const ContentBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'open',
-})<MuiAppBarProps & { open: boolean; theme: Theme }>(({ theme, open }: HeaderProps) => ({
-  top: 0,
-  marginLeft: '20px',
-  marginRight: '20px',
-  marginTop: '84px',
-  marginBottom: '20px',
-  maxWidth: '100%',
+})<MuiAppBarProps & { open: boolean }>(({ theme, open }: HeaderProps) => ({
+  top: '84px',
+  marginLeft: 20,
+  minHeight: '100vh',
+  width: `100%`,
+  maxWidth: `calc(100% - ${40}px)`,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
+    marginRight: 20,
     marginLeft: drawerWidth + 20,
-    marginRight: '20px',
-    marginTop: '84px',
-    marginBottom: '20px',
-    maxWidth: '100%',
-    width: `calc(100% - ${drawerWidth + 40}px)`,
+    width: `calc(100% - ${drawerWidth + 40}px )`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+}))
+
+export const StyledTableSortLabel = styled(TableSortLabel)(({ theme }) => ({
+  '.MuiTableSortLabel-icon': {
+    display: 'none',
+  },
+}))
+
+export const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  border: '1px solid',
+  borderColor: theme.palette.mGray?.main,
+  borderRadius: '8px',
+  backgroundColor: 'white',
+  marginLeft: 0,
+  width: '100%',
+}))
+
+export const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  pointerEvents: 'all',
+}))
+
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    width: '100%',
+    // height: '36px',
+    [theme.breakpoints.up('sm')]: {
+      width: '246px',
+    },
+  },
 }))

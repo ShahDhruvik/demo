@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom/client'
 import './styles/global.css'
 import 'react-toastify/dist/ReactToastify.css'
 import './styles/toast.css'
-import App from './App.tsx'
+import App from './App'
 import { BrowserRouter } from 'react-router-dom'
-import AppThemeProvider from './context/ThemeProvider.tsx'
-import ReduxProvider from './store/provider.tsx'
-import { AuthProvider } from './context/AuthContext.tsx'
+import AppThemeProvider from '@/context/ThemeProvider'
+import ReduxProvider from '@/store/provider'
+import { AuthProvider } from '@/context/AuthContext'
 import { ToastContainer } from 'react-toastify'
-import { LoadingProvider } from './context/LoadingContext.tsx'
+import { LoadingProvider } from '@/context/LoadingContext'
+import { NotFoundProvider } from './context/NotFound'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -32,7 +33,9 @@ root.render(
                 theme='colored'
                 icon={false}
               />
-              <App />
+              <NotFoundProvider>
+                <App />
+              </NotFoundProvider>
             </LoadingProvider>
           </AppThemeProvider>
         </ReduxProvider>

@@ -1,5 +1,30 @@
 // Common messages are decalared here 
-const enum COMMON_MESSAGE {
+export enum COMMON_MESSAGE {
+    Login = 'loggedIn Succesfully',
+    LogOut = 'loggedOut Succesfully',
     Success = 'Success',
-    Error = 'Error',
+    Updated = "Updated",
+    Deleted = 'Deleted',
+    Switched = 'Switched',
+    Inactived = "Inactivated",
+    Groups = "Groups Added",
+    Activated = "Activated",
+    Email = 'An email has been sent to you',
+    Password = 'Your password has been changed Successfully',
+    InvalidCredientials = 'Invalid Credientials',
+    NoRecordFound = 'No record found !!',
+    Inactive = 'Please Inactive first',
+    PasswordExpired = "Your password is either expired or You're a new user.",
+    EditDisabled = 'Cannot edit Inactive entity',
+    MapDisabled = 'Cannot map inactive entity ',
+    UserNotFound = 'User does not exist.',
+    Approved = 'Approved',
+    Rejected = 'Rejected',
+    ApprovalReq = 'Approval Request has been made.',
+    AlreadyActionTaken = 'It may have been already approved or rejected, Or Wait for your turn',
+    DateSkipped = 'Skipped',
+    DateExe = 'Executed',
+    PermissionDoesNotExist = 'You do not have permission to perform this action',
+    FileUploadFailed = 'File upload failed',
+    PageInvalid = 'Page number is Invalid'
 }

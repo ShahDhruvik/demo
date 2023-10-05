@@ -84,6 +84,9 @@ export default {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        'auto-fit': 'repeat(auto-fit, minmax(300px,1fr))',
+      },
       spacing: {
         container: `max(
             1rem,

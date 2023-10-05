@@ -293,6 +293,85 @@ export const theme: Theme = createTheme({
       },
     },
     MuiTab: {},
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          '.Mui-checked': {
+            // color: '#3441A3',
+            '.MuiSwitch-thumb': {
+              color: '#3441A3',
+            },
+          },
+          '.MuiSwitch-thumb': {
+            color: '#A9A9A9',
+            // width: '25px',
+            // height: '25px',
+          },
+          '.MuiSwitch-track': {
+            backgroundColor: '#D9D9D9 !important',
+            // height: '20px !important',
+          },
+          '.MuiSwitch-switchBase': {
+            // top: '1px',
+          },
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          '.MuiPaginationItem-previousNext': {
+            color: '#A9A9A9',
+            border: '0px',
+          },
+          '.MuiButtonBase-root': {
+            color: '#A9A9A9',
+          },
+          '.Mui-selected': {
+            border: '0px',
+            backgroundColor: '#F0C51A !important',
+            color: 'black',
+            fontWeight: '500',
+          },
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          '.MuiSvgIcon-root': {
+            fill: 'black',
+          },
+          '.Mui-disabled': {
+            color: 'yellow',
+          },
+        },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: 'white',
+          color: '#000000',
+          fontSize: 16,
+          lineHeight: 2,
+          fontWeight: 400,
+          boxShadow: '0px 2px 8px #A9A9A9',
+          maxWidth: '700px',
+        },
+        arrow: {
+          color: 'white',
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(52, 65, 163, 0.7)',
+          fontWeight: '500',
+        },
+      },
+    },
   },
 })
 
