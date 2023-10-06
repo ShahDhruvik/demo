@@ -1,6 +1,6 @@
 // All the common types are defined here
 import { SetStateAction, Dispatch, } from "react";
-import { ACTIONS_TABLE, ALIGN_DIALOG, DASHBOARDTYPE, HEADERBTNS, TABLE_STATES, } from "../utils/constants";
+import { ACTIONS_TABLE, ALIGN_DIALOG, DASHBOARDTYPE, HEADERBTNS, SIDEBAR_NAMES, TABLE_STATES, } from "../utils/constants";
 import { Theme } from "@mui/material";
 // Other types regarding the individual entity will have separate file (ex: user.types.ts)
 export type PaletteColor = {
@@ -102,3 +102,8 @@ export type DashboardType = DASHBOARDTYPE.ASSET | DASHBOARDTYPE.SCHEDULE | DASHB
 export type SearchDDL = { label: string, _id: string }
 export type SearchBooleanDDL = { label: string | boolean, _id: string }
 
+export type SidebarNames =
+    | SIDEBAR_NAMES.MASTER
+    | SIDEBAR_NAMES.ABOUT
+    | SIDEBAR_NAMES.PROFILE
+    | undefined

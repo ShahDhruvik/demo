@@ -1,6 +1,7 @@
 import { HeadCell } from "@/types/common";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from "../paths";
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -102,3 +103,54 @@ export const enum TABLE_STATES {
   DASHBOARDEDIT = "DASHBOARDEDIT",
 
 }
+
+export const enum SIDEBAR_NAMES {
+  MASTER = 'MASTER',
+  ABOUT = 'About',
+  PROFILE = 'Profile',
+}
+
+export const sidebarItems = [
+  {
+    id: 0,
+    mainListName: SIDEBAR_NAMES.MASTER,
+    mainImage: 'home',
+    subList: [
+      { id: 0, iconName: 'ser', txt: 'Country', path: MASTER_PATH.COUNTRY },
+      { id: 1, iconName: 'ser', txt: 'City', path: '/' },
+      { id: 2, iconName: 'ser', txt: 'Pincode', path: '/' },
+    ],
+    isSingle: false,
+    mainPath: `${COMMON_PATH.DEFAULT}`,
+  },
+  {
+    id: 1,
+    mainListName: SIDEBAR_NAMES.ABOUT,
+    mainImage: 'about',
+    subList: [
+      {
+        id: 0,
+        iconName: 'ser',
+        txt: 'Contact',
+        path: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}${ABOUT_PATH.CONTACT}`,
+      },
+    ],
+    isSingle: false,
+    mainPath: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}`,
+  },
+  {
+    id: 2,
+    mainListName: SIDEBAR_NAMES.PROFILE,
+    mainImage: 'about',
+    subList: [
+      {
+        id: 0,
+        iconName: 'ser',
+        txt: 'Contact',
+        path: `/`,
+      },
+    ],
+    isSingle: false,
+    mainPath: `/`,
+  },
+]

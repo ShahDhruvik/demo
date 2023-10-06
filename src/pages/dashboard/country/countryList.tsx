@@ -213,7 +213,7 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
           padding: '0px 0px 24px 0px',
         }}
       >
-        <ActionModal handleClose={handleClose} type={type} entityName='State'>
+        <ActionModal handleClose={handleClose} type={type} entityName='Country'>
           {(type === TABLE_STATES.INACTIVE ||
             type === TABLE_STATES.ACTIVE ||
             type === TABLE_STATES.DELETE) && (

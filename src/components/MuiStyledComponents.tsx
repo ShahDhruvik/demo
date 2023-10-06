@@ -25,7 +25,7 @@ export const MobileSelect = styled(Select)<SelectProps>(({}) => ({
 export const CustomAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<MuiAppBarProps & { theme: Theme; open: boolean }>(({ theme, open }: HeaderProps) => ({
-  backgroundColor: theme.palette.mPink?.main,
+  backgroundColor: theme.palette.mDarkBlue?.main,
   maxWidth: '100%',
   marginleft: '64px',
   width: `calc(100% - ${64}px)`,

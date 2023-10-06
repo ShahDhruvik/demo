@@ -6,65 +6,12 @@ import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } 
 import logo from '@/assets/images/logo.png'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from '../paths'
+import { SidebarNames } from '@/types/common'
+import { sidebarItems } from '@/utils/constants'
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
-export const enum SIDEBAR_NAMES {
-  MASTER = 'MASTER',
-  ABOUT = 'About',
-  PROFILE = 'Profile',
-}
-
-export type SidebarNames =
-  | SIDEBAR_NAMES.MASTER
-  | SIDEBAR_NAMES.ABOUT
-  | SIDEBAR_NAMES.PROFILE
-  | undefined
-export const sidebarItems = [
-  {
-    id: 0,
-    mainListName: SIDEBAR_NAMES.MASTER,
-    mainImage: 'home',
-    subList: [
-      { id: 0, iconName: 'ser', txt: 'Country', path: MASTER_PATH.COUNTRY },
-      { id: 1, iconName: 'ser', txt: 'City', path: '/' },
-      { id: 2, iconName: 'ser', txt: 'Pincode', path: '/' },
-    ],
-    isSingle: false,
-    mainPath: `${COMMON_PATH.DEFAULT}`,
-  },
-  {
-    id: 1,
-    mainListName: SIDEBAR_NAMES.ABOUT,
-    mainImage: 'about',
-    subList: [
-      {
-        id: 0,
-        iconName: 'ser',
-        txt: 'Contact',
-        path: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}${ABOUT_PATH.CONTACT}`,
-      },
-    ],
-    isSingle: false,
-    mainPath: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}`,
-  },
-  {
-    id: 2,
-    mainListName: SIDEBAR_NAMES.PROFILE,
-    mainImage: 'about',
-    subList: [
-      {
-        id: 0,
-        iconName: 'ser',
-        txt: 'Contact',
-        path: `/`,
-      },
-    ],
-    isSingle: false,
-    mainPath: `/`,
-  },
-]
 
 const SideBar = ({ open, setOpen }: Props) => {
   //route states
@@ -216,7 +163,7 @@ const SideBar = ({ open, setOpen }: Props) => {
                   sx={{
                     bgcolor:
                       x.mainListName === selected
-                        ? theme.palette.mPink?.main
+                        ? theme.palette.mDarkBlue?.main
                         : theme.palette.mLightGray?.main,
                     borderRadius: '7px',
                     boxShadow: x.mainListName === selected ? box_Shadow_in : box_Shadow_out,
