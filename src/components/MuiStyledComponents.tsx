@@ -25,18 +25,20 @@ export const MobileSelect = styled(Select)<SelectProps>(({}) => ({
 export const CustomAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<MuiAppBarProps & { theme: Theme; open: boolean }>(({ theme, open }: HeaderProps) => ({
-  backgroundColor: theme.palette.mDarkBlue?.main,
+  backgroundColor: theme.palette.mPink?.main,
   maxWidth: '100%',
+  marginleft: '64px',
+  width: `calc(100% - ${64}px)`,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: 700,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: 700,
     }),
   }),
 }))
@@ -49,22 +51,23 @@ export const CustomSideBar = styled(MuiDrawer, {
     overflowX: 'hidden',
     overflowY: 'scroll',
     whiteSpace: 'nowrap',
+    backgroundColor: theme.palette.mWhite?.main,
     '::-webkit-scrollbar': {
       display: 'none',
     },
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: 700,
     }),
     boxSizing: 'border-box',
     ...(!open && {
       overflowX: 'hidden',
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+        duration: 700,
       }),
-      width: 0,
+      width: '64px',
     }),
   },
 }))
@@ -73,13 +76,13 @@ export const ContentBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<MuiAppBarProps & { open: boolean }>(({ theme, open }: HeaderProps) => ({
   top: '84px',
-  marginLeft: 20,
+  marginLeft: '84px',
   minHeight: '100vh',
   width: `100%`,
-  maxWidth: `calc(100% - ${40}px)`,
+  maxWidth: `calc(100% - ${104}px)`,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: 700,
   }),
   ...(open && {
     marginRight: 20,
@@ -87,7 +90,7 @@ export const ContentBox = styled(Box, {
     width: `calc(100% - ${drawerWidth + 40}px )`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: 700,
     }),
   }),
 }))

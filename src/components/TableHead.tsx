@@ -62,7 +62,7 @@ const TableHeader = ({
                   flexDirection={'row'}
                   justifyContent={'center'}
                   alignItems={'center'}
-                  gap={headCell.type === 'chechBox' ? '' : 1}
+                  gap={headCell.type === 'chechBox' ? '' : '4px'}
                 >
                   {/* {(headCell.type === 'chechBox' || headCell.type === 'checkBoxDate') && (
                     <Checkbox
@@ -93,7 +93,7 @@ const TableHeader = ({
                       color: theme.palette.mDarkBlue?.main,
                       fontWeight: '600',
                       fontSize: '16px',
-                      marginRight: headCell.type === 'chechBox' ? '8px' : '',
+                      marginRight: headCell.type === 'chechBox' ? '8px' : '1px',
                     }}
                   >
                     {`${headCell.label}`} <br /> {`${headCell.secondLineLabel ?? ''}`}
@@ -101,58 +101,44 @@ const TableHeader = ({
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
-                    justifyContent={'space-between'}
+                    justifyContent={'center'}
                     alignItems={'center'}
                   >
                     {headCell.isSort && (
-                      <>
-                        <IconButton
-                          sx={{ padding: 0 }}
-                          onClick={() => {
+                      <IconButton
+                        onClick={() => {
+                          if (handleControls.sortOrder === 'asc') {
+                            sortFnc(headCell.id, 'desc')
+                          } else {
                             sortFnc(headCell.id, 'asc')
-                          }}
-                        >
-                          {/* <SortUp
-                          // stroke={
-                          //   headCell.id === handleControls?.sort && handleControls.sortOrder === 'asc'
-                          //     ? theme.palette.customViolet?.main
-                          //     : theme.palette.customLightGrey?.main
-                          // }
-                          /> */}
+                          }
+                        }}
+                        sx={{ padding: 0 }}
+                      >
+                        <Box>
                           <FetchSvg
                             iconName='sortUp'
                             svgProp={{
-                              stroke:
+                              fill:
                                 headCell.id === handleControls?.sort &&
                                 handleControls.sortOrder === 'asc'
                                   ? theme.palette.mDarkBlue?.main
                                   : theme.palette.mGray?.main,
-                              width: 10,
-                              height: 10,
                             }}
+                            wrapperStyle='-mb-3'
                           />
-                        </IconButton>
-                        <IconButton
-                          sx={{ padding: 0 }}
-                          onClick={() => {
-                            sortFnc(headCell.id, 'desc')
-                          }}
-                        >
-                          {/* <SortDown
-                         
-                          /> */}
                           <FetchSvg
                             iconName='sortDown'
                             svgProp={{
-                              stroke:
+                              fill:
                                 headCell.id === handleControls?.sort &&
                                 handleControls.sortOrder === 'desc'
                                   ? theme.palette.mDarkBlue?.main
                                   : theme.palette.mGray?.main,
                             }}
                           />
-                        </IconButton>
-                      </>
+                        </Box>
+                      </IconButton>
                     )}
                   </Box>
                 </Box>

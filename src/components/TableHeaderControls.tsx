@@ -39,18 +39,16 @@ const TableHeaderControls = ({ heading, searchFnc, clickFnc, tabs, btnTxtArray }
   //   },
   // }
   const isCreate = btnTxtArray?.find((x) => x.btnType === HEADERBTNS.CREATE)
-  console.log(btnTxtArray, 'cre')
   return (
     <>
       <Box
         sx={{
-          pb: 2,
-          pt: 2,
-          borderBottom: '1px solid',
+          pb: 1,
+          pt: 1,
+          borderBottom: '2px solid',
           borderTop: tabs?.isTabs ? '1px solid' : '',
-          borderColor: theme.palette.mGray?.main,
-          pl: '16px',
-          pr: '16px',
+          borderColor: theme.palette.mPink?.main,
+          px: '16px',
           width: '100%',
           [theme.breakpoints.down('md')]: {
             flexDirection: 'column',
@@ -65,6 +63,10 @@ const TableHeaderControls = ({ heading, searchFnc, clickFnc, tabs, btnTxtArray }
             color: theme.palette.mDarkBlue?.main,
             fontWeight: '600',
             fontSize: '20px',
+            backgroundColor: theme.palette.mLightGray?.main,
+            px: 1,
+            borderRadius: '7px',
+            boxShadow: `${theme.palette.mWhite?.main} 0px 0.0625em 0.0625em, ${theme.palette.mDarkBlue?.main} 0px 0.10em 0.10em, ${theme.palette.mWhite?.main} 0px 0px 0px 1px inset`,
           }}
           variant='h6'
           id='tableTitle'

@@ -9,7 +9,7 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import DashboardForm from './dashboardForm'
+import DashboardForm from './countryForm'
 import { theme } from '@/context/ThemeProvider'
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
   handleClose: () => void
 }
 
-const DashList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
+const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -62,7 +62,7 @@ const DashList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
-        setNotFound([TABLES.DASHBOARD])
+        setNotFound([TABLES.COUNTRY])
       } else {
         setNotFound([])
         setData(records)
@@ -187,8 +187,8 @@ const DashList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.DASHBOARD, tableName: 'Dashboard' }}
-        notFound={notFound.includes(TABLES.DASHBOARD)}
+        tableHeading={{ tableId: TABLES.COUNTRY, tableName: 'Country' }}
+        notFound={notFound.includes(TABLES.COUNTRY)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
       <CustomDialog
@@ -233,4 +233,4 @@ const DashList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   )
 }
 
-export default DashList
+export default CountryList

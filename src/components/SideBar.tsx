@@ -2,27 +2,80 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { CustomSideBar } from './MuiStyledComponents'
 import { theme } from '@/context/ThemeProvider'
 import FetchSvg from './fetchSvg'
-import {
-  Box,
-  Collapse,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-} from '@mui/material'
-import { SideBarItemsType } from '@/types/common'
-import logo from '@/assets/images/logo.webp'
-
+import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import logo from '@/assets/images/logo.png'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from '../paths'
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
-// SideBarItemsType[]
+export const enum SIDEBAR_NAMES {
+  MASTER = 'MASTER',
+  ABOUT = 'About',
+  PROFILE = 'Profile',
+}
+
+export type SidebarNames =
+  | SIDEBAR_NAMES.MASTER
+  | SIDEBAR_NAMES.ABOUT
+  | SIDEBAR_NAMES.PROFILE
+  | undefined
+export const sidebarItems = [
+  {
+    id: 0,
+    mainListName: SIDEBAR_NAMES.MASTER,
+    mainImage: 'home',
+    subList: [
+      { id: 0, iconName: 'ser', txt: 'Country', path: MASTER_PATH.COUNTRY },
+      { id: 1, iconName: 'ser', txt: 'City', path: '/' },
+      { id: 2, iconName: 'ser', txt: 'Pincode', path: '/' },
+    ],
+    isSingle: false,
+    mainPath: `${COMMON_PATH.DEFAULT}`,
+  },
+  {
+    id: 1,
+    mainListName: SIDEBAR_NAMES.ABOUT,
+    mainImage: 'about',
+    subList: [
+      {
+        id: 0,
+        iconName: 'ser',
+        txt: 'Contact',
+        path: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}${ABOUT_PATH.CONTACT}`,
+      },
+    ],
+    isSingle: false,
+    mainPath: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}`,
+  },
+  {
+    id: 2,
+    mainListName: SIDEBAR_NAMES.PROFILE,
+    mainImage: 'about',
+    subList: [
+      {
+        id: 0,
+        iconName: 'ser',
+        txt: 'Contact',
+        path: `/`,
+      },
+    ],
+    isSingle: false,
+    mainPath: `/`,
+  },
+]
 
 const SideBar = ({ open, setOpen }: Props) => {
+  //route states
+  const nav = useNavigate()
+  const { pathname } = useLocation()
+  const segments = pathname.split('/')
+  const lastSegment = segments[segments.length - 1]
+  const lastSecondSegment = segments[segments.length - 2]
+
+  //states
+  const [selected, setSelected] = useState<SidebarNames>(undefined)
   useEffect(() => {
     const handleViewportChange = () => {
       if (window.innerWidth >= 1024) {
@@ -37,42 +90,80 @@ const SideBar = ({ open, setOpen }: Props) => {
       window.removeEventListener('resize', handleViewportChange)
     }
   }, [])
-  const enum SIDEBAR_NAMES {
-    HOME = 'Home',
-    ABOUT = 'About',
+  const decideName = (path: string) => {
+    //url segemnts
+    const segments = path.split('/')
+    const lastSegment = segments[segments.length - 1]
+    const lastSecondSegment = segments[segments.length - 2]
+    // Name in Header
+    const item = sidebarItems.find((x) => {
+      const segs = x.mainPath.split('/')
+      const lastSeg = segs[segs.length - 1]
+      return lastSeg === lastSegment
+    })
+    if (item) {
+      //Setting for main path
+      setSelected(item.mainListName)
+    } else {
+      // Fetching next Item
+      const nextItem = sidebarItems.find((x) => {
+        const segs = x.mainPath.split('/')
+        const lastSeg = segs[segs.length - 1]
+        return lastSeg === lastSecondSegment
+      })
+      if (nextItem) {
+        if (!nextItem.isSingle) {
+          const subListItems = nextItem.subList
+          const nextItemMatch = subListItems.find((x) => {
+            const nextLastSegs = x.path.split('/')
+            const nextLastSeg = nextLastSegs[nextLastSegs.length - 1]
+            return nextLastSeg === lastSegment
+          })
+          if (nextItemMatch) {
+            setSelected(nextItem.mainListName)
+          } else {
+            setSelected(undefined)
+          }
+        } else {
+          setSelected(undefined)
+        }
+      } else {
+        setSelected(undefined)
+      }
+    }
   }
-  const sidebarItems = [
-    {
-      id: 0,
-      mainListName: SIDEBAR_NAMES.HOME,
-      mainImage: 'home',
-      subList: [
-        { id: 0, iconName: 'ser', txt: 'Dashboard' },
-        { id: 1, iconName: 'ser', txt: 'Home' },
-        { id: 2, iconName: 'ser', txt: 'About' },
-        { id: 3, iconName: 'ser', txt: 'Services' },
-      ],
-      isSingle: false,
-    },
-    {
-      id: 1,
-      mainListName: SIDEBAR_NAMES.ABOUT,
-      mainImage: 'about',
-      subList: [
-        { id: 0, iconName: 'ser', txt: 'Dashboard' },
-        { id: 1, iconName: 'ser', txt: 'Home' },
-      ],
-      isSingle: false,
-    },
-  ]
+  useEffect(() => {
+    decideName(pathname)
+  }, [pathname])
+  useEffect(() => {
+    const handleViewportChange = () => {
+      if (window.innerWidth >= 1024) {
+        setOpen(true)
+      } else {
+        setOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleViewportChange)
+    handleViewportChange()
+    return () => {
+      window.removeEventListener('resize', handleViewportChange)
+    }
+  }, [])
   const [openSub, setOpenSub] = useState({ isSubOpen: false, mainName: '' })
   const handleClick = (name: string) => {
     if (name === openSub.mainName) {
-      setOpenSub({ isSubOpen: !openSub.isSubOpen, mainName: name })
+      if (open) {
+        setOpenSub({ isSubOpen: !openSub.isSubOpen, mainName: name })
+      } else {
+        setOpenSub({ isSubOpen: true, mainName: name })
+      }
     } else {
       setOpenSub({ isSubOpen: true, mainName: name })
     }
   }
+  const box_Shadow_out =
+    '0px 2px 4px rgba(0, 0, 0, 0.4), 0px 7px 13px -3px rgba(0, 0, 0, 0.3), inset 0px -3px 0px rgba(0, 0, 0, 0.2)'
+  const box_Shadow_in = '#d4d4d4 100px -100px 136px -128px inset'
   return (
     <CustomSideBar
       variant='permanent'
@@ -83,66 +174,212 @@ const SideBar = ({ open, setOpen }: Props) => {
       }}
     >
       <div className='min-h-screen flex flex-col '>
-        <div className='flex justify-between items-center  min-h-[64px] pr-3 mb-3 '>
-          <div className='flex items-center '>
-            <img src={logo} alt='' className='w-14 aspect-square' />
-            <h1 className='text-2xl font-semibold text-darkBlue-main'>Oppchar</h1>
-          </div>
-          <button onClick={() => setOpen(false)} className='-mr-2'>
-            <FetchSvg iconName='back' svgProp={{ width: 30, height: 30 }} />
-          </button>
-        </div>
-        {/* <Divider sx={{ mx: 1, my: 1, border: `1px solid ${theme.palette.mGray?.main}` }} /> */}
-        <div className='flex-1 px-3'>
-          {sidebarItems.map((x, i) => {
-            return (
-              <List
-                disablePadding
-                sx={{
-                  bgcolor: theme.palette.mLightGray?.main,
-                  borderBottomLeftRadius: i === sidebarItems.length - 1 ? '10px' : '0px',
-                  borderBottomRightRadius: i === sidebarItems.length - 1 ? '10px' : '0px',
-                  borderTopLeftRadius: i === 0 ? '10px' : '0px',
-                  borderTopRightRadius: i === 0 ? '10px' : '0px',
+        <div
+          className={`flex ${
+            !open ? 'justify-center' : 'justify-between pl-2 pr-3  '
+          } items-center  min-h-[64px]  mb-3 `}
+        >
+          {!open && (
+            <button onClick={() => setOpen(true)}>
+              <FetchSvg
+                iconName='menu2'
+                svgProp={{
+                  width: 20,
+                  height: 20,
                 }}
-                key={x.id}
-              >
-                <ListItem disablePadding divider={i === sidebarItems.length - 1 ? false : true}>
-                  <ListItemButton
-                    onClick={() => handleClick(x.mainListName)}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      gap: 2,
-                      ':hover': {
-                        borderBottomLeftRadius: i === sidebarItems.length - 1 ? '10px' : '0px',
-                        borderBottomRightRadius: i === sidebarItems.length - 1 ? '10px' : '0px',
-                        borderTopLeftRadius: i === 0 ? '10px' : '0px',
-                        borderTopRightRadius: i === 0 ? '10px' : '0px',
-                      },
-                      paddingBottom: '4px',
-                      paddingTop: '4px',
-                    }}
-                  >
-                    <ListItemIcon
+                wrapperStyle='shadow-box-out rounded-[7px] p-2 '
+              />
+            </button>
+          )}
+
+          {open && (
+            <div className='flex items-center gap-1 '>
+              <img src={logo} alt='' className='w-10 aspect-square rounded-full bg-white-main' />
+              <h1 className='text-2xl font-semibold text-darkBlue-main'>Oppchar</h1>
+            </div>
+          )}
+          {open && (
+            <button
+              onClick={() => setOpen(false)}
+              className='-mr-2 bg-lightGray-main shadow-box-out rounded-lg p-1'
+            >
+              <FetchSvg iconName='back' svgProp={{ width: 20, height: 20 }} />
+            </button>
+          )}
+        </div>
+        <div className='flex-1 flex flex-col gap-3 px-2 '>
+          {open &&
+            sidebarItems.map((x, i) => {
+              return (
+                <List
+                  disablePadding
+                  sx={{
+                    bgcolor:
+                      x.mainListName === selected
+                        ? theme.palette.mPink?.main
+                        : theme.palette.mLightGray?.main,
+                    borderRadius: '7px',
+                    boxShadow: x.mainListName === selected ? box_Shadow_in : box_Shadow_out,
+                  }}
+                  key={x.id}
+                >
+                  <ListItem disablePadding divider={i === sidebarItems.length - 1 ? false : true}>
+                    <ListItemButton
+                      onClick={() => {
+                        handleClick(x.mainListName)
+                      }}
                       sx={{
-                        minWidth: 20,
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        gap: 2,
+                        paddingBottom: '4px',
+                        paddingTop: '4px',
                       }}
                     >
-                      <FetchSvg
-                        iconName={x.mainImage}
-                        svgProp={{
-                          width: 20,
-                          height: 20,
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 20,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
                         }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={x.mainListName} />
-                    {!x.isSingle && (
+                      >
+                        <FetchSvg
+                          iconName={x.mainImage}
+                          svgProp={{
+                            width: 20,
+                            height: 20,
+                          }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={x.mainListName} />
+                      {!x.isSingle && (
+                        <FetchSvg
+                          iconName='right-arrow'
+                          svgProp={{
+                            width: 17,
+                            height: 17,
+                            className: `${
+                              openSub.isSubOpen && openSub.mainName === x.mainListName
+                                ? 'rotate-90'
+                                : 'rotate-0'
+                            } transition-all duration-500 ease-in-out`,
+                          }}
+                        />
+                      )}
+                    </ListItemButton>
+                  </ListItem>
+                  {!x.isSingle && (
+                    <Collapse
+                      in={openSub.isSubOpen && openSub.mainName === x.mainListName}
+                      timeout='auto'
+                      translate='yes'
+                    >
+                      {x.subList.map((sub) => {
+                        return (
+                          <List
+                            disablePadding
+                            key={sub.id}
+                            sx={{
+                              backgroundColor: theme.palette.mLightGray?.main,
+                            }}
+                          >
+                            <ListItem disablePadding divider>
+                              <ListItemButton
+                                sx={{
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  gap: 2,
+                                  paddingBottom: '4px',
+                                  paddingTop: '4px',
+                                }}
+                                onClick={() => {
+                                  nav(sub.path)
+                                }}
+                              >
+                                <ListItemIcon
+                                  sx={{
+                                    minWidth: 20,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <FetchSvg
+                                    iconName={sub.iconName}
+                                    svgProp={{ width: 20, height: 20 }}
+                                  />
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary={sub.txt}
+                                  sx={{ color: theme.palette.mBlack?.main }}
+                                />
+                              </ListItemButton>
+                            </ListItem>
+                          </List>
+                        )
+                      })}
+                    </Collapse>
+                  )}
+                </List>
+              )
+            })}
+          <div className='flex flex-col gap-5 px-[5px]'>
+            {!open &&
+              sidebarItems.map((x, i) => {
+                console.log(x.mainListName === selected, 'match')
+                return (
+                  <List
+                    sx={{
+                      bgcolor:
+                        x.mainListName === selected
+                          ? theme.palette.mDarkGray?.main
+                          : theme.palette.mLightGray?.main,
+                      borderRadius: '7px',
+                      boxShadow: x.mainListName === selected ? box_Shadow_in : box_Shadow_out,
+                    }}
+                    key={x.id}
+                    disablePadding
+                  >
+                    <ListItem
+                      sx={{
+                        padding: '0px 0px',
+                      }}
+                    >
+                      <ListItemButton
+                        onClick={() => {
+                          setOpen(true)
+                          handleClick(x.mainListName)
+                        }}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: 2,
+                          paddingBottom: '10px',
+                          paddingTop: '10px',
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 20,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <FetchSvg
+                            iconName={x.mainImage}
+                            svgProp={{
+                              width: 17,
+                              height: 17,
+                            }}
+                          />
+                        </ListItemIcon>
+                        {/* <ListItemText primary={x.mainListName} /> */}
+                        {/* {!x.isSingle && (
                       <FetchSvg
                         iconName='right-arrow'
                         svgProp={{
@@ -155,10 +392,10 @@ const SideBar = ({ open, setOpen }: Props) => {
                           } transition-all duration-500 ease-in-out`,
                         }}
                       />
-                    )}
-                  </ListItemButton>
-                </ListItem>
-                {!x.isSingle && (
+                    )} */}
+                      </ListItemButton>
+                    </ListItem>
+                    {/* {!x.isSingle && (
                   <Collapse
                     in={openSub.isSubOpen && openSub.mainName === x.mainListName}
                     timeout='auto'
@@ -203,10 +440,11 @@ const SideBar = ({ open, setOpen }: Props) => {
                       )
                     })}
                   </Collapse>
-                )}
-              </List>
-            )
-          })}
+                )} */}
+                  </List>
+                )
+              })}
+          </div>
         </div>
       </div>
     </CustomSideBar>

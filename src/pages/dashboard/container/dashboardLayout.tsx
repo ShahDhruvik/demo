@@ -4,8 +4,6 @@ import SideBar from '@/components/SideBar'
 import { theme } from '@/context/ThemeProvider'
 import { Box } from '@mui/material'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import DashboardPage from './page'
 type Props = {
   children: any
 }
@@ -16,7 +14,7 @@ const DashBoardLayout = ({ children }: Props) => {
     <Box
       sx={{
         position: 'relative',
-        backgroundColor: theme.palette.mLightGray?.main,
+        backgroundColor: 'rgba(10, 56, 118, 0.20)',
         overflowY: 'auto',
         height: '100%',
       }}

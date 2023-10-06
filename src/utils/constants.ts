@@ -54,7 +54,7 @@ export const enum HEADERBTNS {
   CREATE = 'CREATE'
 }
 export const enum TABLES {
-  DASHBOARD = 'DASHBOARD',
+  COUNTRY = 'COUNTRY',
 
 }
 

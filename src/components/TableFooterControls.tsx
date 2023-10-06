@@ -117,7 +117,7 @@ const TableFooterControls = ({
           </Box>
         </Grid>
         <Grid item>
-          <Typography sx={{ fontWeight: '500' }}>
+          <Typography sx={{ fontWeight: '700', color: theme.palette.mDarkBlue?.main }}>
             {`${from === undefined ? 0 : from}-${to === undefined ? 0 : to} of ${
               total === undefined ? 0 : total
             }`}
@@ -142,7 +142,7 @@ const TableFooterControls = ({
             marginRight={2}
           >
             <form onSubmit={handleSubmit(onSubmitHandle)}>
-              <Box display={'flex'} justifyItems={'center'} alignItems={'center'}>
+              <Box display={'flex'} justifyItems={'center'} alignItems={'center'} gap={1}>
                 <button
                   style={{
                     fontSize: '14px',

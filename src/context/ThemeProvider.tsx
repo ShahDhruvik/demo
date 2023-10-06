@@ -299,21 +299,16 @@ export const theme: Theme = createTheme({
           '.Mui-checked': {
             // color: '#3441A3',
             '.MuiSwitch-thumb': {
-              color: '#3441A3',
+              color: '#e20074',
             },
           },
           '.MuiSwitch-thumb': {
             color: '#A9A9A9',
-            // width: '25px',
-            // height: '25px',
           },
           '.MuiSwitch-track': {
-            backgroundColor: '#D9D9D9 !important',
-            // height: '20px !important',
+            backgroundColor: '#d4d4d4 !important',
           },
-          '.MuiSwitch-switchBase': {
-            // top: '1px',
-          },
+          '.MuiSwitch-switchBase': {},
         },
       },
     },
@@ -329,9 +324,9 @@ export const theme: Theme = createTheme({
           },
           '.Mui-selected': {
             border: '0px',
-            backgroundColor: '#F0C51A !important',
-            color: 'black',
-            fontWeight: '500',
+            backgroundColor: '#e20074 !important',
+            color: '#ffffff',
+            fontWeight: '700',
           },
         },
       },

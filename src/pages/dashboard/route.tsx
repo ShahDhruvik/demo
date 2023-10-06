@@ -1,11 +1,10 @@
 import { Outlet, Route } from 'react-router-dom'
-import Dashboard from './container/dashboardLayout'
 import RouteWrapper from '../../middleware/routeWrapper'
-import withAuth from '../../middleware/auth.middleware'
-import Profile from './container/profile'
-import { DASHBOARD_PATH } from '@/paths/index'
+import { DASHBOARD_PATH, MASTER_PATH } from '@/paths/index'
 import DashBoardLayout from './container/dashboardLayout'
 import DashPage from './container/page'
+import CountryPage from './country/page'
+import AboutRoute from './about/route'
 
 interface Props {}
 
@@ -19,8 +18,9 @@ const DashboardRoute = ({}: Props) => {
           </DashBoardLayout>
         }
       >
-        <Route index element={<DashPage />} />
-        {/* <Route path={DASHBOARD_PATH.PROFILE} element={<Profile />} /> */}
+        <Route path={DASHBOARD_PATH.MASTER} element={<DashPage />} />
+        <Route path={MASTER_PATH.COUNTRY} element={<CountryPage />} />
+        <Route path={DASHBOARD_PATH.ABOUT} element={<AboutRoute />} />
       </Route>
     </RouteWrapper>
   )

@@ -136,7 +136,7 @@ const CustomTable = ({
       currentPage: 1,
     })
   return (
-    <Paper sx={{ width: '100%' }}>
+    <Paper sx={{ width: '100%', borderRadius: '10px' }} elevation={3}>
       <TableHeaderControls
         heading={tableHeading.tableName}
         searchFnc={search}

@@ -2,15 +2,12 @@
 import { LoadingState } from '../types/common'
 import { Backdrop, Dialog } from '@mui/material'
 import CustomDialog from './Dialog-custom'
-import { useLocation } from 'react-router-dom'
 import Spinner from './spinner'
 type Props = {
   loading: LoadingState['loading']
 }
 
 const Loader = ({ loading }: Props) => {
-  const location = useLocation()
-  console.log(location.pathname)
   if (loading.isLoading) {
     if (!loading.isPage) {
       return (

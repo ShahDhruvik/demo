@@ -107,6 +107,7 @@ const CustomDialog = ({
           padding: paddingOfContent ?? '',
           ...dialogStyleProps,
         }}
+        className='scrollBarContent'
       >
         {children}
       </DialogContent>
