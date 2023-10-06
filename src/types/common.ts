@@ -1,4 +1,5 @@
 // All the common types are defined here
+import { ToastOptions } from 'react-toastify';
 import { SetStateAction, Dispatch, } from "react";
 import { ACTIONS_TABLE, ALIGN_DIALOG, DASHBOARDTYPE, HEADERBTNS, SIDEBAR_NAMES, TABLE_STATES, } from "../utils/constants";
 import { Theme } from "@mui/material";
@@ -106,4 +107,25 @@ export type SidebarNames =
     | SIDEBAR_NAMES.MASTER
     | SIDEBAR_NAMES.ABOUT
     | SIDEBAR_NAMES.PROFILE
+    | SIDEBAR_NAMES.LOCATION
     | undefined
+
+
+export type SideBarItems = {
+    id: number,
+    mainListName: SidebarNames,
+    mainImage: string,
+    subList: { id: number, iconName: string, txt: string, path: string }[],
+    isSingle: boolean,
+    mainPath: string,
+}
+
+
+
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
+
+export type ShowToastFunction = (
+    type: ToastType,
+    message: string,
+    options?: ToastOptions
+) => void;

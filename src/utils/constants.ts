@@ -1,7 +1,7 @@
-import { HeadCell } from "@/types/common";
+import { HeadCell, SideBarItems } from "@/types/common";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from "../paths";
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, } from "../paths";
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -108,15 +108,15 @@ export const enum SIDEBAR_NAMES {
   MASTER = 'MASTER',
   ABOUT = 'About',
   PROFILE = 'Profile',
+  LOCATION = 'Location',
 }
 
-export const sidebarItems = [
+export const sidebarItems: SideBarItems[] = [
   {
     id: 0,
     mainListName: SIDEBAR_NAMES.MASTER,
     mainImage: 'home',
     subList: [
-      { id: 0, iconName: 'ser', txt: 'Country', path: MASTER_PATH.COUNTRY },
       { id: 1, iconName: 'ser', txt: 'City', path: '/' },
       { id: 2, iconName: 'ser', txt: 'Pincode', path: '/' },
     ],
@@ -152,5 +152,26 @@ export const sidebarItems = [
     ],
     isSingle: false,
     mainPath: `/`,
+  },
+  {
+    id: 3,
+    mainListName: SIDEBAR_NAMES.LOCATION,
+    mainImage: 'location',
+    subList: [
+      {
+        id: 0,
+        iconName: 'location',
+        txt: 'Country',
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
+      },
+      {
+        id: 0,
+        iconName: 'location',
+        txt: 'State',
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
+      },
+    ],
+    isSingle: false,
+    mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
   },
 ]

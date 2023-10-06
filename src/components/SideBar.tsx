@@ -5,7 +5,7 @@ import FetchSvg from './fetchSvg'
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import logo from '@/assets/images/logo.png'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from '../paths'
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH } from '../paths'
 import { SidebarNames } from '@/types/common'
 import { sidebarItems } from '@/utils/constants'
 type Props = {
@@ -67,7 +67,7 @@ const SideBar = ({ open, setOpen }: Props) => {
             return nextLastSeg === lastSegment
           })
           if (nextItemMatch) {
-            setSelected(nextItem.mainListName)
+            setSelected(nextItem.mainListName as any)
           } else {
             setSelected(undefined)
           }
@@ -96,8 +96,11 @@ const SideBar = ({ open, setOpen }: Props) => {
       window.removeEventListener('resize', handleViewportChange)
     }
   }, [])
-  const [openSub, setOpenSub] = useState({ isSubOpen: false, mainName: '' })
-  const handleClick = (name: string) => {
+  const [openSub, setOpenSub] = useState<{ isSubOpen: boolean; mainName: SidebarNames }>({
+    isSubOpen: false,
+    mainName: undefined,
+  })
+  const handleClick = (name: SidebarNames) => {
     if (name === openSub.mainName) {
       if (open) {
         setOpenSub({ isSubOpen: !openSub.isSubOpen, mainName: name })
@@ -276,7 +279,6 @@ const SideBar = ({ open, setOpen }: Props) => {
           <div className='flex flex-col gap-5 px-[5px]'>
             {!open &&
               sidebarItems.map((x, i) => {
-                console.log(x.mainListName === selected, 'match')
                 return (
                   <List
                     sx={{

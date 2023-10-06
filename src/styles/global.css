@@ -179,3 +179,15 @@ input[type='number'] {
 .scrollBarContent::-webkit-scrollbar-thumb:hover {
   background: rgba(52, 65, 163, 0.85);
 }
+
+.svgRed {
+  & > path {
+    fill: #ff6767;
+  }
+}
+
+.svgBlue {
+  & > path {
+    fill: rgba(52, 65, 163, 0.7);
+  }
+}

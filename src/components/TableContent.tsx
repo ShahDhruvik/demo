@@ -145,25 +145,34 @@ const TableContent = ({
                     )}
                     {actions.includes(ACTIONS_TABLE.EDIT) && (
                       <Tooltip title='Edit' arrow>
-                        <Grid
-                          item
-                          sx={{
-                            cursor:
-                              !row.active && actions.includes(ACTIONS_TABLE.SWITCH)
-                                ? 'not-allowed'
-                                : 'pointer',
-                          }}
-                        >
+                        <Grid item>
                           <IconButton
                             onClick={() => {
-                              if (!row.active && actions.includes(ACTIONS_TABLE.SWITCH)) {
+                              if (!row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)) {
                                 showToast('info', COMMON_MESSAGE.EditDisabled)
                               } else {
                                 handleEdit(row)
                               }
                             }}
+                            sx={{
+                              cursor:
+                                !row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
+                                  ? 'not-allowed'
+                                  : 'pointer',
+                            }}
+                            disableRipple={!row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)}
                           >
-                            <FetchSvg iconName='edit-pencil' svgProp={{ width: 24, height: 24 }} />
+                            <FetchSvg
+                              iconName='edit1'
+                              svgProp={{
+                                width: 24,
+                                height: 24,
+                                className:
+                                  !row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
+                                    ? ''
+                                    : 'svgBlue',
+                              }}
+                            />
                           </IconButton>
                         </Grid>
                       </Tooltip>
@@ -174,14 +183,14 @@ const TableContent = ({
                           item
                           sx={{
                             cursor:
-                              !row.active && actions.includes(ACTIONS_TABLE.SWITCH)
+                              !row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
                                 ? 'not-allowed'
                                 : 'pointer',
                           }}
                         >
                           <IconButton
                             onClick={() => {
-                              if (!row.active && actions.includes(ACTIONS_TABLE.SWITCH)) {
+                              if (!row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)) {
                                 showToast('info', COMMON_MESSAGE.MapDisabled)
                               } else {
                                 handleMap(row)
@@ -199,21 +208,38 @@ const TableContent = ({
                           item
                           sx={{
                             cursor:
-                              row.active && actions.includes(ACTIONS_TABLE.SWITCH)
+                              row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
                                 ? 'not-allowed'
                                 : 'pointer',
                           }}
                         >
                           <IconButton
                             onClick={() => {
-                              if (row.active && actions.includes(ACTIONS_TABLE.SWITCH)) {
+                              if (row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)) {
                                 showToast('info', COMMON_MESSAGE.Inactive)
                               } else {
                                 handleDelete(row)
                               }
                             }}
+                            sx={{
+                              cursor:
+                                row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
+                                  ? 'not-allowed'
+                                  : 'pointer',
+                            }}
+                            disableRipple={row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)}
                           >
-                            <FetchSvg iconName='delete' svgProp={{ width: 24, height: 24 }} />
+                            <FetchSvg
+                              iconName='delete'
+                              svgProp={{
+                                width: 24,
+                                height: 24,
+                                className:
+                                  row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
+                                    ? ''
+                                    : 'svgRed',
+                              }}
+                            />
                           </IconButton>
                         </Grid>
                       </Tooltip>
@@ -225,8 +251,7 @@ const TableContent = ({
                             onChange={(e) => {
                               handleSwitch(row, e.currentTarget.checked)
                             }}
-                            checked={row.active}
-                            disabled={!row.active && actions.includes(ACTIONS_TABLE.SWITCH)}
+                            checked={row.isActive}
                           />
                         </Grid>
                       </Tooltip>

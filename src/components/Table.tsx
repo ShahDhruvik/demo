@@ -97,15 +97,14 @@ const CustomTable = ({
     handleOpen()
   }
   const handleSwitch = (item: any, switchState: boolean) => {
-    console.log(item)
     if (!actions.includes(ACTIONS_TABLE.SWITCH)) {
       return
     } else {
-      if (item.active) {
-        console.log('object')
-        setType(TABLE_STATES.INACTIVE)
-      } else {
+      if (item.isActive) {
+        console.log(item)
         setType(TABLE_STATES.ACTIVE)
+      } else {
+        setType(TABLE_STATES.INACTIVE)
       }
       setEntity(item)
       handleOpen()

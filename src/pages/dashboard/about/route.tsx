@@ -1,8 +1,8 @@
 import { Outlet, Route } from 'react-router-dom'
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from '@/paths/index'
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH } from '@/paths/index'
 import RouteWrapper from '@/middleware/routeWrapper'
 import DashPage from '../container/page'
-import StatePage from '../country/page'
+import StatePage from '../location/country/page'
 import Contact from './contact/page'
 
 interface Props {}

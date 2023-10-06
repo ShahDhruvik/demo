@@ -1,8 +1,9 @@
 import { toast, ToastOptions } from 'react-toastify';
 import { TOAST_TYPES } from '../utils/constants';
+import { ShowToastFunction } from '@/types/common';
 
 export const useToast = () => {
-    const showToast = (type: 'success' | 'error' | 'warning' | 'info', message: string, options?: ToastOptions) => {
+    const showToast: ShowToastFunction = (type: 'success' | 'error' | 'warning' | 'info', message: string, options?: ToastOptions) => {
         switch (type) {
             case 'success':
                 const _messageSuccess = `${TOAST_TYPES.SUCCESS} - ${message}`

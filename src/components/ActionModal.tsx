@@ -4,6 +4,7 @@ import { AllowedAction, TableStates } from '@/types/common'
 import FetchSvg from './fetchSvg'
 import FormBtns from './FormBtn'
 import { theme } from '@/context/ThemeProvider'
+import { TABLE_STATES } from '@/utils/constants'
 
 type Props = {
   handleClose: () => void
@@ -40,7 +41,11 @@ const ActionModal = ({ handleClose, type, children, entityName }: Props) => {
             textTransform: 'capitalize',
           }}
         >
-          {(type?.charAt(0) as string) + type?.slice(1).toLowerCase() + '  ' + entityName}
+          {type === TABLE_STATES.ACTIVE && 'InActive' + ' ' + entityName}
+          {type === TABLE_STATES.INACTIVE && 'Active' + ' ' + entityName}
+          {type !== TABLE_STATES.INACTIVE &&
+            type !== TABLE_STATES.ACTIVE &&
+            (type?.charAt(0) as string) + type?.slice(1).toLowerCase() + '  ' + entityName}
         </Typography>
         <IconButton
           onClick={handleClose}
