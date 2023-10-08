@@ -101,7 +101,6 @@ const CustomTable = ({
       return
     } else {
       if (item.isActive) {
-        console.log(item)
         setType(TABLE_STATES.ACTIVE)
       } else {
         setType(TABLE_STATES.INACTIVE)

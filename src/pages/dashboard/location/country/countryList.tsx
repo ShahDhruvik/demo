@@ -33,7 +33,7 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
     search: '',
     currentPage: 1,
     limitPerPage: limitOfPage,
-    sort: 'siteName',
+    sort: 'name',
     sortOrder: 'asc',
   }
 
@@ -45,7 +45,6 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
 
   const getData = async () => {
     const response = await getCountry(setLoading, showToast, setNotFound, notFound, handleControls)
-    console.log(response)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {

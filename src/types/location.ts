@@ -1,3 +1,5 @@
+import { SearchDDL } from "./common"
+
 export type StatesField = {
     name: string
     shortName: string
@@ -24,7 +26,7 @@ export type CountryData = {
 }
 export type StateFields = {
     name: string
-    countryId: string
+    countryId: SearchDDL
     shortName: string
     cities: {
         name: string
@@ -33,6 +35,47 @@ export type StateFields = {
 }
 
 export type StateData = {
+    _id: string
+    name: string
+    shortName: string
+    countryId: string
+    isActive: boolean
+    isDeleted: boolean
+    createdAt: string
+    updatedAt: string
+    __v: number
+    country: string
+}
+export type CityFields = {
+    name: string
+    stateId: SearchDDL
+    countryId: SearchDDL
+    shortName: string
+    pinCodes: { value: string, isAvailable: boolean }[]
+}
+
+export type CityData = {
+    _id: string
+    name: string
+    shortName: string
+    countryId: string
+    isActive: boolean
+    isDeleted: boolean
+    createdAt: string
+    updatedAt: string
+    __v: number
+    country: string
+}
+
+export type PincodeFields = {
+    stateId: SearchDDL
+    countryId: SearchDDL
+    cityId: SearchDDL
+    value: string,
+    isAvailable: boolean
+}
+
+export type PincodeData = {
     _id: string
     name: string
     shortName: string

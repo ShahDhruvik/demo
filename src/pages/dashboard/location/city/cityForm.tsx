@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import FormBtns from '@/components/FormBtn'
 import NumInput from '@/components/NumInput'
 import TxtInput from '@/components/TxtInput'
@@ -16,38 +15,46 @@ import {
 import { Button, Divider } from '@mui/material'
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { useLoading } from '@/context/LoadingContext'
-import { CountryData, StateData, StateFields } from '@/types/location'
-import { createCountry, dropdownCountry, editCountry } from '@/lib/Country'
+import { CountryData, CityFields, StateData } from '@/types/location'
+import { dropdownCountry } from '@/lib/Country'
 import { useToast } from '@/hooks/useToast'
+import { useState } from 'react'
 import SelectInput from '@/components/SelectInput'
-import { createState, editState } from '@/lib/State'
+import { dropdownState } from '@/lib/State'
+import { createCity, editCity } from '@/lib/City'
+import CheckInput from '@/components/CheckInput'
 
 type Props = {
   handleClose: () => void
   type: TableStates
-  entity: StateData
+  entity: any
   getModifiedData: () => void
 }
 
-const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
+const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   //states
-  const [countries, setCountries] = useState<SearchDDL[]>([])
   const { setLoading } = useLoading()
   const showToast = useToast()
-  const { control, handleSubmit, formState, reset, clearErrors, setError, setValue } = useForm({
-    defaultValues: {
-      name: '',
-      shortName: '',
-      countryId: acDefaultValue,
-      cities: [] as StateFields['cities'],
-    } as StateFields,
-  })
+  const [countries, setCountries] = useState<SearchDDL[]>([])
+  const [states, setStates] = useState<SearchDDL[]>([])
+
+  //form
+  const { control, handleSubmit, formState, reset, watch, clearErrors, setError, setValue } =
+    useForm({
+      defaultValues: {
+        name: '',
+        shortName: '',
+        stateId: acDefaultValue,
+        countryId: acDefaultValue,
+        pinCodes: [] as CityFields['pinCodes'],
+      } as CityFields,
+    })
   const { isSubmitting } = formState
-  const onSubmitHandle: SubmitHandler<StateFields> = async (data) => {
+  const onSubmitHandle: SubmitHandler<CityFields> = async (data) => {
     handleClose()
     switch (type) {
       case TABLE_STATES.ADD:
-        const res = await createState(setLoading, showToast, data)
+        const res = await createCity(setLoading, showToast, data)
         if (res) {
           reset()
           getModifiedData()
@@ -56,7 +63,7 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
         }
         break
       case TABLE_STATES.EDIT:
-        const resp = await editState(setLoading, showToast, data, entity._id)
+        const resp = await editCity(setLoading, showToast, data, entity._id)
         if (resp) {
           reset()
           getModifiedData()
@@ -64,15 +71,16 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           reset()
         }
         break
-
       default:
         break
     }
   }
   const { fields, append, remove } = useFieldArray({
     control: control,
-    name: 'cities',
+    name: 'pinCodes',
   })
+  const conWatch = watch('countryId')
+
   //API's
   const getCountries = async () => {
     const data = (await dropdownCountry(setLoading, showToast)) as CountryData[]
@@ -83,17 +91,35 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
     })
     setCountries(con)
   }
+  const getStates = async (conId: string) => {
+    if (conId !== acDefaultValue._id) {
+      const data = (await dropdownState(setLoading, showToast, conId)) as StateData[]
+      const sta: SearchDDL[] = [acDefaultValue]
+      data.map((x) => {
+        const staItem: SearchDDL = { label: `${x.name}`, _id: x._id }
+        sta.push(staItem)
+      })
+      setStates(sta)
+    } else {
+      setStates([])
+    }
+  }
   useEffect(() => {
     getCountries()
   }, [])
+  useEffect(() => {
+    getStates(conWatch._id)
+  }, [conWatch])
 
+  //setting the entity on edit
   useEffect(() => {
     if (entity) {
       reset({
         name: entity.name,
         shortName: entity.shortName,
-        countryId: { label: entity.country, _id: entity.countryId },
-        cities: [],
+        stateId: { label: entity.stateId, _id: entity.state },
+        countryId: { label: entity.countryId, _id: entity.country },
+        pinCodes: [],
       })
     } else {
       reset()
@@ -114,7 +140,22 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           control={control}
           label='Country'
           name='countryId'
-          options={countries}
+          options={countries as SearchDDL[]}
+          setError={setError}
+          setValue={setValue}
+          validation={searchSelectValidation('Country')}
+          handleChange={() => {
+            reset((formValues) => {
+              return { ...formValues, stateId: acDefaultValue }
+            })
+          }}
+        />
+        <SelectInput
+          clearErrors={clearErrors}
+          control={control}
+          label='Country'
+          name='stateId'
+          options={states as SearchDDL[]}
           setError={setError}
           setValue={setValue}
           validation={searchSelectValidation('Country')}
@@ -137,13 +178,13 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
       {type === TABLE_STATES.ADD && (
         <div>
           <div className='px-5 flex items-center justify-between  gap-3 mb-3'>
-            <h1 className='text-xl font-semibold'>Cities</h1>
+            <h1 className='text-xl font-semibold'>Pincodes</h1>
             <Button
               color='mPink'
               sx={{
                 minWidth: 'max-content',
               }}
-              onClick={() => append({ name: '', shortName: '' })}
+              onClick={() => append({ value: '', isAvailable: true })}
             >
               <FetchSvg iconName='add' svgProp={{ width: 20, height: 20 }} />
             </Button>
@@ -159,24 +200,22 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           <div className='px-5 grid  gap-3 mb-5'>
             {fields.map((x, i) => {
               return (
-                <div className='flex items-center gap-3 ' key={x.id}>
-                  <TxtInput
+                <div className='flex items-center gap-10 ' key={x.id}>
+                  <NumInput
                     control={control}
                     handleChange={() => {}}
-                    name={`cities.${i}.name`}
+                    name={`pinCodes.${i}.value`}
                     placeholder='Enter name'
-                    validation={txtFieldValidation(true)}
+                    validation={numberFieldValidation(true, undefined, 'Pincode')}
                     sx={{
-                      flexGrow: 0.5,
+                      flexGrow: 1,
                     }}
                   />
-                  <TxtInput
+                  <CheckInput
                     control={control}
-                    handleChange={() => {}}
-                    name={`cities.${i}.shortName`}
-                    placeholder='Enter short name'
-                    validation={txtFieldValidation(true)}
-                    sx={{
+                    name={`pinCodes.${i}.isAvailable`}
+                    label='available'
+                    sxProps={{
                       flexGrow: 0.5,
                     }}
                   />
@@ -208,4 +247,4 @@ const StateForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   )
 }
 
-export default StateForm
+export default CityForm

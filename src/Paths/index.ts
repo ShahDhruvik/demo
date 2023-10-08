@@ -27,4 +27,6 @@ export const enum ABOUT_PATH {
 export const enum LOCATION_PATH {
   COUNTRY = '/country',
   STATE = '/state',
+  CITY = '/city',
+  PINCODE = '/pincode',
 }

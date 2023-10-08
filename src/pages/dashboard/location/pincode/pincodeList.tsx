@@ -9,10 +9,11 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import StateForm from './stateForm'
+import CityForm from './pincodeForm'
 import { theme } from '@/context/ThemeProvider'
-import { StateData } from '@/types/location'
-import { deleteState, getState, inactiveState } from '@/lib/State'
+import { CountryData } from '@/types/location'
+import { deleteCity, getCity, inactiveCity } from '@/lib/City'
+import { getPincode } from '@/lib/Pincode'
 
 type Props = {
   handleOpen: () => void
@@ -22,7 +23,7 @@ type Props = {
   handleClose: () => void
 }
 
-const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
+const CityList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -39,16 +40,15 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
 
   // Record and Control States
   const [data, setData] = useState<any[]>([])
-  const [entity, setEntity] = useState<StateData | undefined>()
+  const [entity, setEntity] = useState<CountryData | undefined>()
   const [controls, setControls] = useState({})
   const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
-
   const getData = async () => {
-    const response = await getState(setLoading, showToast, setNotFound, notFound, handleControls)
+    const response = await getPincode(setLoading, showToast, setNotFound, notFound, handleControls)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
-        setNotFound([TABLES.COUNTRY])
+        setNotFound([TABLES.PINCODE])
       } else {
         setNotFound([])
         setData(records)
@@ -70,19 +70,17 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   ///headCells
   const headCells: HeadCell[] = [
     {
-      id: 'name',
-      label: 'Name',
+      id: 'value',
+      label: 'Pincode',
       isSort: true,
     },
     {
-      id: 'shortName',
-      label: 'Short Name',
+      id: 'isAvailable',
+      label: 'Available',
       isSort: true,
-    },
-    {
-      id: 'country',
-      label: 'Country',
-      isSort: true,
+      type: 'InformedStatus',
+      trueTxt: 'YES',
+      falseTxt: 'NO',
     },
     {
       id: 'isActive',
@@ -95,7 +93,7 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   // Inactive and Delete entity
   const inactiveEntity = async () => {
     handleClose()
-    const res = await inactiveState(
+    const res = await inactiveCity(
       setLoading,
       showToast,
       entity?._id as string,
@@ -107,7 +105,7 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   }
   const deleteEntity = async () => {
     handleClose()
-    const res = await deleteState(setLoading, showToast, entity?._id as string)
+    const res = await deleteCity(setLoading, showToast, entity?._id as string)
     if (res) {
       getModifiedData()
     }
@@ -125,8 +123,8 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.STATE, tableName: 'State' }}
-        notFound={notFound.includes(TABLES.STATE)}
+        tableHeading={{ tableId: TABLES.PINCODE, tableName: 'Pincode' }}
+        notFound={notFound.includes(TABLES.PINCODE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
       <CustomDialog
@@ -151,7 +149,7 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
           padding: '0px 0px 24px 0px',
         }}
       >
-        <ActionModal handleClose={handleClose} type={type} entityName='State'>
+        <ActionModal handleClose={handleClose} type={type} entityName='Pincode'>
           {type === TABLE_STATES.INACTIVE && (
             <SwitchDeleteModal
               actionFnc={() => {
@@ -183,10 +181,10 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
             />
           )}
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <StateForm
+            <CityForm
               handleClose={handleClose}
               type={type}
-              entity={entity as StateData}
+              entity={entity as CountryData}
               getModifiedData={getModifiedData}
             />
           )}
@@ -196,4 +194,4 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   )
 }
 
-export default StateList
+export default CityList

@@ -56,6 +56,9 @@ export const enum HEADERBTNS {
 }
 export const enum TABLES {
   COUNTRY = 'COUNTRY',
+  STATE = 'STATE',
+  CITY = 'CITY',
+  PINCODE = 'PINCODE',
 
 }
 
@@ -105,10 +108,15 @@ export const enum TABLE_STATES {
 }
 
 export const enum SIDEBAR_NAMES {
-  MASTER = 'MASTER',
-  ABOUT = 'About',
-  PROFILE = 'Profile',
+  MASTER = 'Master',
   LOCATION = 'Location',
+}
+export const enum SIDEBAR_SUBLIST_NAMES {
+  COUNTRY = 'Country',
+  STATE = 'State',
+  CITY = 'City',
+  PINCODE = 'Pincode',
+  PROFILE = 'Profile',
 }
 
 export const sidebarItems: SideBarItems[] = [
@@ -116,59 +124,38 @@ export const sidebarItems: SideBarItems[] = [
     id: 0,
     mainListName: SIDEBAR_NAMES.MASTER,
     mainImage: 'home',
-    subList: [
-      { id: 1, iconName: 'ser', txt: 'City', path: '/' },
-      { id: 2, iconName: 'ser', txt: 'Pincode', path: '/' },
-    ],
-    isSingle: false,
+    subList: [],
+    isSingle: true,
     mainPath: `${COMMON_PATH.DEFAULT}`,
   },
   {
     id: 1,
-    mainListName: SIDEBAR_NAMES.ABOUT,
-    mainImage: 'about',
-    subList: [
-      {
-        id: 0,
-        iconName: 'ser',
-        txt: 'Contact',
-        path: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}${ABOUT_PATH.CONTACT}`,
-      },
-    ],
-    isSingle: false,
-    mainPath: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}`,
-  },
-  {
-    id: 2,
-    mainListName: SIDEBAR_NAMES.PROFILE,
-    mainImage: 'about',
-    subList: [
-      {
-        id: 0,
-        iconName: 'ser',
-        txt: 'Contact',
-        path: `/`,
-      },
-    ],
-    isSingle: false,
-    mainPath: `/`,
-  },
-  {
-    id: 3,
     mainListName: SIDEBAR_NAMES.LOCATION,
     mainImage: 'location',
     subList: [
       {
         id: 0,
         iconName: 'location',
-        txt: 'Country',
+        txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
         path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
       },
       {
-        id: 0,
+        id: 1,
         iconName: 'location',
-        txt: 'State',
+        txt: SIDEBAR_SUBLIST_NAMES.STATE,
         path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
+      },
+      {
+        id: 2,
+        iconName: 'location',
+        txt: SIDEBAR_SUBLIST_NAMES.CITY,
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
+      },
+      {
+        id: 3,
+        iconName: 'location',
+        txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
       },
     ],
     isSingle: false,
