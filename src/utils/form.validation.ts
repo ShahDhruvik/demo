@@ -1,5 +1,5 @@
 export const acDefaultValue = { label: 'Select', _id: '00' }
-export const numberFieldValidation = (isRequired: boolean, type?: 'Phone' | 'Pincode' | 'Days') => {
+export const numberFieldValidation = (isRequired: boolean, length?: number, type?: 'Phone' | 'Pincode' | 'Days') => {
     switch (type) {
         case 'Phone':
             if (isRequired) {
@@ -67,26 +67,15 @@ export const numberFieldValidation = (isRequired: boolean, type?: 'Phone' | 'Pin
                 };
             }
         default:
-            if (isRequired) {
-                return {
-                    required: 'required.',
-                    minLength: { value: 1, message: 'Atleast 1 digits are required' },
-                    maxLength: {
-                        value: length,
-                        message: 'Exact 10 digits are required',
-                    },
-                    min: { value: 1, message: 'Must be greater than 0' },
-                };
-            } else {
-                return {
-                    minLength: { value: 3, message: 'Exact 10 digits are required' },
-                    maxLength: {
-                        value: length,
-                        message: 'Exact 10 digits are required',
-                    },
-                    min: { value: 1, message: 'Must be greater than 0' },
-                };
-            }
+            return {
+                ...(isRequired && { required: 'required.' }),
+                minLength: { value: 1, message: 'Atleast 1 digits are required' },
+                maxLength: {
+                    value: length ?? 20,
+                    message: `Atmost ${length ?? 20} digits are required`,
+                },
+                min: { value: 1, message: 'Must be greater than 0' },
+            };
     }
 };
 export const searchSelectValidation = (label: string, notRequired?: boolean) => {

@@ -18,7 +18,7 @@ function FetchSvg(props: IProps) {
           <SvgIcon {...svgProp} />
         </div>
       ) : (
-        <p>Invalid path</p>
+        <p></p>
       )}
     </>
   )

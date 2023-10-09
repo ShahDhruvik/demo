@@ -1,6 +1,7 @@
 // All the common types are defined here
+import { ToastOptions } from 'react-toastify';
 import { SetStateAction, Dispatch, } from "react";
-import { ACTIONS_TABLE, ALIGN_DIALOG, DASHBOARDTYPE, HEADERBTNS, SIDEBAR_NAMES, TABLE_STATES, } from "../utils/constants";
+import { ACTIONS_TABLE, ALIGN_DIALOG, DASHBOARDTYPE, HEADERBTNS, SIDEBAR_NAMES, SIDEBAR_SUBLIST_NAMES, TABLE_STATES, } from "../utils/constants";
 import { Theme } from "@mui/material";
 // Other types regarding the individual entity will have separate file (ex: user.types.ts)
 export type PaletteColor = {
@@ -47,7 +48,6 @@ export type LoadingState = {
     setLoading: Dispatch<SetStateAction<{ isLoading: boolean, isPage: boolean, pageProps?: { image: any, pageTxt: string, } }>>;
 };
 
-export type SelectDDL = { label: string, _id: string }
 
 
 export type HeadCell = {
@@ -65,6 +65,8 @@ export type HeadCell = {
     isDark?: boolean
     onView?: { isView: boolean, viewFnc: (item: any) => void }
     width?: number
+    trueTxt?: string
+    falseTxt?: string
 };
 export type HeaderBtnTypes = Array<{ btnType: HEADERBTNS.CREATE, btnText?: string }>
 
@@ -104,6 +106,34 @@ export type SearchBooleanDDL = { label: string | boolean, _id: string }
 
 export type SidebarNames =
     | SIDEBAR_NAMES.MASTER
-    | SIDEBAR_NAMES.ABOUT
-    | SIDEBAR_NAMES.PROFILE
+    | SIDEBAR_NAMES.LOCATION
+    | SIDEBAR_NAMES.PACKAGE
     | undefined
+
+export type SidebarSubListNames =
+    | SIDEBAR_SUBLIST_NAMES.CITY
+    | SIDEBAR_SUBLIST_NAMES.COUNTRY
+    | SIDEBAR_SUBLIST_NAMES.PINCODE
+    | SIDEBAR_SUBLIST_NAMES.STATE
+    | SIDEBAR_SUBLIST_NAMES.PROFILE
+    | undefined
+
+
+export type SideBarItems = {
+    id: number,
+    mainListName: SidebarNames,
+    mainImage: string,
+    subList: { id: number, iconName: string, txt: SidebarSubListNames, path: string }[],
+    isSingle: boolean,
+    mainPath: string,
+}
+
+
+
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
+
+export type ShowToastFunction = (
+    type: ToastType,
+    message: string,
+    options?: ToastOptions
+) => void;

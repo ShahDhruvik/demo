@@ -11,6 +11,8 @@ export const enum COMMON_PATH {
 export const enum DASHBOARD_PATH {
   MASTER = '/',
   ABOUT = '/about/*',
+  LOCATION = '/location/*',
+  PACKAGE = '/packages/*',
 }
 
 export const enum AUTH_PATH {
@@ -18,10 +20,14 @@ export const enum AUTH_PATH {
   LOGOUT = '/log-out',
 }
 
-export const enum MASTER_PATH {
-  COUNTRY = '/country',
-}
+
 
 export const enum ABOUT_PATH {
   CONTACT = '/contact',
+}
+export const enum LOCATION_PATH {
+  COUNTRY = '/country',
+  STATE = '/state',
+  CITY = '/city',
+  PINCODE = '/pincode',
 }

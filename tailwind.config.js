@@ -17,6 +17,11 @@ export default {
         light: '#0a3876',
         dark: '#0a3876',
       },
+      darkBlue: {
+        main: '#d8dae8',
+        light: '#d8dae8',
+        dark: '#d8dae8',
+      },
       blue: {
         main: '#00a1f1',
         light: '#00a1f1',

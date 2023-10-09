@@ -463,7 +463,7 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
                 letterSpacing: '0.25px',
               }}
             >
-              {'Active'}
+              {x.trueTxt ?? 'Active'}
             </Typography>
           )}
           {row[x.id] === false && (
@@ -481,7 +481,7 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
                 letterSpacing: '0.25px',
               }}
             >
-              {'Inactive'}
+              {x.falseTxt ?? 'Inactive'}
             </Typography>
           )}
         </TableCell>

@@ -1,7 +1,7 @@
-import { HeadCell } from "@/types/common";
+import { HeadCell, SideBarItems } from "@/types/common";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from "../paths";
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, } from "../paths";
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -56,7 +56,10 @@ export const enum HEADERBTNS {
 }
 export const enum TABLES {
   COUNTRY = 'COUNTRY',
-
+  STATE = 'STATE',
+  CITY = 'CITY',
+  PINCODE = 'PINCODE',
+  PACKAGE = 'PACKAGE',
 }
 
 export const formatDate = (dateString: string) => {
@@ -105,52 +108,66 @@ export const enum TABLE_STATES {
 }
 
 export const enum SIDEBAR_NAMES {
-  MASTER = 'MASTER',
-  ABOUT = 'About',
+  MASTER = 'Master',
+  LOCATION = 'Location',
+  PACKAGE = 'Package',
+}
+export const enum SIDEBAR_SUBLIST_NAMES {
+  COUNTRY = 'Country',
+  STATE = 'State',
+  CITY = 'City',
+  PINCODE = 'Pincode',
   PROFILE = 'Profile',
 }
 
-export const sidebarItems = [
+export const sidebarItems: SideBarItems[] = [
   {
     id: 0,
     mainListName: SIDEBAR_NAMES.MASTER,
     mainImage: 'home',
-    subList: [
-      { id: 0, iconName: 'ser', txt: 'Country', path: MASTER_PATH.COUNTRY },
-      { id: 1, iconName: 'ser', txt: 'City', path: '/' },
-      { id: 2, iconName: 'ser', txt: 'Pincode', path: '/' },
-    ],
-    isSingle: false,
+    subList: [],
+    isSingle: true,
     mainPath: `${COMMON_PATH.DEFAULT}`,
   },
   {
     id: 1,
-    mainListName: SIDEBAR_NAMES.ABOUT,
-    mainImage: 'about',
+    mainListName: SIDEBAR_NAMES.LOCATION,
+    mainImage: 'location',
     subList: [
       {
         id: 0,
-        iconName: 'ser',
-        txt: 'Contact',
-        path: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}${ABOUT_PATH.CONTACT}`,
+        iconName: 'location',
+        txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
+      },
+      {
+        id: 1,
+        iconName: 'location',
+        txt: SIDEBAR_SUBLIST_NAMES.STATE,
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
+      },
+      {
+        id: 2,
+        iconName: 'location',
+        txt: SIDEBAR_SUBLIST_NAMES.CITY,
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
+      },
+      {
+        id: 3,
+        iconName: 'location',
+        txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
+        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
       },
     ],
     isSingle: false,
-    mainPath: `${DASHBOARD_PATH.ABOUT.split('/*')[0]}`,
+    mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
   },
   {
     id: 2,
-    mainListName: SIDEBAR_NAMES.PROFILE,
-    mainImage: 'about',
-    subList: [
-      {
-        id: 0,
-        iconName: 'ser',
-        txt: 'Contact',
-        path: `/`,
-      },
-    ],
-    isSingle: false,
-    mainPath: `/`,
+    mainListName: SIDEBAR_NAMES.PACKAGE,
+    mainImage: 'package',
+    subList: [],
+    isSingle: true,
+    mainPath: `${DASHBOARD_PATH.PACKAGE.split('/*')[0]}`,
   },
 ]

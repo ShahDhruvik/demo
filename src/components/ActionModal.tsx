@@ -4,6 +4,7 @@ import { AllowedAction, TableStates } from '@/types/common'
 import FetchSvg from './fetchSvg'
 import FormBtns from './FormBtn'
 import { theme } from '@/context/ThemeProvider'
+import { TABLE_STATES } from '@/utils/constants'
 
 type Props = {
   handleClose: () => void
@@ -17,13 +18,18 @@ const ActionModal = ({ handleClose, type, children, entityName }: Props) => {
     <>
       <Box
         marginBottom={4}
+        position={'sticky'}
+        top={0}
+        zIndex={10}
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
         sx={{
-          backgroundColor: 'rgba(52, 65, 163, 0.15) ',
+          backgroundColor: theme.palette.mMidBlue?.main,
           borderTopRightRadius: '7px',
           borderTopLeftRadius: '7px',
+          boxShadow:
+            'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px',
         }}
         pl={2}
       >
@@ -40,7 +46,11 @@ const ActionModal = ({ handleClose, type, children, entityName }: Props) => {
             textTransform: 'capitalize',
           }}
         >
-          {(type?.charAt(0) as string) + type?.slice(1).toLowerCase() + '  ' + entityName}
+          {type === TABLE_STATES.ACTIVE && 'InActive' + ' ' + entityName}
+          {type === TABLE_STATES.INACTIVE && 'Active' + ' ' + entityName}
+          {type !== TABLE_STATES.INACTIVE &&
+            type !== TABLE_STATES.ACTIVE &&
+            (type?.charAt(0) as string) + type?.slice(1).toLowerCase() + '  ' + entityName}
         </Typography>
         <IconButton
           onClick={handleClose}

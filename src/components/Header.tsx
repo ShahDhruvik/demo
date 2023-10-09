@@ -6,7 +6,7 @@ import { Avatar, Badge, Button, Divider, IconButton } from '@mui/material'
 import person from '@/assets/images/60111.jpg'
 import { useLocation } from 'react-router-dom'
 import Profile from '@/pages/dashboard/container/profile'
-import { sidebarItems } from './SideBar'
+import { sidebarItems } from '@/utils/constants'
 
 type Props = {
   open: boolean

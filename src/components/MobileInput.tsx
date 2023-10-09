@@ -12,6 +12,7 @@ type Props = {
   handleChange: () => void
   isDisabled?: boolean
   sx?: SxProps<Theme>
+  label: string
 }
 
 const MobileInput = ({
@@ -23,6 +24,7 @@ const MobileInput = ({
   handleChange,
   isDisabled,
   sx,
+  label,
 }: Props) => {
   const inputStyleProps: SxProps<Theme> = { ...sx, width: '100%' }
 
@@ -40,9 +42,11 @@ const MobileInput = ({
               onChange(e)
               handleChange()
             }}
+            label={label}
             sx={inputStyleProps}
             disabled={isDisabled ?? false}
             placeholder={placeholder}
+            InputLabelProps={{ shrink: true }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -72,7 +76,7 @@ const MobileInput = ({
           />
         )
       }}
-      rules={{ ...numberFieldValidation(true, 'Phone') }}
+      rules={{ ...numberFieldValidation(true, undefined, 'Phone') }}
     />
   )
 }

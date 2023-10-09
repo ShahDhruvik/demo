@@ -9,10 +9,10 @@ import {
 } from 'react-hook-form'
 import SvgIcon from './fetchSvg'
 import { splitDescription } from '../utils/constants'
-import { SelectDDL } from '../types/common'
+import { SearchDDL } from '../types/common'
 
 type Props = {
-  options: SelectDDL[]
+  options: SearchDDL[]
   name: string
   control: Control<any> | undefined
   label: string
@@ -135,6 +135,8 @@ const SelectInput = ({
                 error={fieldState.invalid}
                 placeholder={`Select ${label}`}
                 helperText={fieldState.error ? fieldState.error.message : ''}
+                label={label}
+                InputLabelProps={{ shrink: true }}
               />
             )
           }}

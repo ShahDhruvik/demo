@@ -9,8 +9,10 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import DashboardForm from './countryForm'
+import CountryForm from './countryForm'
 import { theme } from '@/context/ThemeProvider'
+import { deleteCountry, getCountry, inactiveCountry } from '@/lib/Country'
+import { CountryData } from '@/types/location'
 
 type Props = {
   handleOpen: () => void
@@ -26,39 +28,23 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   const showToast = useToast()
   const { setNotFound, notFound } = useNotFound()
 
-  // Record and Control States
-  const [data, setData] = useState<any[]>([])
-  const [entity, setEntity] = useState<any | undefined>()
-  const [controls, setControls] = useState({})
-  const [handleControls, setHandleControls] = useState<HandleControls>({
+  //default controls
+  const defaultControls = {
     search: '',
     currentPage: 1,
     limitPerPage: limitOfPage,
-    sort: 'siteName',
+    sort: 'name',
     sortOrder: 'asc',
-  })
+  }
+
+  // Record and Control States
+  const [data, setData] = useState<any[]>([])
+  const [entity, setEntity] = useState<CountryData | undefined>()
+  const [controls, setControls] = useState({})
+  const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
 
   const getData = async () => {
-    // const response = await getAllSites(setLoading, setSnack, setNotFound, notFound, handleControls);
-    const response = {
-      records: [
-        {
-          siteName: 'Site 1',
-          shortName: 'Site 1',
-          address: 'Site 1',
-          contactNo: 'Site 1',
-          state: 'Site 1',
-          city: 'Site 1',
-          pinCode: 'Site 1',
-          active: true,
-        },
-      ],
-      currentPage: 1,
-      pages: 1,
-      total: 1,
-      from: 1,
-      to: 1,
-    }
+    const response = await getCountry(setLoading, showToast, setNotFound, notFound, handleControls)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
@@ -73,6 +59,10 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
     }
   }
 
+  const getModifiedData = () => {
+    setHandleControls(defaultControls)
+  }
+
   useEffect(() => {
     getData()
   }, [handleControls])
@@ -80,7 +70,7 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   ///headCells
   const headCells: HeadCell[] = [
     {
-      id: 'siteName',
+      id: 'name',
       label: 'Name',
       isSort: true,
     },
@@ -90,90 +80,43 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
       isSort: true,
     },
     {
-      id: 'address',
-      label: 'Address',
+      id: 'isoCode',
+      label: 'ISO code',
       isSort: true,
     },
     {
-      id: 'contactNo',
-      label: 'Contact No.',
+      id: 'code',
+      label: 'Code',
       isSort: true,
     },
     {
-      id: 'state',
-      label: 'State',
-      isSort: true,
-    },
-    {
-      id: 'city',
-      label: 'City',
-      isSort: true,
-    },
-
-    {
-      id: 'pinCode',
-      label: 'Pincode',
-      isSort: false,
-    },
-    {
-      id: 'active',
-      label: 'Status',
+      id: 'isActive',
+      label: 'Active',
       isSort: false,
       type: 'InformedStatus',
     },
   ]
 
-  //Inactive and Delete entity
-  //   const inactiveEntity = async () => {
-  //     handleClose();
-  //     const res = await inactiveSiteFe(setLoading, setSnack, handleClose, entity?._id as string);
-  //     if (res) {
-  //       const sitesUpdated = session?.user?.sites?.map((x) => {
-  //         if (x._id === entity?._id) {
-  //           x.active = false;
-  //           return x;
-  //         } else {
-  //           return x;
-  //         }
-  //       });
-  //       if (session?.user.siteId === entity?._id) {
-  //         await update({
-  //           ...session?.user,
-  //           sites: sitesUpdated,
-  //           siteName: sitesUpdated && sitesUpdated[0].siteName,
-  //           siteId: sitesUpdated && sitesUpdated[0]._id,
-  //         });
-  //       } else {
-  //         await update({
-  //           ...session?.user,
-  //           sites: sitesUpdated,
-  //         });
-  //       }
-  //       setHandleControls({
-  //         search: '',
-  //         currentPage: 1,
-  //         limitPerPage: limitOfPage,
-  //         sort: 'siteName',
-  //         sortOrder: 'asc',
-  //       });
-  //       await getData();
-  //     }
-  //   };
-  //   const deleteEntity = async () => {
-  //     handleClose();
-  //     const res = await deleteSiteFe(setLoading, setSnack, entity?._id as string);
-  //     if (res) {
-  //       setHandleControls({
-  //         search: '',
-  //         currentPage: 1,
-  //         limitPerPage: limitOfPage,
-  //         sort: 'siteName',
-  //         sortOrder: 'asc',
-  //       });
-  //       await getData();
-  //       handleClose();
-  //     }
-  //   };
+  // Inactive and Delete entity
+  const inactiveEntity = async () => {
+    handleClose()
+    const res = await inactiveCountry(
+      setLoading,
+      showToast,
+      entity?._id as string,
+      entity?.isActive as boolean,
+    )
+    if (res) {
+      getModifiedData()
+    }
+  }
+  const deleteEntity = async () => {
+    handleClose()
+    const res = await deleteCountry(setLoading, showToast, entity?._id as string)
+    if (res) {
+      getModifiedData()
+    }
+  }
 
   return (
     <Box>
@@ -196,6 +139,7 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
         maxWidth={'sm'}
+        maxHeight={900}
         open={open}
         sxProps={{
           [theme.breakpoints.up('lg')]: {
@@ -214,18 +158,43 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         }}
       >
         <ActionModal handleClose={handleClose} type={type} entityName='Country'>
-          {(type === TABLE_STATES.INACTIVE ||
-            type === TABLE_STATES.ACTIVE ||
-            type === TABLE_STATES.DELETE) && (
+          {type === TABLE_STATES.INACTIVE && (
             <SwitchDeleteModal
-              actionFnc={() => {}}
-              approvalTxt={type.charAt(0) + type.slice(1).toLowerCase()}
+              actionFnc={() => {
+                inactiveEntity()
+              }}
+              approvalTxt={'Active'}
+              handleClose={handleClose}
+              type={type}
+            />
+          )}
+          {type === TABLE_STATES.ACTIVE && (
+            <SwitchDeleteModal
+              actionFnc={() => {
+                inactiveEntity()
+              }}
+              approvalTxt={'InActive'}
+              handleClose={handleClose}
+              type={type}
+            />
+          )}
+          {type === TABLE_STATES.DELETE && (
+            <SwitchDeleteModal
+              actionFnc={() => {
+                deleteEntity()
+              }}
+              approvalTxt={'Delete'}
               handleClose={handleClose}
               type={type}
             />
           )}
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <DashboardForm handleClose={handleClose} />
+            <CountryForm
+              handleClose={handleClose}
+              type={type}
+              entity={entity as CountryData}
+              getModifiedData={getModifiedData}
+            />
           )}
         </ActionModal>
       </CustomDialog>
