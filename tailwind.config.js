@@ -17,7 +17,7 @@ export default {
         light: '#0a3876',
         dark: '#0a3876',
       },
-      darkBlue: {
+      midBlue: {
         main: '#d8dae8',
         light: '#d8dae8',
         dark: '#d8dae8',
