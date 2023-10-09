@@ -134,6 +134,7 @@ const StateList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
         maxWidth={'sm'}
+        maxHeight={900}
         open={open}
         sxProps={{
           [theme.breakpoints.up('lg')]: {

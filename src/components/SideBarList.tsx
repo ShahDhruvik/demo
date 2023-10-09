@@ -96,10 +96,7 @@ const SideBarList = ({ open, setOpen }: Props) => {
             <List
               disablePadding
               sx={{
-                bgcolor:
-                  x.mainListName === selected
-                    ? theme.palette.mDarkBlue?.main
-                    : theme.palette.mLightGray?.main,
+                bgcolor: x.mainListName === selected ? '#434655' : theme.palette.mLightGray?.main,
                 borderRadius: '7px',
                 boxShadow: x.mainListName === selected ? '' : box_Shadow_out,
                 color: x.mainListName === selected ? theme.palette.mWhite?.main : '',
@@ -175,8 +172,9 @@ const SideBarList = ({ open, setOpen }: Props) => {
                           key={sub.id}
                           sx={{
                             backgroundColor:
-                              sub.txt === subSelected ? '#b3005c' : theme.palette.mLightGray?.main,
-                            boxShadow: box_Shadow_out,
+                              sub.txt === subSelected ? theme.palette.mLightGray?.main : '',
+                            boxShadow: sub.txt === subSelected ? box_Shadow_out : '',
+                            borderRadius: sub.txt === subSelected ? '7px' : '',
                           }}
                         >
                           <ListItem disablePadding divider>
@@ -207,7 +205,9 @@ const SideBarList = ({ open, setOpen }: Props) => {
                                     width: 20,
                                     height: 20,
                                     fill:
-                                      sub.txt === subSelected ? theme.palette?.mWhite?.main : '',
+                                      sub.txt === subSelected
+                                        ? theme.palette?.mBlack?.main
+                                        : theme.palette.mWhite?.main,
                                   }}
                                 />
                               </ListItemIcon>
@@ -216,8 +216,8 @@ const SideBarList = ({ open, setOpen }: Props) => {
                                 sx={{
                                   color:
                                     sub.txt === subSelected
-                                      ? theme.palette?.mWhite?.main
-                                      : theme.palette.mBlack?.main,
+                                      ? theme.palette.mBlack?.main
+                                      : theme.palette?.mWhite?.main,
                                 }}
                               />
                             </ListItemButton>
@@ -237,10 +237,7 @@ const SideBarList = ({ open, setOpen }: Props) => {
             return (
               <List
                 sx={{
-                  bgcolor:
-                    x.mainListName === selected
-                      ? theme.palette.mDarkBlue?.main
-                      : theme.palette.mLightGray?.main,
+                  bgcolor: x.mainListName === selected ? '#434655' : theme.palette.mLightGray?.main,
                   borderRadius: '7px',
                   boxShadow: x.mainListName === selected ? '' : box_Shadow_out,
                 }}
@@ -256,6 +253,7 @@ const SideBarList = ({ open, setOpen }: Props) => {
                     onClick={() => {
                       if (x.isSingle) {
                         nav(x.mainPath)
+                        setSelected(x.mainListName)
                       } else {
                         setSelected(x.mainListName)
                         setOpen(true)

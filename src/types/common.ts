@@ -107,6 +107,7 @@ export type SearchBooleanDDL = { label: string | boolean, _id: string }
 export type SidebarNames =
     | SIDEBAR_NAMES.MASTER
     | SIDEBAR_NAMES.LOCATION
+    | SIDEBAR_NAMES.PACKAGE
     | undefined
 
 export type SidebarSubListNames =

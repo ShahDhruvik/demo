@@ -9,11 +9,11 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import PincodeForm from './pincodeForm'
+import PackageForm from './packageForm'
 import { theme } from '@/context/ThemeProvider'
 import { CountryData } from '@/types/location'
 import { deleteCity, getCity, inactiveCity } from '@/lib/City'
-import { deletePincode, getPincode, inactivePincode } from '@/lib/Pincode'
+import { getPincode } from '@/lib/Pincode'
 
 type Props = {
   handleOpen: () => void
@@ -23,7 +23,7 @@ type Props = {
   handleClose: () => void
 }
 
-const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
+const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -93,7 +93,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   // Inactive and Delete entity
   const inactiveEntity = async () => {
     handleClose()
-    const res = await inactivePincode(
+    const res = await inactiveCity(
       setLoading,
       showToast,
       entity?._id as string,
@@ -105,7 +105,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   }
   const deleteEntity = async () => {
     handleClose()
-    const res = await deletePincode(setLoading, showToast, entity?._id as string)
+    const res = await deleteCity(setLoading, showToast, entity?._id as string)
     if (res) {
       getModifiedData()
     }
@@ -123,8 +123,8 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.PINCODE, tableName: 'Pincode' }}
-        notFound={notFound.includes(TABLES.PINCODE)}
+        tableHeading={{ tableId: TABLES.PACKAGE, tableName: 'Package' }}
+        notFound={notFound.includes(TABLES.PACKAGE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
       <CustomDialog
@@ -132,6 +132,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
         maxWidth={'sm'}
+        maxHeight={900}
         open={open}
         sxProps={{
           [theme.breakpoints.up('lg')]: {
@@ -149,7 +150,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
           padding: '0px 0px 24px 0px',
         }}
       >
-        <ActionModal handleClose={handleClose} type={type} entityName='Pincode'>
+        <ActionModal handleClose={handleClose} type={type} entityName='Package'>
           {type === TABLE_STATES.INACTIVE && (
             <SwitchDeleteModal
               actionFnc={() => {
@@ -181,7 +182,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
             />
           )}
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <PincodeForm
+            <PackageForm
               handleClose={handleClose}
               type={type}
               entity={entity as CountryData}
@@ -194,4 +195,4 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   )
 }
 
-export default PincodeList
+export default PackageList

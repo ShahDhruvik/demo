@@ -81,6 +81,7 @@ export const DateInput = ({
                 placeholder: `Select ${label}`,
                 disabled: isDisabled ?? false,
                 sx: inputStyleProps,
+                label: label,
               },
               actionBar: {
                 actions: ['clear'],

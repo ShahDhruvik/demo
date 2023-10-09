@@ -117,8 +117,8 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
       reset({
         name: entity.name,
         shortName: entity.shortName,
-        stateId: { label: entity.stateId, _id: entity.state },
-        countryId: { label: entity.countryId, _id: entity.country },
+        stateId: { label: entity.state, _id: entity.stateId },
+        countryId: { label: entity.country, _id: entity.countryId },
         pinCodes: [],
       })
     } else {
@@ -134,7 +134,7 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   }, [open])
   return (
     <form onSubmit={handleSubmit(onSubmitHandle)}>
-      <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
+      <div className='px-5 grid grid-cols-auto-fit gap-5 mb-5'>
         <SelectInput
           clearErrors={clearErrors}
           control={control}
@@ -153,12 +153,12 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
         <SelectInput
           clearErrors={clearErrors}
           control={control}
-          label='Country'
+          label='State'
           name='stateId'
           options={states as SearchDDL[]}
           setError={setError}
           setValue={setValue}
-          validation={searchSelectValidation('Country')}
+          validation={searchSelectValidation('State')}
         />
         <TxtInput
           control={control}
@@ -166,6 +166,7 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           name='name'
           placeholder='Enter name'
           validation={txtFieldValidation(true)}
+          label='Name'
         />
         <TxtInput
           control={control}
@@ -173,11 +174,12 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           name='shortName'
           placeholder='Enter short name'
           validation={txtFieldValidation(true)}
+          label='Short Name'
         />
       </div>
       {type === TABLE_STATES.ADD && (
         <div>
-          <div className='px-5 flex items-center justify-between  gap-3 mb-3'>
+          <div className='px-5 flex items-center justify-between  gap-5 mb-3'>
             <h1 className='text-xl font-semibold'>Pincodes</h1>
             <Button
               color='mPink'
@@ -193,11 +195,11 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
             sx={{
               border: '1px solid',
               borderColor: theme.palette.mPink?.main,
-              marginBottom: '12px',
+              marginBottom: '20px',
               mx: '10px',
             }}
           />
-          <div className='px-5 grid  gap-3 mb-5'>
+          <div className='px-5 grid  gap-5 mb-5'>
             {fields.map((x, i) => {
               return (
                 <div className='flex items-center gap-10 ' key={x.id}>
@@ -210,6 +212,7 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
                     sx={{
                       flexGrow: 1,
                     }}
+                    label='Value'
                   />
                   <CheckInput
                     control={control}

@@ -18,13 +18,18 @@ const ActionModal = ({ handleClose, type, children, entityName }: Props) => {
     <>
       <Box
         marginBottom={4}
+        position={'sticky'}
+        top={0}
+        zIndex={10}
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
         sx={{
-          backgroundColor: 'rgba(52, 65, 163, 0.15) ',
+          backgroundColor: theme.palette.mMidBlue?.main,
           borderTopRightRadius: '7px',
           borderTopLeftRadius: '7px',
+          boxShadow:
+            'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px',
         }}
         pl={2}
       >

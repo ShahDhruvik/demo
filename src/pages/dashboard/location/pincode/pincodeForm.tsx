@@ -23,6 +23,7 @@ import SelectInput from '@/components/SelectInput'
 import { dropdownState } from '@/lib/State'
 import { createCity, dropdownCity, editCity } from '@/lib/City'
 import CheckInput from '@/components/CheckInput'
+import { createPincode, editPincode } from '@/lib/Pincode'
 
 type Props = {
   handleClose: () => void
@@ -31,7 +32,7 @@ type Props = {
   getModifiedData: () => void
 }
 
-const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
+const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   //states
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -55,22 +56,22 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
     handleClose()
     switch (type) {
       case TABLE_STATES.ADD:
-        // const res = await createCity(setLoading, showToast, data)
-        // if (res) {
-        //   reset()
-        //   getModifiedData()
-        // } else {
-        //   reset()
-        // }
+        const res = await createPincode(setLoading, showToast, data)
+        if (res) {
+          reset()
+          getModifiedData()
+        } else {
+          reset()
+        }
         break
       case TABLE_STATES.EDIT:
-        // const resp = await editCity(setLoading, showToast, data, entity._id)
-        // if (resp) {
-        //   reset()
-        //   getModifiedData()
-        // } else {
-        //   reset()
-        // }
+        const resp = await editPincode(setLoading, showToast, data, entity._id)
+        if (resp) {
+          reset()
+          getModifiedData()
+        } else {
+          reset()
+        }
         break
       default:
         break
@@ -132,9 +133,9 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
       reset({
         value: entity.value,
         isAvailable: entity.isAvailable,
-        stateId: { label: entity.stateId, _id: entity.state },
-        countryId: { label: entity.countryId, _id: entity.country },
-        cityId: { label: entity.cityId, _id: entity.city },
+        stateId: { label: entity.state, _id: entity.stateId },
+        countryId: { label: entity.country, _id: entity.countryId },
+        cityId: { label: entity.city, _id: entity.cityId },
       })
     } else {
       reset()
@@ -149,7 +150,7 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   }, [open])
   return (
     <form onSubmit={handleSubmit(onSubmitHandle)}>
-      <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
+      <div className='px-5 grid grid-cols-auto-fit gap-5 mb-5'>
         <SelectInput
           clearErrors={clearErrors}
           control={control}
@@ -195,6 +196,7 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           handleChange={() => {}}
           name={`value`}
           placeholder='Enter pincode'
+          label='Pincode'
           validation={numberFieldValidation(true, undefined, 'Pincode')}
         />
         <CheckInput control={control} name='isAvailable' label='available' />
@@ -211,4 +213,4 @@ const CityForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   )
 }
 
-export default CityForm
+export default PincodeForm

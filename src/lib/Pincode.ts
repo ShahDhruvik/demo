@@ -104,8 +104,11 @@ const inactivePincode = async (
         }
         return res.data.success;
     } catch (error: any) {
-        console.log(error);
-        toast('error', error.message);
+        if (error.response.status === 400) {
+            toast('info', error.response.statusText);
+        } else {
+            toast('error', error.response.statusText);
+        }
     } finally {
         loading({ isLoading: true, isPage: false })
     }
@@ -119,7 +122,7 @@ const deletePincode = async (
         loading({ isLoading: true, isPage: false })
         const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${PINCODE_PATH.DELETE}/${id}`);
         if (res.data.success) {
-            toast('success', COMMON_MESSAGE.Inactived);
+            toast('success', COMMON_MESSAGE.Deleted);
         }
         return res.data.success;
     } catch (error: any) {

@@ -167,6 +167,7 @@ input[type='number'] {
     rgb(204, 219, 232) 3px 3px 6px 0px inset,
     rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   border-radius: 10px;
+  background: rgba(52, 65, 163, 0.5);
 }
 
 /* Handle */
@@ -189,5 +190,10 @@ input[type='number'] {
 .svgBlue {
   & > path {
     fill: rgba(52, 65, 163, 0.7);
+  }
+}
+.svgWhite {
+  & > path {
+    fill: white;
   }
 }

@@ -9,6 +9,7 @@ type Props = {
   isDisabled?: boolean
   sx?: SxProps<Theme>
   multiline?: number
+  label: string
 }
 
 const TxtInput = ({
@@ -20,6 +21,7 @@ const TxtInput = ({
   isDisabled,
   sx,
   multiline,
+  label,
 }: Props) => {
   const inputStyleProps: SxProps<Theme> = { ...sx, width: '100%' }
   return (
@@ -42,6 +44,8 @@ const TxtInput = ({
             sx={inputStyleProps}
             multiline={multiline ? true : false}
             minRows={multiline ?? 0}
+            InputLabelProps={{ shrink: true }}
+            label={label}
           />
         )
       }}

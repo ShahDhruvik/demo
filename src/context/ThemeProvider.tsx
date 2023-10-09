@@ -20,6 +20,9 @@ declare module '@mui/material/styles' {
     mDarkBlue?: PaletteColor
   }
   interface Palette {
+    mMidBlue?: PaletteColor
+  }
+  interface Palette {
     mBlue?: PaletteColor
   }
   interface Palette {
@@ -63,6 +66,9 @@ declare module '@mui/material/styles' {
   }
   interface PaletteOptions {
     mDarkBlue?: PaletteColor
+  }
+  interface PaletteOptions {
+    mMidBlue?: PaletteColor
   }
   interface PaletteOptions {
     mBlue?: PaletteColor
@@ -143,6 +149,11 @@ export const theme: Theme = createTheme({
       main: '#0a3876',
       light: '#0a3876',
       dark: '#0a3876',
+    },
+    mMidBlue: {
+      main: '#d8dae8',
+      light: '#d8dae8',
+      dark: '#d8dae8',
     },
     mBlue: {
       main: '#00a1f1',
@@ -244,6 +255,20 @@ export const theme: Theme = createTheme({
       },
     },
     MuiInputBase: {},
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            color: 'black',
+            fontWeight: 700,
+          },
+          '&.Mui-error': {
+            color: '#de605d',
+            fontWeight: 700,
+          },
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -251,10 +276,13 @@ export const theme: Theme = createTheme({
             '& .MuiOutlinedInput-notchedOutline': {
               border: `2px solid black`,
             },
+            '& .MuiFormLabel-root.MuiInputLabel-root': {
+              color: 'black', // Change the color to your desired color
+            },
           },
           '&.Mui-error': {
             '& .MuiOutlinedInput-notchedOutline': {
-              border: `2px solid #e20074`,
+              border: `2px solid #de605d`,
             },
           },
           '&.Mui-hover': {
@@ -262,6 +290,7 @@ export const theme: Theme = createTheme({
               border: `1px solid black`,
             },
           },
+
           borderRadius: '8px',
         },
         input: {
@@ -279,6 +308,10 @@ export const theme: Theme = createTheme({
           '.MuiOutlinedInput-root': {
             padding: '0px 5px',
           },
+        },
+        popper: {
+          boxShadow:
+            '0px 2px 4px rgba(0, 0, 0, 0.4), 0px 7px 13px -3px rgba(0, 0, 0, 0.3), inset 0px -3px 0px rgba(0, 0, 0, 0.2)',
         },
       },
     },

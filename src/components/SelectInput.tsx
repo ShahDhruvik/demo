@@ -135,6 +135,8 @@ const SelectInput = ({
                 error={fieldState.invalid}
                 placeholder={`Select ${label}`}
                 helperText={fieldState.error ? fieldState.error.message : ''}
+                label={label}
+                InputLabelProps={{ shrink: true }}
               />
             )
           }}

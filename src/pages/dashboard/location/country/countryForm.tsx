@@ -87,13 +87,14 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   }, [open])
   return (
     <form onSubmit={handleSubmit(onSubmitHandle)}>
-      <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
+      <div className='px-5 grid grid-cols-auto-fit gap-5 mb-5'>
         <TxtInput
           control={control}
           handleChange={() => {}}
           name='name'
           placeholder='Enter name'
           validation={txtFieldValidation(true)}
+          label='Name'
         />
         <TxtInput
           control={control}
@@ -101,6 +102,7 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           name='shortName'
           placeholder='Enter short name'
           validation={txtFieldValidation(true)}
+          label='Short name'
         />
         <TxtInput
           control={control}
@@ -108,6 +110,7 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           name='isoCode'
           placeholder='Enter iso code'
           validation={txtFieldValidation(true)}
+          label='ISO code'
         />
         <NumInput
           control={control}
@@ -115,11 +118,12 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           name='code'
           placeholder='Enter code'
           validation={numberFieldValidation(true)}
+          label='Code'
         />
       </div>
       {type === TABLE_STATES.ADD && (
         <div>
-          <div className='px-5 flex items-center justify-between  gap-3 mb-3'>
+          <div className='px-5 flex items-center justify-between  gap-5 mb-3'>
             <h1 className='text-xl font-semibold'>States</h1>
             <Button
               color='mPink'
@@ -135,11 +139,11 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
             sx={{
               border: '1px solid',
               borderColor: theme.palette.mPink?.main,
-              marginBottom: '12px',
+              marginBottom: '20px',
               mx: '10px',
             }}
           />
-          <div className='px-5 grid  gap-3 mb-5'>
+          <div className='px-5 grid  gap-5 mb-5'>
             {fields.map((x, i) => {
               return (
                 <div className='flex items-center gap-3 ' key={x.id}>
@@ -152,6 +156,7 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
                     sx={{
                       flexGrow: 0.5,
                     }}
+                    label='Name'
                   />
                   <TxtInput
                     control={control}
@@ -162,6 +167,7 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
                     sx={{
                       flexGrow: 0.5,
                     }}
+                    label='Short Name'
                   />
                   <Button
                     color='mPink'

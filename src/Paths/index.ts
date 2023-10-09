@@ -12,6 +12,7 @@ export const enum DASHBOARD_PATH {
   MASTER = '/',
   ABOUT = '/about/*',
   LOCATION = '/location/*',
+  PACKAGE = '/packages/*',
 }
 
 export const enum AUTH_PATH {

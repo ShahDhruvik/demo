@@ -59,7 +59,7 @@ export const enum TABLES {
   STATE = 'STATE',
   CITY = 'CITY',
   PINCODE = 'PINCODE',
-
+  PACKAGE = 'PACKAGE',
 }
 
 export const formatDate = (dateString: string) => {
@@ -110,6 +110,7 @@ export const enum TABLE_STATES {
 export const enum SIDEBAR_NAMES {
   MASTER = 'Master',
   LOCATION = 'Location',
+  PACKAGE = 'Package',
 }
 export const enum SIDEBAR_SUBLIST_NAMES {
   COUNTRY = 'Country',
@@ -160,5 +161,13 @@ export const sidebarItems: SideBarItems[] = [
     ],
     isSingle: false,
     mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
+  },
+  {
+    id: 2,
+    mainListName: SIDEBAR_NAMES.PACKAGE,
+    mainImage: 'package',
+    subList: [],
+    isSingle: true,
+    mainPath: `${DASHBOARD_PATH.PACKAGE.split('/*')[0]}`,
   },
 ]

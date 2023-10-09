@@ -4,6 +4,7 @@ import { DASHBOARD_PATH } from '@/paths/index'
 import DashBoardLayout from './container/dashboardLayout'
 import DashPage from './container/page'
 import LocationRoutes from './location/route'
+import PackageRoutes from './packages/route'
 
 interface Props {}
 
@@ -19,6 +20,7 @@ const DashboardRoute = ({}: Props) => {
       >
         <Route path={DASHBOARD_PATH.MASTER} element={<DashPage />} />
         <Route path={DASHBOARD_PATH.LOCATION} element={<LocationRoutes />} />
+        <Route path={DASHBOARD_PATH.PACKAGE} element={<PackageRoutes />} />
       </Route>
     </RouteWrapper>
   )

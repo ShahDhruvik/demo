@@ -72,7 +72,7 @@ export const numberFieldValidation = (isRequired: boolean, length?: number, type
                 minLength: { value: 1, message: 'Atleast 1 digits are required' },
                 maxLength: {
                     value: length ?? 20,
-                    message: `Exact ${length ?? 20} digits are required`,
+                    message: `Atmost ${length ?? 20} digits are required`,
                 },
                 min: { value: 1, message: 'Must be greater than 0' },
             };

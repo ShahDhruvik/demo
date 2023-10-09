@@ -8,7 +8,7 @@ type Props = {
   validation: any
   isDisabled?: boolean
   sx?: SxProps<Theme>
-  multiline?: number
+  label: string
 }
 
 const NumInput = ({
@@ -19,7 +19,7 @@ const NumInput = ({
   validation,
   isDisabled,
   sx,
-  multiline,
+  label,
 }: Props) => {
   const inputStyleProps: SxProps<Theme> = { ...sx, width: '100%' }
   return (
@@ -35,14 +35,16 @@ const NumInput = ({
               onChange(e)
               handleChange()
             }}
+            label={label}
+            InputLabelProps={{ shrink: true }}
             placeholder={placeholder}
             error={fieldState.invalid}
             helperText={fieldState.error?.message || ''}
             disabled={isDisabled ?? false}
             sx={inputStyleProps}
-            multiline={multiline ? true : false}
-            minRows={multiline ?? 0}
-            type='number'
+            inputProps={{
+              type: 'number',
+            }}
           />
         )
       }}
