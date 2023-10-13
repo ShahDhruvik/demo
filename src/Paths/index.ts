@@ -10,9 +10,11 @@ export const enum COMMON_PATH {
 
 export const enum DASHBOARD_PATH {
   MASTER = '/',
-  ABOUT = '/about/*',
   LOCATION = '/location/*',
   PACKAGE = '/packages/*',
+  FAQ = '/faq/*',
+  BANNER_SLIDER = '/banner-slider/*',
+  QUESTION_ANSWER = '/question-answer/*',
 }
 
 export const enum AUTH_PATH {
@@ -31,3 +33,4 @@ export const enum LOCATION_PATH {
   CITY = '/city',
   PINCODE = '/pincode',
 }
+

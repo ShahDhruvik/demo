@@ -12,26 +12,26 @@
     "noEmit": true,
     "jsx": "react-jsx",
     //linting
-    "strict": true,
+    // "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["vite/client","vite-plugin-svgr/client"],
+    "types": ["vite/client", "vite-plugin-svgr/client"],
 
-     //Paths
-     "baseUrl": ".",
-     "paths": {
-       "@/assets/*": ["./src/assets/*"],
-       "@/components/*": ["./src/components/*"],
-       "@/context/*": ["./src/context/*"],
-       "@/hooks/*": ["./src/hooks/*"],
-       "@/lib/*": ["./src/lib/*"],
-       "@/middleware/*": ["./src/middleware/*"],
-       "@/pages/*": ["./src/pages/*"],
-       "@/paths/*": ["src/paths/*"],
-       "@/store/*": ["./src/store/*"],
-       "@/types/*": ["./src/types/*"],
-       "@/utils/*": ["./src/utils/*"],
-       "@/styles/*": ["./src/styles/*"],
-     },
+    //Paths
+    "baseUrl": ".",
+    "paths": {
+      "@/assets/*": ["./src/assets/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/context/*": ["./src/context/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/middleware/*": ["./src/middleware/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/paths/*": ["src/paths/*"],
+      "@/store/*": ["./src/store/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/styles/*": ["./src/styles/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

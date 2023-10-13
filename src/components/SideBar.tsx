@@ -2,12 +2,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { CustomSideBar } from './MuiStyledComponents'
 import { theme } from '@/context/ThemeProvider'
 import FetchSvg from './fetchSvg'
-import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import logo from '@/assets/images/logo.png'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH } from '../paths'
-import { SidebarNames } from '@/types/common'
-import { sidebarItems } from '@/utils/constants'
+
 import SideBarList from './SideBarList'
 type Props = {
   open: boolean

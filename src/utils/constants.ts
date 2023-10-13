@@ -1,12 +1,10 @@
 import { HeadCell, SideBarItems } from "@/types/common";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, } from "../paths";
+import { COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, } from "../paths";
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
-
-
 
 export const enum ROLES {
   ADMIN = 'ADMIN',
@@ -34,13 +32,13 @@ export const enum ALIGN_DIALOG {
 }
 
 export const splitDescription = (description: string, length?: number) => {
-  const maxCharac = length ? length : 15;
+  const maxCharac = length ? length : 15
   if (description.length > maxCharac) {
-    return description.slice(0, maxCharac).concat('...');
+    return description.slice(0, maxCharac).concat('...')
   } else {
-    return description;
+    return description
   }
-};
+}
 
 export const drawerWidth = 260
 
@@ -52,7 +50,8 @@ export const enum DASHBOARDTYPE {
   EXECUTE = 'EXECUTE',
 }
 export const enum HEADERBTNS {
-  CREATE = 'CREATE'
+  CREATE = 'CREATE',
+  VIEW = 'VIEW',
 }
 export const enum TABLES {
   COUNTRY = 'COUNTRY',
@@ -60,57 +59,61 @@ export const enum TABLES {
   CITY = 'CITY',
   PINCODE = 'PINCODE',
   PACKAGE = 'PACKAGE',
+  FAQ = 'FAQ',
+  BANNER_SLIDER = 'BANNER_SLIDER',
+  QUESTION_ANSWER = 'QUESTION_ANSWER',
 }
 
 export const formatDate = (dateString: string) => {
   if (typeof dateString === 'string') {
-    const parsedDate = parseISO(dateString);
-    const formattedDate = format(parsedDate, "dd MMMM',' yyyy", { locale: enUS });
-    return formattedDate;
+    const parsedDate = parseISO(dateString)
+    const formattedDate = format(parsedDate, "dd MMMM',' yyyy", { locale: enUS })
+    return formattedDate
   } else {
     return ''
   }
-};
+}
 export const limitOfPage = 10
 export const sortTableRowsByHeadCells = (tableRow: any[], headCell: HeadCell[]) => {
-  const sortedTableRows: any = [];
+  const sortedTableRows: any = []
   headCell.map((cell) => {
-    const matchingRow = tableRow.find((row) => row === cell.id);
+    const matchingRow = tableRow.find((row) => row === cell.id)
     if (matchingRow) {
-      sortedTableRows.push(cell);
+      sortedTableRows.push(cell)
     } else {
       sortedTableRows.push(cell)
     }
-  });
-  return sortedTableRows;
-};
-
+  })
+  return sortedTableRows
+}
 
 export const enum ACTIONS_TABLE {
-  ADD = "ADD",
-  EDIT = "EDIT",
-  DELETE = "DELETE",
-  SWITCH = "SWITCH",
-  MAP = "MAP",
-  VIEW = "VIEW",
-  DASHBOARDEDIT = "DASHBOARDEDIT",
+  ADD = 'ADD',
+  EDIT = 'EDIT',
+  DELETE = 'DELETE',
+  SWITCH = 'SWITCH',
+  MAP = 'MAP',
+  VIEW = 'VIEW',
+  DASHBOARDEDIT = 'DASHBOARDEDIT',
 }
 export const enum TABLE_STATES {
-  ADD = "ADD",
-  EDIT = "EDIT",
-  DELETE = "DELETE",
-  INACTIVE = "INACTIVE",
-  ACTIVE = "ACTIVE",
-  VIEW = "VIEW",
-  MAP = "MAP",
-  DASHBOARDEDIT = "DASHBOARDEDIT",
-
+  ADD = 'ADD',
+  EDIT = 'EDIT',
+  DELETE = 'DELETE',
+  INACTIVE = 'INACTIVE',
+  ACTIVE = 'ACTIVE',
+  VIEW = 'VIEW',
+  MAP = 'MAP',
+  DASHBOARDEDIT = 'DASHBOARDEDIT',
 }
 
 export const enum SIDEBAR_NAMES {
   MASTER = 'Master',
   LOCATION = 'Location',
   PACKAGE = 'Package',
+  FAQ = 'FAQ',
+  BANNER_SLIDER = 'Banner Slider',
+  QUESTION_ANSWER = 'Question Answer',
 }
 export const enum SIDEBAR_SUBLIST_NAMES {
   COUNTRY = 'Country',
@@ -118,6 +121,7 @@ export const enum SIDEBAR_SUBLIST_NAMES {
   CITY = 'City',
   PINCODE = 'Pincode',
   PROFILE = 'Profile',
+
 }
 
 export const sidebarItems: SideBarItems[] = [
@@ -169,5 +173,29 @@ export const sidebarItems: SideBarItems[] = [
     subList: [],
     isSingle: true,
     mainPath: `${DASHBOARD_PATH.PACKAGE.split('/*')[0]}`,
+  },
+  {
+    id: 3,
+    mainListName: SIDEBAR_NAMES.FAQ,
+    mainImage: 'faq',
+    subList: [],
+    isSingle: true,
+    mainPath: `${DASHBOARD_PATH.FAQ.split('/*')[0]}`,
+  },
+  {
+    id: 4,
+    mainListName: SIDEBAR_NAMES.BANNER_SLIDER,
+    mainImage: 'slider',
+    subList: [],
+    isSingle: true,
+    mainPath: `${DASHBOARD_PATH.BANNER_SLIDER.split('/*')[0]}`,
+  },
+  {
+    id: 5,
+    mainListName: SIDEBAR_NAMES.QUESTION_ANSWER,
+    mainImage: 'qna',
+    subList: [],
+    isSingle: true,
+    mainPath: `${DASHBOARD_PATH.QUESTION_ANSWER.split('/*')[0]}`,
   },
 ]

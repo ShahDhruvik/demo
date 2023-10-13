@@ -187,7 +187,7 @@ input[type='number'] {
   }
 }
 
-.svgBlue {
+.svgPink {
   & > path {
     fill: rgba(52, 65, 163, 0.7);
   }
@@ -195,5 +195,11 @@ input[type='number'] {
 .svgWhite {
   & > path {
     fill: white;
+  }
+}
+
+.svgBlack {
+  & > path {
+    fill: #ffffff;
   }
 }

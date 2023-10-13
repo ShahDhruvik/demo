@@ -133,6 +133,12 @@ const CustomTable = ({
       limitPerPage: pageLimit,
       currentPage: 1,
     })
+
+  const view = () => {
+    setType(TABLE_STATES.VIEW)
+    setEntity(undefined)
+    handleOpen()
+  }
   return (
     <Paper sx={{ width: '100%', borderRadius: '10px' }} elevation={3}>
       <TableHeaderControls
@@ -142,6 +148,7 @@ const CustomTable = ({
         tabs={tabs}
         btnTxtArray={btnTxtArray}
         selectedRows={selectedRows as any[]}
+        clickView={view}
       />
       <TableContainer
         sx={{
