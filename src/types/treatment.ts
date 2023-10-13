@@ -1,20 +1,11 @@
 import { SearchDDL } from './common'
 
-export type PackageFields = {
+export type TreatmentFields = {
     title: string
-    price: string
-    discount: string
-    tag: string[]
-    description: string
-    isParent: boolean
-    isPremium: boolean
-    isInternal: boolean
-    points: string[]
-    packageImage: File | null
     packages: SearchDDL[]
 }
 
-export type PackageData = {
+export type TreatmentData = {
     _id: string
     title: string
     discount: string

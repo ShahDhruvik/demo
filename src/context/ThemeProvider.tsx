@@ -302,6 +302,15 @@ export const theme: Theme = createTheme({
         },
       },
     },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          '&.Mui-checked': {
+            color: '#e20074',
+          },
+        },
+      },
+    },
     MuiAutocomplete: {
       styleOverrides: {
         root: {
@@ -318,6 +327,16 @@ export const theme: Theme = createTheme({
     MuiTextField: {
       defaultProps: {
         variant: 'outlined',
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            color: '#000000',
+            fontWeight: 500,
+          },
+        },
       },
     },
     MuiListItemButton: {

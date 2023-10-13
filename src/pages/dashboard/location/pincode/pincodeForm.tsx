@@ -4,7 +4,7 @@ import TxtInput from '@/components/TxtInput'
 import FetchSvg from '@/components/fetchSvg'
 import { useEffect } from 'react'
 import { theme } from '@/context/ThemeProvider'
-import { SearchDDL, TableStates } from '@/types/common'
+import { Languages, SearchDDL, TableStates } from '@/types/common'
 import { TABLE_STATES } from '@/utils/constants'
 import {
   acDefaultValue,
@@ -24,6 +24,7 @@ import { dropdownState } from '@/lib/State'
 import { createCity, dropdownCity, editCity } from '@/lib/City'
 import CheckInput from '@/components/CheckInput'
 import { createPincode, editPincode } from '@/lib/Pincode'
+import { dropdownLanguage } from '@/lib/language'
 
 type Props = {
   handleClose: () => void
@@ -39,6 +40,7 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   const [countries, setCountries] = useState<SearchDDL[]>([])
   const [states, setStates] = useState<SearchDDL[]>([])
   const [cities, setCities] = useState<SearchDDL[]>([])
+  const [languages, setLanguages] = useState<SearchDDL[]>([])
 
   //form
   const { control, handleSubmit, formState, reset, watch, clearErrors, setError, setValue } =
@@ -49,6 +51,9 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
         stateId: acDefaultValue,
         countryId: acDefaultValue,
         cityId: acDefaultValue,
+        primaryLan: acDefaultValue,
+        secondaryLan: acDefaultValue,
+        thirdLan: acDefaultValue,
       } as PincodeFields,
     })
   const { isSubmitting } = formState
@@ -117,8 +122,18 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
       setCities([])
     }
   }
+  const getLanguages = async () => {
+    const data = (await dropdownLanguage(setLoading, showToast)) as Languages[]
+    const lan: SearchDDL[] = [acDefaultValue]
+    data.map((x) => {
+      const lanItem: SearchDDL = { label: `${x.label}`, _id: x._id }
+      lan.push(lanItem)
+    })
+    setLanguages(lan)
+  }
   useEffect(() => {
     getCountries()
+    getLanguages()
   }, [])
   useEffect(() => {
     getStates(conWatch._id)
@@ -136,6 +151,9 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
         stateId: { label: entity.state, _id: entity.stateId },
         countryId: { label: entity.country, _id: entity.countryId },
         cityId: { label: entity.city, _id: entity.cityId },
+        primaryLan: {},
+        secondaryLan: {},
+        thirdLan: {},
       })
     } else {
       reset()
@@ -169,7 +187,7 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
         <SelectInput
           clearErrors={clearErrors}
           control={control}
-          label='Country'
+          label='State'
           name='stateId'
           options={states as SearchDDL[]}
           setError={setError}
@@ -198,6 +216,38 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           placeholder='Enter pincode'
           label='Pincode'
           validation={numberFieldValidation(true, undefined, 'Pincode')}
+        />
+        <SelectInput
+          clearErrors={clearErrors}
+          control={control}
+          label='Primary currency*'
+          name='primaryLan'
+          options={languages}
+          setError={setError}
+          setValue={setValue}
+          validation={searchSelectValidation('Primary language')}
+        />
+        <SelectInput
+          clearErrors={clearErrors}
+          control={control}
+          label='Secondary currency'
+          name='secondaryLan'
+          options={languages}
+          setError={setError}
+          setValue={setValue}
+          validation={{}}
+          notRequired={true}
+        />
+        <SelectInput
+          clearErrors={clearErrors}
+          control={control}
+          label='Secondary currency'
+          name='thirdLan'
+          options={languages}
+          setError={setError}
+          setValue={setValue}
+          validation={{}}
+          notRequired={true}
         />
         <CheckInput control={control} name='isAvailable' label='available' />
       </div>

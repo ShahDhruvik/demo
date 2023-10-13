@@ -1,9 +1,9 @@
 import { HandleControls, LoadingState, NotFoundState, ShowToastFunction, } from "@/types/common"
 import { CityFields } from "@/types/location"
 import { COMMON_MESSAGE } from "@/utils/commonMessages"
-import axiosInstance from '../../axiosInstance'
 import { CITY_PATH, DEF_PATHS } from "@/utils/endPoints"
 import { TABLES } from "@/utils/constants"
+import axiosInstance from "../axiosInstance"
 
 const createCity = async (
     loading: LoadingState['setLoading'],
@@ -102,6 +102,9 @@ const inactiveCity = async (
         const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${CITY_PATH.INACTIVE}/${id}`, { isActive: active });
         if (res.data.success) {
             toast('success', active ? COMMON_MESSAGE.Inactived : COMMON_MESSAGE.Activated);
+        } else {
+            toast('info', res.data.message);
+
         }
         return res.data.success;
     } catch (error: any) {

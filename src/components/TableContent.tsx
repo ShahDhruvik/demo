@@ -115,7 +115,7 @@ const TableContent = ({
                               display: 'inline-block',
                               fontWeight: '700',
                               fontSize: '16px',
-                              color: 'rgba(52, 65, 163, 0.7)',
+                              color: 'rgba(226, 0, 116, 0.7)',
                               marginRight: '10px',
                             }}
                             onClick={() => handleView(row)}
@@ -170,7 +170,7 @@ const TableContent = ({
                                 className:
                                   !row.isActive && actions.includes(ACTIONS_TABLE.SWITCH)
                                     ? ''
-                                    : 'svgBlue',
+                                    : 'svgPink',
                               }}
                             />
                           </IconButton>

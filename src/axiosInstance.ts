@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse, CancelTokenSource } from 'axios';
-import { VITE_APP_API_URL } from './src/utils/envVariables'
+import { VITE_APP_API_URL } from './utils/envVariables'
 
 //Cancel Token
 const _cancelTokenQueue = new Map<string, CancelTokenSource>();

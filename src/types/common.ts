@@ -1,8 +1,17 @@
 // All the common types are defined here
-import { ToastOptions } from 'react-toastify';
-import { SetStateAction, Dispatch, } from "react";
-import { ACTIONS_TABLE, ALIGN_DIALOG, DASHBOARDTYPE, HEADERBTNS, SIDEBAR_NAMES, SIDEBAR_SUBLIST_NAMES, TABLE_STATES, } from "../utils/constants";
-import { Theme } from "@mui/material";
+import { ToastOptions } from 'react-toastify'
+import { SetStateAction, Dispatch } from 'react'
+import {
+  ACTIONS_TABLE,
+  ALIGN_DIALOG,
+  DASHBOARDTYPE,
+  HEADERBTNS,
+  INFOBOXES,
+  SIDEBAR_NAMES,
+  SIDEBAR_SUBLIST_NAMES,
+  TABLE_STATES,
+} from '../utils/constants'
+import { Theme } from '@mui/material'
 // Other types regarding the individual entity will have separate file (ex: user.types.ts)
 export type PaletteColor = {
   light?: string
@@ -147,7 +156,7 @@ export type SearchBooleanDDL = { label: string | boolean; _id: string }
 export type SidebarNames =
   | SIDEBAR_NAMES.MASTER
   | SIDEBAR_NAMES.LOCATION
-  | SIDEBAR_NAMES.PACKAGE
+  | SIDEBAR_NAMES.TRIANA
   | SIDEBAR_NAMES.FAQ
   | SIDEBAR_NAMES.BANNER_SLIDER
   | SIDEBAR_NAMES.QUESTION_ANSWER
@@ -159,24 +168,53 @@ export type SidebarSubListNames =
   | SIDEBAR_SUBLIST_NAMES.PINCODE
   | SIDEBAR_SUBLIST_NAMES.STATE
   | SIDEBAR_SUBLIST_NAMES.PROFILE
+  | SIDEBAR_SUBLIST_NAMES.PACKAGE
+  | SIDEBAR_SUBLIST_NAMES.PLANS
+  | SIDEBAR_SUBLIST_NAMES.TNC
+  | SIDEBAR_SUBLIST_NAMES.COMPLIANCE
   | undefined
-
 
 export type SideBarItems = {
   id: number,
   mainListName: SidebarNames,
   mainImage: string,
-  subList: { id: number, iconName: string, txt: SidebarSubListNames, path: string }[],
+  subList: { id: number, txt: SidebarSubListNames, path: string }[],
   isSingle: boolean,
   mainPath: string,
 }
 
+export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI
+
+export type ToastType = 'success' | 'error' | 'warning' | 'info'
+
+export type ShowToastFunction = (type: ToastType, message: string, options?: ToastOptions) => void
 
 
-export type ToastType = 'success' | 'error' | 'warning' | 'info';
+export type Radios = { value: string; name: string }
+export type Currencies = {
+  _id: string
+  isActive: boolean
+  label: string
+  value: string
+}
+export type Languages = {
+  _id: string
+  isActive: boolean
+  label: string
+  value: string
+}
 
-export type ShowToastFunction = (
-  type: ToastType,
-  message: string,
-  options?: ToastOptions
-) => void;
+export enum TermsAndConditionNameEnum {
+  WebUser = 'WebUser',
+  Administration = 'Administration',
+  Employee = 'Employee',
+  MoneyBack = 'MoneyBack',
+  MobileUser = 'MobileUser',
+  Provider = 'Provider',
+  Clinic = 'Clinic',
+}
+
+export const tnCArray = Object.keys(TermsAndConditionNameEnum).map((key) => ({
+  label: key,
+  _id: key,
+}));

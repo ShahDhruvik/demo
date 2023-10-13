@@ -1,24 +1,21 @@
 import { HandleControls, LoadingState, NotFoundState, ShowToastFunction, } from "@/types/common"
-import { StateFields } from "@/types/location"
 import { COMMON_MESSAGE } from "@/utils/commonMessages"
-import { STATE_PATH, DEF_PATHS } from "@/utils/endPoints"
-import { TABLES } from "@/utils/constants"
+import { DEF_PATHS, TREATMENT_PATH } from "@/utils/endPoints"
+import { TABLES, } from "@/utils/constants"
+import { TreatmentFields } from "@/types/treatment"
 import axiosInstance from "../axiosInstance"
-
-const createState = async (
+const createTreatment = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
-    formData: StateFields,
+    formData: TreatmentFields,
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
         const data = {
-            name: formData.name,
-            shortName: formData.shortName,
-            cities: formData.cities,
-            countryId: formData.countryId._id
+            title: formData.title,
+            packages: formData.packages.map(x => { return x._id }),
         };
-        const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${STATE_PATH.CREATE}`, data);
+        const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${TREATMENT_PATH.CREATE}`, data);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Success);
             return res;
@@ -32,7 +29,8 @@ const createState = async (
         loading({ isLoading: false, isPage: false });
     }
 }
-const getState = async (
+
+const getTreatment = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
     notFound: NotFoundState['setNotFound'],
@@ -41,21 +39,21 @@ const getState = async (
 ) => {
     try {
         loading({ isLoading: true, isPage: false });
-        const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${STATE_PATH.GET}`, handleControls);
+        const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${TREATMENT_PATH.GET}`, handleControls);
         if (res.data.success) {
             if (res.data.data.records.length === 0) {
-                notFound([...notFoundArray, TABLES.STATE]);
+                notFound([...notFoundArray, TABLES.TREATMENT]);
             } else {
                 notFound([]);
             }
             return res.data.data;
         } else {
-            notFound([...notFoundArray, TABLES.STATE]);
+            notFound([...notFoundArray, TABLES.TREATMENT]);
         }
     } catch (error: any) {
         console.log(error);
         if (error.response.status === 404) {
-            notFound([...notFoundArray, TABLES.STATE]);
+            notFound([...notFoundArray, TABLES.TREATMENT]);
         } else {
             toast('error', error.response.statusText);
         }
@@ -63,20 +61,20 @@ const getState = async (
         loading({ isLoading: false, isPage: false });
     }
 };
-const editState = async (
+
+const editTreatment = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
-    formData: StateFields,
+    formData: TreatmentFields,
     id: string
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
         const data = {
-            name: formData.name,
-            shortName: formData.shortName,
-            countryId: formData.countryId._id
+            title: formData.title,
+            packages: formData.packages.map(x => { return x._id }),
         };
-        const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${STATE_PATH.EDIT}/${id}`, data);
+        const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${TREATMENT_PATH.EDIT}/${id}`, data);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Updated);
             return res;
@@ -90,7 +88,7 @@ const editState = async (
         loading({ isLoading: false, isPage: false });
     }
 }
-const inactiveState = async (
+const inactiveTreatment = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
     id: string,
@@ -98,12 +96,9 @@ const inactiveState = async (
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
-        const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${STATE_PATH.INACTIVE}/${id}`, { isActive: active });
+        const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${TREATMENT_PATH.INACTIVE}/${id}`, { isActive: active });
         if (res.data.success) {
             toast('success', active ? COMMON_MESSAGE.Inactived : COMMON_MESSAGE.Activated);
-        } else {
-            toast('info', res.data.message);
-
         }
         return res.data.success;
     } catch (error: any) {
@@ -117,14 +112,15 @@ const inactiveState = async (
         loading({ isLoading: false, isPage: false })
     }
 };
-const deleteState = async (
+
+const deleteTreatment = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
     id: string,
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
-        const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${STATE_PATH.DELETE}/${id}`);
+        const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${TREATMENT_PATH.DELETE}/${id}`);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Deleted);
         }
@@ -136,14 +132,16 @@ const deleteState = async (
         loading({ isLoading: true, isPage: false })
     }
 };
-const dropdownState = async (
+const dropdownTreatment = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
-    countryId: string
+    type: string
 ) => {
     try {
         loading({ isLoading: true, isPage: false });
-        const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${STATE_PATH.GET}/${countryId}`, {});
+        const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${TREATMENT_PATH.DROPDOWN}`, {
+            type
+        });
         if (res.data.success) {
             return res.data.data.records;
         } else {
@@ -162,4 +160,4 @@ const dropdownState = async (
 };
 
 
-export { createState, editState, inactiveState, deleteState, getState, dropdownState }
+export { createTreatment, editTreatment, inactiveTreatment, deleteTreatment, getTreatment, dropdownTreatment }

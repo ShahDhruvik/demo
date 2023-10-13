@@ -1,7 +1,17 @@
-import { Autocomplete, TextField, MenuItem, Tooltip, SxProps, Theme } from '@mui/material'
+import {
+  Autocomplete,
+  TextField,
+  MenuItem,
+  Tooltip,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material'
 import SvgIcon from './fetchSvg'
 import { splitDescription } from '../utils/constants'
 import { SearchDDL } from '../types/common'
+import { FieldErrors, UseFormClearErrors, UseFormSetError } from 'react-hook-form'
+import FetchSvg from './fetchSvg'
 
 type Props = {
   options: SearchDDL[]
@@ -12,6 +22,12 @@ type Props = {
   sx?: SxProps<Theme>
   fields: SearchDDL[]
   replace: any
+  errors: FieldErrors<any>
+  setError: UseFormSetError<any>
+  clearErrors: UseFormClearErrors<any>
+  name: string
+  errMessage: string
+  isPadding: boolean
 }
 
 const listBoxPropsDropdown = () => {
@@ -44,10 +60,14 @@ const ListItemDropdown = (
           color: 'black',
           fontWeight: selected ? '500' : '300',
           backgroundColor: 'white',
+          display: 'flex',
+          justifyContent: 'space-between',
+          minWidth: '100%',
         }}
         selected={selected ? true : false}
       >
-        {option.label}
+        <Typography sx={{ flexGrow: 1 }}>{option.label}</Typography>
+        {selected && <FetchSvg iconName='check' />}
       </MenuItem>
     )
   } else {
@@ -60,16 +80,32 @@ const ListItemDropdown = (
             color: 'black',
             fontWeight: '300',
             backgroundColor: 'white',
+            display: 'flex',
+            justifyContent: 'space-between',
           }}
           selected={selected ? true : false}
         >
-          {splitDescription(option.label, length)}
+          <Typography sx={{ flexGrow: 1 }}>{splitDescription(option.label, length)}</Typography>
+          {selected && <FetchSvg iconName='check' />}
         </MenuItem>
       </Tooltip>
     )
   }
 }
-const MultiSelectInput = ({ label, tooltip, options, sx, fields, replace }: Props) => {
+const MultiSelectInput = ({
+  label,
+  tooltip,
+  options,
+  sx,
+  fields,
+  replace,
+  errors,
+  setError,
+  clearErrors,
+  name,
+  errMessage,
+  isPadding,
+}: Props) => {
   const inputStyleProps: SxProps<Theme> = { ...sx, width: '100%' }
 
   return (
@@ -88,7 +124,9 @@ const MultiSelectInput = ({ label, tooltip, options, sx, fields, replace }: Prop
         if (val !== null) {
           if (val.length === 0) {
             replace([])
+            setError(name, { type: 'validate' })
           } else {
+            clearErrors(name)
             replace(val)
           }
         } else {
@@ -100,11 +138,13 @@ const MultiSelectInput = ({ label, tooltip, options, sx, fields, replace }: Prop
         return (
           <TextField
             {...params}
-            error={fields.length === 0}
+            error={errors ? true : false}
             placeholder={`Select ${label}`}
-            helperText={fields.length === 0 ? `Select ${label}` : ''}
+            helperText={errors ? `${errMessage}` : ''}
             label={label}
             InputLabelProps={{ shrink: true }}
+            multiline={isPadding}
+            minRows={isPadding ? 3 : 0}
           />
         )
       }}
