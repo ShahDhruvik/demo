@@ -5,10 +5,9 @@ import {
   ShowToastFunction,
   ToastType,
 } from '@/types/common'
-import axiosInstance from '../../../axiosInstance'
+import axiosInstance from '../../axiosInstance'
 import { COMMON_MESSAGE } from '@/utils/commonMessages'
-import { BANNER_SLIDER, FAQ } from '@/utils/endPoints'
-import { TOAST_TYPES } from '@/utils/constants'
+import { BANNER_SLIDER, } from '@/utils/endPoints'
 import { BannerSliderFormFields } from '@/types/bannerSlider'
 
 export const createBannerSlider = async (

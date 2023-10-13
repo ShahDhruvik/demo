@@ -1,5 +1,5 @@
 import { HandleControls, LoadingState, NotFoundState, ShowToastFunction } from '@/types/common'
-import axiosInstance from '../../../axiosInstance'
+import axiosInstance from '../../axiosInstance'
 import { COMMON_MESSAGE } from '@/utils/commonMessages'
 import { QNA } from '@/utils/endPoints'
 import { QnaFormFields } from '@/types/questionAnswerTypes'
