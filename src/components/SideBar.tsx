@@ -7,7 +7,7 @@ import logo from '@/assets/images/logo.png'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, MASTER_PATH } from '../paths'
 import { SidebarNames } from '@/types/common'
-import { sidebarItems } from '@/utils/constants'
+import { SIDEBAR_NAMES, sidebarItems } from '@/utils/constants'
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
@@ -22,7 +22,7 @@ const SideBar = ({ open, setOpen }: Props) => {
   const lastSecondSegment = segments[segments.length - 2]
 
   //states
-  const [selected, setSelected] = useState<SidebarNames>(undefined)
+  const [selected, setSelected] = useState<SIDEBAR_NAMES>(undefined)
   useEffect(() => {
     const handleViewportChange = () => {
       if (window.innerWidth >= 1024) {
@@ -174,6 +174,9 @@ const SideBar = ({ open, setOpen }: Props) => {
                     <ListItemButton
                       onClick={() => {
                         handleClick(x.mainListName)
+                        if (x.isSingle) {
+                          nav(x.mainPath)
+                        }
                       }}
                       sx={{
                         display: 'flex',

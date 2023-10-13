@@ -13,9 +13,17 @@ type Props = {
   tabs?: { isTabs: boolean; tabComponent: any }
   btnTxtArray: HeaderBtnTypes
   selectedRows: any[]
+  clickView: () => void
 }
 
-const TableHeaderControls = ({ heading, searchFnc, clickFnc, tabs, btnTxtArray }: Props) => {
+const TableHeaderControls = ({
+  heading,
+  searchFnc,
+  clickFnc,
+  tabs,
+  btnTxtArray,
+  clickView,
+}: Props) => {
   const searchRef = useRef<HTMLInputElement>()
   const delayedSearch = useRef(
     debounce((searchQuery) => {
@@ -39,6 +47,8 @@ const TableHeaderControls = ({ heading, searchFnc, clickFnc, tabs, btnTxtArray }
   //   },
   // }
   const isCreate = btnTxtArray?.find((x) => x.btnType === HEADERBTNS.CREATE)
+  const isView = btnTxtArray?.find((x) => x.btnType === HEADERBTNS.VIEW)
+
   return (
     <>
       <Box
@@ -113,6 +123,25 @@ const TableHeaderControls = ({ heading, searchFnc, clickFnc, tabs, btnTxtArray }
               }}
             >
               {isCreate.btnText ?? HEADERBTNS.CREATE}
+            </Button>
+          )}
+          {isView && (
+            <Button
+              color='mPink'
+              sx={{
+                minWidth: 100,
+                borderRadius: '8px',
+                maxHeight: 35,
+                // cursor: disableCreateBtn ? 'not-allowed' : 'pointer',
+                color: theme.palette.mWhite?.main,
+                // ...(disableCreateBtn ? disableProps : {}),
+              }}
+              // disableRipple={disableCreateBtn}
+              onClick={() => {
+                clickView()
+              }}
+            >
+              {isView.btnText ?? HEADERBTNS.VIEW}
             </Button>
           )}
         </Box>

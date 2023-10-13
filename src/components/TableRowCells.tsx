@@ -486,6 +486,53 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
           )}
         </TableCell>
       )
+    case 'isFinal':
+      return (
+        <TableCell
+          align='left'
+          padding='none'
+          sx={{
+            ...rowProps,
+          }}
+        >
+          {row[x.id] === true && (
+            <Typography
+              sx={{
+                backgroundColor: 'rgba(11, 166, 73, 0.15)',
+                borderRadius: '27px',
+                textAlign: 'center',
+                color: '#0BA649',
+                fontWeight: '600',
+                fontSize: '16px',
+                lineHeight: '35px',
+                padding: '0px 10px 0px 10px',
+                width: '90px',
+                letterSpacing: '0.25px',
+              }}
+            >
+              {'Yes'}
+            </Typography>
+          )}
+          {row[x.id] === false && (
+            <Typography
+              sx={{
+                backgroundColor: 'rgba(255, 103, 103, 0.15)',
+                borderRadius: '27px',
+                textAlign: 'center',
+                color: '#FF6767',
+                fontWeight: '600',
+                fontSize: '16px',
+                lineHeight: '35px',
+                padding: '0px 10px 0px 10px',
+                width: '90px',
+                letterSpacing: '0.25px',
+              }}
+            >
+              {'No'}
+            </Typography>
+          )}
+        </TableCell>
+      )
     case 'actions':
       return (
         <TableCell

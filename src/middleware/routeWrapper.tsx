@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import NotFound from '../components/NotFound'
+import React from 'react'
 
 interface Props {
   children: any

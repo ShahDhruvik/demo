@@ -97,15 +97,14 @@ const CustomTable = ({
     handleOpen()
   }
   const handleSwitch = (item: any, switchState: boolean) => {
-    console.log(item)
     if (!actions.includes(ACTIONS_TABLE.SWITCH)) {
       return
     } else {
-      if (item.active) {
-        console.log('object')
-        setType(TABLE_STATES.INACTIVE)
-      } else {
+      if (item.isActive) {
+        console.log(item)
         setType(TABLE_STATES.ACTIVE)
+      } else {
+        setType(TABLE_STATES.INACTIVE)
       }
       setEntity(item)
       handleOpen()
@@ -135,6 +134,12 @@ const CustomTable = ({
       limitPerPage: pageLimit,
       currentPage: 1,
     })
+
+  const view = () => {
+    setType(TABLE_STATES.VIEW)
+    setEntity(undefined)
+    handleOpen()
+  }
   return (
     <Paper sx={{ width: '100%', borderRadius: '10px' }} elevation={3}>
       <TableHeaderControls
@@ -144,6 +149,7 @@ const CustomTable = ({
         tabs={tabs}
         btnTxtArray={btnTxtArray}
         selectedRows={selectedRows as any[]}
+        clickView={view}
       />
       <TableContainer
         sx={{

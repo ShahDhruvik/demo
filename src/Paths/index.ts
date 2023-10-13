@@ -11,6 +11,9 @@ export const enum COMMON_PATH {
 export const enum DASHBOARD_PATH {
   MASTER = '/',
   ABOUT = '/about/*',
+  FAQ = '/faq/*',
+  BANNER_SLIDER = '/banner-slider/*',
+  QUESTION_ANSWER = '/question-answer/*',
 }
 
 export const enum AUTH_PATH {
@@ -24,4 +27,8 @@ export const enum MASTER_PATH {
 
 export const enum ABOUT_PATH {
   CONTACT = '/contact',
+}
+
+export const enum FAQ_PATH {
+  FAQ = '/faq',
 }

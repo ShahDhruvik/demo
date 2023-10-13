@@ -13,7 +13,7 @@ type Props = {
 const SwitchDeleteModal = ({ handleClose, actionFnc, type, approvalTxt }: Props) => {
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={3}>
-      <p className='text-2xl font-semibold text-center'>{`Are you sure you want to ${type?.toLowerCase()}?`}</p>
+      <p className='text-2xl font-semibold text-center'>{`Are you sure you want to ${approvalTxt}?`}</p>
       <FormBtns
         approvalFnc={actionFnc}
         approvalTxt={approvalTxt}

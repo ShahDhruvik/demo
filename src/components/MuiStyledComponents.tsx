@@ -6,6 +6,8 @@ import {
   Select,
   SelectProps,
   TableSortLabel,
+  TextField,
+  TextFieldProps,
   Theme,
 } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -135,3 +137,32 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }))
+
+export const TextFieldCustom = styled(TextField)<TextFieldProps & { theme: Theme }>(
+  ({ theme }) => ({
+    '& .MuiInputBase-root.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'black',
+    },
+    '& .MuiInputBase-root.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'black',
+    },
+    '& .MuiInputBase-root.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.mDarkBlue?.main,
+    },
+    '& .MuiFormLabel-root.MuiInputLabel-root:hover': {
+      color: 'black',
+    },
+    '& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+      color: 'black',
+      fontWeight: 'bold',
+    },
+    '& .MuiFormLabel-root.MuiInputLabel-root.Mui-error': {
+      color: theme.palette.mDarkBlue?.main,
+      fontWeight: 'bold',
+    },
+    '& .MuiFormHelperText-root.Mui-error': {
+      color: theme.palette.mDarkBlue?.main,
+      fontWeight: 600,
+    },
+  }),
+)

@@ -26,7 +26,7 @@ type Props = {
   handleChange?: () => void
 }
 
-const listBoxPropsDropdown = () => {
+export const listBoxPropsDropdown = () => {
   return {
     sx: {
       maxHeight: 300,
@@ -39,6 +39,7 @@ const listBoxPropsDropdown = () => {
     className: 'scrollBarNone',
   }
 }
+
 const ListItemDropdown = (
   props: React.HTMLAttributes<HTMLLIElement>,
   option: any,
