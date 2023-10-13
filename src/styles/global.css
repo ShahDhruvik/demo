@@ -187,9 +187,9 @@ input[type='number'] {
   }
 }
 
-.svgBlue {
+.svgPink {
   & > path {
-    fill: rgba(52, 65, 163, 0.7);
+    fill: rgba(226, 0, 116, 0.7);
   }
 }
 .svgWhite {

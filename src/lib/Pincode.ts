@@ -1,9 +1,10 @@
 import { HandleControls, LoadingState, NotFoundState, ShowToastFunction, } from "@/types/common"
 import { CityFields, PincodeFields } from "@/types/location"
 import { COMMON_MESSAGE } from "@/utils/commonMessages"
-import axiosInstance from '../../axiosInstance'
 import { PINCODE_PATH, DEF_PATHS } from "@/utils/endPoints"
 import { TABLES } from "@/utils/constants"
+import axiosInstance from "../axiosInstance"
+import { acDefaultValue } from "@/utils/form.validation"
 
 const createPincode = async (
     loading: LoadingState['setLoading'],
@@ -12,11 +13,18 @@ const createPincode = async (
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
-        const data = {
+        const data: any = {
             value: formData.value,
             isAvailable: formData.isAvailable,
             cityId: formData.cityId._id,
+            primaryLanguage: formData.primaryLan._id
         };
+        if (formData.thirdLan._id !== acDefaultValue._id) {
+            data.thirdLanguage = formData.thirdLan._id
+        }
+        if (formData.secondaryLan._id !== acDefaultValue._id) {
+            data.secondLanguage = formData.secondaryLan._id
+        }
         const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${PINCODE_PATH.CREATE}`, data);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Success);
@@ -71,11 +79,18 @@ const editPincode = async (
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
-        const data = {
+        const data: any = {
             value: formData.value,
             isAvailable: formData.isAvailable,
-            cityId: formData.cityId._id
+            cityId: formData.cityId._id,
+            primaryLanguage: formData.primaryLan._id
         };
+        if (formData.thirdLan._id !== acDefaultValue._id) {
+            data.thirdLanguage = formData.thirdLan._id
+        }
+        if (formData.secondaryLan._id !== acDefaultValue._id) {
+            data.secondLanguage = formData.secondaryLan._id
+        }
         const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${PINCODE_PATH.EDIT}/${id}`, data);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Updated);
@@ -101,6 +116,9 @@ const inactivePincode = async (
         const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${PINCODE_PATH.INACTIVE}/${id}`, { isActive: active });
         if (res.data.success) {
             toast('success', active ? COMMON_MESSAGE.Inactived : COMMON_MESSAGE.Activated);
+        } else {
+            toast('info', res.data.message);
+
         }
         return res.data.success;
     } catch (error: any) {

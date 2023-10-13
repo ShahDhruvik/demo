@@ -1,5 +1,5 @@
 import { HeadCell } from '@/types/common'
-import { formatDate, splitDescription } from '@/utils/constants'
+import { TreatmentPackageTypes, formatDate, splitDescription } from '@/utils/constants'
 import { Avatar, Box, Checkbox, Fade, TableCell, Tooltip, Typography, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
@@ -369,7 +369,7 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
             ...rowProps,
           }}
         >
-          {(row[x.id] === 'APPROVED' || row[x.id] === 'EXECUTED') && (
+          {row[x.id] === TreatmentPackageTypes.PREMIUM && (
             <Typography
               sx={{
                 backgroundColor: 'rgba(11, 166, 73, 0.15)',
@@ -410,7 +410,7 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
               {row[x.id].toUpperCase()}
             </Typography>
           )}
-          {row[x.id] === 'PENDING' && (
+          {row[x.id] === TreatmentPackageTypes.PARENT && (
             <Typography
               sx={{
                 backgroundColor: 'rgba(253, 207, 43, 0.15)',
@@ -429,7 +429,7 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
               {row[x.id].toLowerCase()}
             </Typography>
           )}
-          {(row[x.id] === 'REJECTED' || row[x.id] === 'SKIP') && (
+          {row[x.id] === TreatmentPackageTypes.INTERNAL && (
             <Typography
               sx={{
                 backgroundColor: 'rgba(255, 103, 103, 0.15)',

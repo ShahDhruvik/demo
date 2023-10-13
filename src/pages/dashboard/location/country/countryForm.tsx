@@ -2,17 +2,24 @@ import FormBtns from '@/components/FormBtn'
 import NumInput from '@/components/NumInput'
 import TxtInput from '@/components/TxtInput'
 import FetchSvg from '@/components/fetchSvg'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { theme } from '@/context/ThemeProvider'
-import { TableStates } from '@/types/common'
+import { Currencies, SearchDDL, TableStates } from '@/types/common'
 import { TABLE_STATES } from '@/utils/constants'
-import { numberFieldValidation, txtFieldValidation } from '@/utils/form.validation'
+import {
+  acDefaultValue,
+  numberFieldValidation,
+  searchSelectValidation,
+  txtFieldValidation,
+} from '@/utils/form.validation'
 import { Button, Divider } from '@mui/material'
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { useLoading } from '@/context/LoadingContext'
 import { CountryData, CountryFields } from '@/types/location'
 import { createCountry, editCountry } from '@/lib/Country'
 import { useToast } from '@/hooks/useToast'
+import { dropdownCurrency } from '@/lib/Currency'
+import SelectInput from '@/components/SelectInput'
 
 type Props = {
   handleClose: () => void
@@ -24,17 +31,21 @@ type Props = {
 const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   const { setLoading } = useLoading()
   const showToast = useToast()
-  const { control, handleSubmit, formState, reset } = useForm({
+  const [currencies, setCurrencies] = useState<SearchDDL[]>([])
+  const { control, handleSubmit, formState, reset, clearErrors, setError, setValue } = useForm({
     defaultValues: {
       name: '',
       shortName: '',
       isoCode: '',
       code: '',
+      primaryCun: acDefaultValue,
+      secondaryCun: acDefaultValue,
       states: [] as CountryFields['states'],
     } as CountryFields,
   })
   const { isSubmitting } = formState
   const onSubmitHandle: SubmitHandler<CountryFields> = async (data) => {
+    console.log(data)
     handleClose()
     switch (type) {
       case TABLE_STATES.ADD:
@@ -64,6 +75,19 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
     control: control,
     name: 'states',
   })
+  //API's
+  const getCurriencies = async () => {
+    const data = (await dropdownCurrency(setLoading, showToast)) as Currencies[]
+    const cun: SearchDDL[] = [acDefaultValue]
+    data.map((x) => {
+      const cunItem: SearchDDL = { label: `${x.label}`, _id: x._id }
+      cun.push(cunItem)
+    })
+    setCurrencies(cun)
+  }
+  useEffect(() => {
+    getCurriencies()
+  }, [])
   //setting the entity on edit
   useEffect(() => {
     if (entity) {
@@ -72,6 +96,8 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
         isoCode: entity.isoCode,
         name: entity.name,
         shortName: entity.shortName,
+        primaryCun: {},
+        secondaryCun: {},
         states: [],
       })
     } else {
@@ -119,6 +145,27 @@ const CountryForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
           placeholder='Enter code'
           validation={numberFieldValidation(true)}
           label='Code'
+        />
+        <SelectInput
+          clearErrors={clearErrors}
+          control={control}
+          label='Primary currency*'
+          name='primaryCun'
+          options={currencies}
+          setError={setError}
+          setValue={setValue}
+          validation={searchSelectValidation('Primary currency')}
+        />
+        <SelectInput
+          clearErrors={clearErrors}
+          control={control}
+          label='Secondary currency'
+          name='secondaryCun'
+          options={currencies}
+          setError={setError}
+          setValue={setValue}
+          validation={{}}
+          notRequired={true}
         />
       </div>
       {type === TABLE_STATES.ADD && (

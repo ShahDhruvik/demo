@@ -1,7 +1,7 @@
-import { HeadCell, SideBarItems } from "@/types/common";
+import { HeadCell, Radios, SideBarItems } from "@/types/common";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, } from "../paths";
+import { ABOUT_PATH, COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, TRIANA_PATH, } from "../paths";
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -60,6 +60,9 @@ export const enum TABLES {
   CITY = 'CITY',
   PINCODE = 'PINCODE',
   PACKAGE = 'PACKAGE',
+  TREATMENT = 'TREATMENT',
+  TNC = 'TNC',
+  COMPLIANCE = 'COMPLIANCE',
 }
 
 export const formatDate = (dateString: string) => {
@@ -85,6 +88,14 @@ export const sortTableRowsByHeadCells = (tableRow: any[], headCell: HeadCell[]) 
   return sortedTableRows;
 };
 
+export enum TreatmentPackageTypes {
+  INTERNAL = 'INTERNAL',
+  PARENT = 'PARENT',
+  PREMIUM = 'PREMIUM',
+}
+
+
+export const PackagesArray: Radios[] = [{ value: TreatmentPackageTypes.PREMIUM, name: 'Premium' }, { value: TreatmentPackageTypes.PARENT, name: 'Parent' }, { value: TreatmentPackageTypes.INTERNAL, name: 'Internal' }]
 
 export const enum ACTIONS_TABLE {
   ADD = "ADD",
@@ -110,7 +121,7 @@ export const enum TABLE_STATES {
 export const enum SIDEBAR_NAMES {
   MASTER = 'Master',
   LOCATION = 'Location',
-  PACKAGE = 'Package',
+  TRIANA = 'Triana',
 }
 export const enum SIDEBAR_SUBLIST_NAMES {
   COUNTRY = 'Country',
@@ -118,6 +129,10 @@ export const enum SIDEBAR_SUBLIST_NAMES {
   CITY = 'City',
   PINCODE = 'Pincode',
   PROFILE = 'Profile',
+  PACKAGE = 'Packages',
+  PLANS = 'Treatments',
+  TNC = 'Terms And Conditions',
+  COMPLIANCE = 'Compliance',
 }
 
 export const sidebarItems: SideBarItems[] = [
@@ -136,25 +151,21 @@ export const sidebarItems: SideBarItems[] = [
     subList: [
       {
         id: 0,
-        iconName: 'location',
         txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
         path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
       },
       {
         id: 1,
-        iconName: 'location',
         txt: SIDEBAR_SUBLIST_NAMES.STATE,
         path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
       },
       {
         id: 2,
-        iconName: 'location',
         txt: SIDEBAR_SUBLIST_NAMES.CITY,
         path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
       },
       {
         id: 3,
-        iconName: 'location',
         txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
         path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
       },
@@ -164,10 +175,36 @@ export const sidebarItems: SideBarItems[] = [
   },
   {
     id: 2,
-    mainListName: SIDEBAR_NAMES.PACKAGE,
+    mainListName: SIDEBAR_NAMES.TRIANA,
     mainImage: 'package',
-    subList: [],
-    isSingle: true,
-    mainPath: `${DASHBOARD_PATH.PACKAGE.split('/*')[0]}`,
+    subList: [
+      {
+        id: 0,
+        txt: SIDEBAR_SUBLIST_NAMES.PACKAGE,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.PACKAGE}`,
+      },
+      {
+        id: 1,
+        txt: SIDEBAR_SUBLIST_NAMES.PLANS,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.PLAN}`,
+      },
+      {
+        id: 2,
+        txt: SIDEBAR_SUBLIST_NAMES.TNC,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.TNC}`,
+      },
+      {
+        id: 3,
+        txt: SIDEBAR_SUBLIST_NAMES.COMPLIANCE,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.COMPLIANCE}`,
+      },
+    ],
+    isSingle: false,
+    mainPath: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}`,
   },
 ]
+
+export const enum INFOBOXES {
+  DEFAULT = 'DEFAULT',
+  MULTI = 'MULTI',
+}

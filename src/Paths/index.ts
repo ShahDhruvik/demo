@@ -12,7 +12,7 @@ export const enum DASHBOARD_PATH {
   MASTER = '/',
   ABOUT = '/about/*',
   LOCATION = '/location/*',
-  PACKAGE = '/packages/*',
+  TRIANA = '/triana/*',
 }
 
 export const enum AUTH_PATH {
@@ -30,4 +30,10 @@ export const enum LOCATION_PATH {
   STATE = '/state',
   CITY = '/city',
   PINCODE = '/pincode',
+}
+export const enum TRIANA_PATH {
+  PACKAGE = '/packages',
+  PLAN = '/plan',
+  TNC = '/tnc',
+  COMPLIANCE = '/compliance',
 }

@@ -11,6 +11,40 @@ export const enum COUNTRY_PATH {
     DELETE = '/country/delete',
     DROPDOWN = '/country/dropdown',
 }
+export const enum LANGUAGE_PATH {
+    DROPDOWN = '/language/dropdown',
+}
+export const enum CURRENCY_PATH {
+    DROPDOWN = '/currency/dropdown',
+}
+export const enum PACKAGE_PATH {
+    CREATE = '/treatment-package/create',
+    GET = '/treatment-package',
+    EDIT = '/treatment-package/edit',
+    INACTIVE = '/treatment-package/inactive',
+    DELETE = '/treatment-package/delete',
+    DROPDOWN = '/treatment-package/dropdown',
+}
+export const enum TNC_PATH {
+    CREATE = '/terms-condition/create',
+    GET = '/terms-condition',
+    INACTIVE = '/terms-condition/inactive',
+    DROPDOWN = '/terms-condition/dropdown',
+}
+export const enum COMPLIANCE_PATH {
+    CREATE = '/compliance/create',
+    GET = '/compliance',
+    INACTIVE = '/compliance/inactive',
+    DROPDOWN = '/compliance/dropdown',
+}
+export const enum TREATMENT_PATH {
+    CREATE = '/treatment/create',
+    GET = '/treatment',
+    EDIT = '/treatment/edit',
+    INACTIVE = '/treatment/inactive',
+    DELETE = '/treatment/delete',
+    DROPDOWN = '/treatment/dropdown',
+}
 
 export const enum STATE_PATH {
     CREATE = '/state/create',

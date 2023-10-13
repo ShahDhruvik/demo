@@ -67,6 +67,11 @@ export default {
         light: '#0f9d58',
         dark: '#0f9d58',
       },
+      lightGreen: {
+        main: '#006571',
+        light: '#006571',
+        dark: '#006571',
+      },
       yellow: {
         main: '#ffbb00',
         light: '#ffbb00',

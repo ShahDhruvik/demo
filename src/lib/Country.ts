@@ -1,10 +1,11 @@
 import { HandleControls, LoadingState, NotFoundState, ShowToastFunction, } from "@/types/common"
 import { CountryFields } from "@/types/location"
 import { COMMON_MESSAGE } from "@/utils/commonMessages"
-import axiosInstance from '../../axiosInstance'
 import { VITE_APP_API_URL } from "@/utils/envVariables"
 import { COUNTRY_PATH, DEF_PATHS } from "@/utils/endPoints"
 import { TABLES } from "@/utils/constants"
+import axiosInstance from "../axiosInstance"
+import { acDefaultValue } from "@/utils/form.validation"
 const createCountry = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
@@ -12,13 +13,17 @@ const createCountry = async (
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
-        const data = {
+        const data: any = {
             name: formData.name,
             shortName: formData.shortName,
             isoCode: formData.isoCode,
             code: Number(formData.code),
-            states: formData.states
+            states: formData.states,
+            primaryCurrency: formData.primaryCun._id
         };
+        if (formData.secondaryCun._id !== acDefaultValue._id) {
+            data.secondaryCurrency = formData.secondaryCun._id
+        }
         const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${COUNTRY_PATH.CREATE}`, data);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Success);
@@ -74,13 +79,17 @@ const editCountry = async (
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
-        const data = {
+        const data: any = {
             name: formData.name,
             shortName: formData.shortName,
             isoCode: formData.isoCode,
             code: Number(formData.code),
-            states: formData.states
+            states: formData.states,
+            primaryCurrency: formData.primaryCun._id
         };
+        if (formData.secondaryCun._id !== acDefaultValue._id) {
+            data.secondaryCurrency = formData.secondaryCun._id
+        }
         const res = await axiosInstance.put(`${DEF_PATHS.COMMON}${COUNTRY_PATH.EDIT}/${id}`, data);
         if (res.data.success) {
             toast('success', COMMON_MESSAGE.Updated);

@@ -10,6 +10,9 @@ export type CountryFields = {
     isoCode: string
     code: number | string
     states: StatesField[]
+    secondaryCun: SearchDDL
+    primaryCun: SearchDDL
+
 }
 
 export type CountryData = {
@@ -73,6 +76,9 @@ export type PincodeFields = {
     cityId: SearchDDL
     value: string,
     isAvailable: boolean
+    primaryLan: SearchDDL
+    secondaryLan: SearchDDL
+    thirdLan: SearchDDL
 }
 
 export type PincodeData = {

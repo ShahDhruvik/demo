@@ -62,9 +62,10 @@ const TableHeaderControls = ({ heading, searchFnc, clickFnc, tabs, btnTxtArray }
           sx={{
             color: theme.palette.mDarkBlue?.main,
             fontWeight: '600',
-            fontSize: '20px',
+            fontSize: '18px',
             backgroundColor: theme.palette.mLightGray?.main,
-            px: 1,
+            px: 3,
+            py: 0.5,
             borderRadius: '7px',
             boxShadow: `${theme.palette.mWhite?.main} 0px 0.0625em 0.0625em, ${theme.palette.mDarkBlue?.main} 0px 0.10em 0.10em, ${theme.palette.mWhite?.main} 0px 0px 0px 1px inset`,
           }}
