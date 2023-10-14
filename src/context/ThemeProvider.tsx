@@ -55,6 +55,9 @@ declare module '@mui/material/styles' {
   interface Palette {
     mWhite?: PaletteColor
   }
+  interface Palette {
+    mDarkestGray?: PaletteColor
+  }
   interface PaletteOptions {
     mPink?: PaletteColor
   }
@@ -93,6 +96,9 @@ declare module '@mui/material/styles' {
   }
   interface PaletteOptions {
     mGreen?: PaletteColor
+  }
+  interface PaletteOptions {
+    mDarkestGray?: PaletteColor
   }
   interface PaletteOptions {
     mYellow?: PaletteColor
@@ -220,6 +226,11 @@ export const theme: Theme = createTheme({
       light: '#000000',
       dark: '#000000',
     },
+    mDarkestGray: {
+      main: '#434655',
+      light: '#434655',
+      dark: '#434655',
+    },
   },
   breakpoints: {
     values: {
@@ -291,7 +302,7 @@ export const theme: Theme = createTheme({
             },
           },
 
-          borderRadius: '8px',
+          borderRadius: '5px',
         },
         input: {
           padding: '8px 10px',

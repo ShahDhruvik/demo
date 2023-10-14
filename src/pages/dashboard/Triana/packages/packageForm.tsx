@@ -201,120 +201,123 @@ const PackageForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandle)}>
-      <div className='px-5 grid grid-cols-auto-fit gap-5 mb-5'>
-        <div className='flex flex-col items-center '>
-          <ImageUploadInput
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            handleFileChange={handleFileChange}
-          />
-          <div className='mt-4'>
-            <div className=' flex gap-3 '>
-              <CheckInput
-                control={control}
-                label='Parent'
-                name='isParent'
-                handleToggle={handleParent}
-              />
-              <CheckInput
-                control={control}
-                label='Premiuim'
-                name='isPremium'
-                handleToggle={handlePremium}
-              />
-              <CheckInput
-                control={control}
-                label='Internal'
-                name='isInternal'
-                handleToggle={handleInternal}
-              />
-            </div>
-            <p className='text-lightOrange-main'>
-              {errors.isParent ? errors.isParent.message : ''}
-            </p>
-          </div>
-          {parent && premium && (
-            <MultiSelectInput
-              fields={fields}
-              label='Packages'
-              options={premiumPackages}
-              replace={replace}
-              validation={{}}
-              errors={errors.packages as any}
-              name='packages'
-              clearErrors={clearErrors}
-              setError={setError}
-              errMessage={'Select Packages'}
-              isPadding={true}
+    <form onSubmit={handleSubmit(onSubmitHandle)} className='flex flex-col flex-1'>
+      <div className='flex-1'>
+        <div className='px-5 grid grid-cols-3 gap-5 mb-5'>
+          <div className='flex flex-col items-center '>
+            <ImageUploadInput
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+              handleFileChange={handleFileChange}
             />
-          )}
+            <div className='mt-4'>
+              <div className=' flex gap-3 '>
+                <CheckInput
+                  control={control}
+                  label='Parent'
+                  name='isParent'
+                  handleToggle={handleParent}
+                />
+                <CheckInput
+                  control={control}
+                  label='Premiuim'
+                  name='isPremium'
+                  handleToggle={handlePremium}
+                />
+                <CheckInput
+                  control={control}
+                  label='Internal'
+                  name='isInternal'
+                  handleToggle={handleInternal}
+                />
+              </div>
+              <p className='text-lightOrange-main'>
+                {errors.isParent ? errors.isParent.message : ''}
+              </p>
+            </div>
+          </div>
+          <div className='flex flex-col gap-5'>
+            <TxtInput
+              control={control}
+              handleChange={() => {}}
+              name='title'
+              placeholder='Enter title'
+              validation={txtFieldValidation(true)}
+              label='Title'
+            />
+            <NumInput
+              control={control}
+              handleChange={() => {}}
+              name='price'
+              placeholder='Enter price'
+              validation={numberFieldValidation(true, 100)}
+              label='Price'
+            />
+            <NumInput
+              control={control}
+              handleChange={() => {}}
+              name='discount'
+              placeholder='Enter discount'
+              validation={numberFieldValidation(true)}
+              label='Discount'
+            />
+          </div>
+          <div className='flex flex-col gap-5'>
+            <MultiTxtInput
+              control={control}
+              entries={tags}
+              name='tag'
+              setValue={setValue}
+              placeholder='Type and enter to add tags'
+              label='Tags'
+              isInsideTag={true}
+            />
+            {parent && premium && (
+              <MultiSelectInput
+                fields={fields}
+                label='Packages'
+                options={premiumPackages}
+                replace={replace}
+                validation={{}}
+                errors={errors.packages as any}
+                name='packages'
+                clearErrors={clearErrors}
+                setError={setError}
+                errMessage={'Select Packages'}
+                isPadding={true}
+              />
+            )}
+          </div>
         </div>
-        <div className='grid grid-cols-auto-fit gap-5'>
+        <div className='px-5 mb-5'>
+          <h1 className='text-xl font-semibold '>Points & Description</h1>
+          <Divider
+            sx={{
+              border: '1px solid',
+              borderColor: theme.palette.mPink?.main,
+            }}
+          />
+        </div>
+        <div className='px-5 mb-5 flex  gap-5'>
+          <MultiTxtInput
+            control={control}
+            entries={points}
+            name='points'
+            setValue={setValue}
+            placeholder='Type and enter to add points'
+            label='Points'
+            isInsideTag={false}
+          />
           <TxtInput
             control={control}
             handleChange={() => {}}
-            name='title'
-            placeholder='Enter title'
-            validation={txtFieldValidation(true)}
-            label='Title'
-          />
-          <NumInput
-            control={control}
-            handleChange={() => {}}
-            name='price'
-            placeholder='Enter price'
-            validation={numberFieldValidation(true, 100)}
-            label='Price'
-          />
-          <NumInput
-            control={control}
-            handleChange={() => {}}
-            name='discount'
-            placeholder='Enter discount'
-            validation={numberFieldValidation(true)}
-            label='Discount'
-          />
-          <MultiTxtInput
-            control={control}
-            entries={tags}
-            name='tag'
-            setValue={setValue}
-            placeholder='Type and enter to add tags'
-            label='Tags'
-            isInsideTag={true}
+            name='description'
+            placeholder='Enter description'
+            validation={txtFieldValidation(true, 'Description')}
+            multiline={6}
+            label='Description'
           />
         </div>
-      </div>
-
-      <div className='px-5 mb-5'>
-        <h1 className='text-xl font-semibold '>Points & Description</h1>
-        <Divider
-          sx={{
-            border: '1px solid',
-            borderColor: theme.palette.mPink?.main,
-          }}
-        />
-      </div>
-      <div className='px-5 mb-5 flex  gap-5'>
-        <MultiTxtInput
-          control={control}
-          entries={points}
-          name='points'
-          setValue={setValue}
-          placeholder='Type and enter to add points'
-          label='Points'
-          isInsideTag={false}
-        />
-        <TxtInput
-          control={control}
-          handleChange={() => {}}
-          name='description'
-          placeholder='Enter description'
-          validation={txtFieldValidation(true, 'Description')}
-          multiline={6}
-          label='Description'
-        />
       </div>
       <FormBtns
         approvalFnc={() => {}}

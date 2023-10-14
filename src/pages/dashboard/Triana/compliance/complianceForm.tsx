@@ -1,7 +1,7 @@
 import FormBtns from '@/components/FormBtn'
 import { useEffect } from 'react'
-import { SearchDDL, TableStates, tnCArray } from '@/types/common'
-import { TABLE_STATES } from '@/utils/constants'
+import { SearchDDL, TableStates } from '@/types/common'
+import { TABLE_STATES, complianceArray } from '@/utils/constants'
 import {
   acDefaultValue,
   dateSelectValidation,
@@ -23,6 +23,8 @@ import { DateInput } from '@/components/DateInput'
 import { createTNC } from '@/lib/termsAndCon'
 import { dropdownCountry } from '@/lib/Country'
 import { ComplianceFields } from '@/types/compliance'
+import RichTextEditor from 'react-rte'
+import { createCompliance } from '@/lib/complaince'
 
 type Props = {
   handleClose: () => void
@@ -37,11 +39,12 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
   const showToast = useToast()
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [countries, setCountries] = useState<SearchDDL[]>([])
+  const [description, setDescription] = useState(RichTextEditor.createEmptyValue())
 
   //API's
   const getCountries = async () => {
     const data = (await dropdownCountry(setLoading, showToast)) as CountryData[]
-    const con: SearchDDL[] = [acDefaultValue]
+    const con: SearchDDL[] = []
     data.map((x) => {
       const conItem: SearchDDL = { label: `${x.name}`, _id: x._id }
       con.push(conItem)
@@ -59,7 +62,6 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
         name: acDefaultValue,
         countryIds: [] as SearchDDL[],
         description: '',
-        effectiveDate: null,
         revisionDate: null,
         header: '',
         image: null,
@@ -80,7 +82,7 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
     handleClose()
     switch (type) {
       case TABLE_STATES.ADD:
-        const res = await createTNC(setLoading, showToast, data)
+        const res = await createCompliance(setLoading, showToast, data)
         if (res) {
           reset()
           getModifiedData()
@@ -128,7 +130,7 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
               control={control}
               label='Name*'
               name='name'
-              options={tnCArray}
+              options={complianceArray}
               setError={setError}
               setValue={setValue}
               validation={searchSelectValidation('name')}
@@ -160,7 +162,7 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
             />
           </div>
         </div>
-        <div className='grid grid-cols-auto-fit gap-5 mt-10'>
+        <div className='flex flex-col gap-3 mt-5'>
           <MultiSelectInput
             fields={fields}
             label='Country'
@@ -172,17 +174,18 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
             clearErrors={clearErrors}
             setError={setError}
             errMessage={'Select Country'}
-            isPadding={true}
+            isPadding={false}
           />
-          <TxtInput
-            control={control}
-            handleChange={() => {}}
-            name='description'
-            placeholder='Enter description'
-            validation={txtFieldValidation(true)}
-            label='Description'
-            multiline={2.2}
-          />
+          <div>
+            <p className='pl-2 mb-2'> Description</p>
+            <RichTextEditor
+              value={description}
+              onChange={(newValue) => {
+                setDescription(newValue)
+              }}
+              className='min-h-[230px]'
+            />
+          </div>
         </div>
       </div>
       <FormBtns

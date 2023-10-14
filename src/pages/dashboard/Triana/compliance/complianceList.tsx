@@ -13,6 +13,7 @@ import TNCForm from './complianceForm'
 import { theme } from '@/context/ThemeProvider'
 import { PackageData } from '@/types/package'
 import { getTNC, inactiveTNC } from '@/lib/termsAndCon'
+import { getCompliance, inactiveCompliance } from '@/lib/complaince'
 
 type Props = {
   handleOpen: () => void
@@ -43,7 +44,13 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
   const [controls, setControls] = useState({})
   const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
   const getData = async () => {
-    const response = await getTNC(setLoading, showToast, setNotFound, notFound, handleControls)
+    const response = await getCompliance(
+      setLoading,
+      showToast,
+      setNotFound,
+      notFound,
+      handleControls,
+    )
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
@@ -74,21 +81,10 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
       isSort: true,
     },
     {
-      id: 'effectiveDate',
-      label: 'Effective Date',
-      isSort: true,
-      type: 'date',
-    },
-    {
       id: 'revisionDate',
       label: 'Revision Date',
       isSort: true,
       type: 'date',
-    },
-    {
-      id: 'description',
-      label: 'Description',
-      isSort: true,
     },
     {
       id: 'isActive',
@@ -101,7 +97,7 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
   // Inactive and Delete entity
   const inactiveEntity = async () => {
     handleClose()
-    const res = await inactiveTNC(
+    const res = await inactiveCompliance(
       setLoading,
       showToast,
       entity?._id as string,
@@ -133,20 +129,8 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
         maxWidth={'xl'}
-        maxHeight={900}
         open={open}
-        sxProps={{
-          [theme.breakpoints.up('lg')]: {
-            '.MuiPaper-root ': {
-              minWidth: 1000,
-            },
-          },
-          [theme.breakpoints.down('lg')]: {
-            '.MuiPaper-root ': {
-              minWidth: 600,
-            },
-          },
-        }}
+        type={type}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}

@@ -1,5 +1,5 @@
 import { theme } from '@/context/ThemeProvider'
-import { SidebarNames } from '@/types/common'
+import { SidebarNames, SidebarSubListNames } from '@/types/common'
 import { sidebarItems } from '@/utils/constants'
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { useEffect, useState, SetStateAction, Dispatch } from 'react'
@@ -16,10 +16,18 @@ const SideBarList = ({ open, setOpen }: Props) => {
   const { pathname } = useLocation()
 
   //states
-  const [selected, setSelected] = useState<SidebarNames>(undefined)
+  const [selected, setSelected] = useState<SidebarNames | SidebarSubListNames>(undefined)
   const [subSelected, setSubSelected] = useState<string | undefined>(undefined)
+  const [childSelected, setChildSelected] = useState<string | undefined>(undefined)
   const [openSub, setOpenSub] = useState<{ isSubOpen: boolean; mainName: SidebarNames }>({
     isSubOpen: false,
+    mainName: undefined,
+  })
+  const [openChild, setOpenChild] = useState<{
+    isChildOpen: boolean
+    mainName: SidebarSubListNames
+  }>({
+    isChildOpen: false,
     mainName: undefined,
   })
 
@@ -27,45 +35,65 @@ const SideBarList = ({ open, setOpen }: Props) => {
   const decideName = (path: string) => {
     //url segemnts
     const segments = path.split('/')
-    const lastSegment = segments[segments.length - 1]
-    const lastSecondSegment = segments[segments.length - 2]
-    // Name in Header
-    const item = sidebarItems.find((x) => {
-      const segs = x.mainPath.split('/')
-      const lastSeg = segs[segs.length - 1]
-      return lastSeg === lastSegment
-    })
-    if (item) {
-      //Setting for main path
-      setSelected(item.mainListName)
-      setSubSelected(undefined)
-    } else {
-      // Fetching next Item
-      const nextItem = sidebarItems.find((x) => {
+    //conditions
+    if (segments.length === 2) {
+      const lastSegment = segments[segments.length - 1]
+      const item = sidebarItems.find((x) => {
         const segs = x.mainPath.split('/')
-        const lastSeg = segs[segs.length - 1]
-        return lastSeg === lastSecondSegment
+        const last = segs[segs.length - 1]
+        return last === lastSegment
       })
-      if (nextItem) {
-        if (!nextItem.isSingle) {
-          const subListItems = nextItem.subList
-          const nextItemMatch = subListItems.find((x) => {
-            const nextLastSegs = x.path.split('/')
-            const nextLastSeg = nextLastSegs[nextLastSegs.length - 1]
-            return nextLastSeg === lastSegment
-          })
-          if (nextItemMatch) {
-            setSelected(nextItem.mainListName as any)
-            setSubSelected(nextItemMatch.txt)
-          } else {
-            setSelected(undefined)
-          }
-        } else {
-          setSelected(undefined)
-        }
-      } else {
-        setSelected(undefined)
+      if (item) {
+        setSelected(item.mainListName)
+        setSubSelected(undefined)
+        setChildSelected(undefined)
       }
+    } else if (segments.length === 3) {
+      const lastSegment = segments[segments.length - 1]
+      const lastSecondSegment = segments[segments.length - 2]
+      const item = sidebarItems.find((x) => {
+        const segs = x.mainPath.split('/')
+        const last = segs[segs.length - 1]
+        return last === lastSecondSegment
+      })
+      if (item) {
+        setSelected(item.mainListName)
+        const next = item.subList.find((x) => {
+          const segs = x.path.split('/')
+          const last = segs[segs.length - 1]
+          return last === lastSegment
+        })
+        setSubSelected(next.txt)
+        setChildSelected(undefined)
+      }
+    } else if (segments.length === 4) {
+      const lastSegment = segments[segments.length - 1]
+      const lastSecondSegment = segments[segments.length - 2]
+      const lastThirdSegment = segments[segments.length - 3]
+      const item = sidebarItems.find((x) => {
+        const segs = x.mainPath.split('/')
+        const last = segs[segs.length - 1]
+        return last === lastThirdSegment
+      })
+      if (item) {
+        setSelected(item.mainListName)
+        const next = item.subList.find((x) => {
+          const segs = x.path.split('/')
+          const last = segs[segs.length - 1]
+          return last === lastSecondSegment
+        })
+
+        if (next) {
+          setSubSelected(next.txt)
+          const nextChild = next.childList.find((x) => {
+            const segs = x.path.split('/')
+            const last = segs[segs.length - 1]
+            return last === lastSegment
+          })
+          setChildSelected(nextChild.txt)
+        }
+      }
+    } else {
     }
   }
   useEffect(() => {
@@ -84,6 +112,17 @@ const SideBarList = ({ open, setOpen }: Props) => {
       setOpenSub({ isSubOpen: true, mainName: name })
     }
   }
+  const handleClickSub = (name: SidebarSubListNames) => {
+    if (name === openChild.mainName) {
+      if (open) {
+        setOpenChild({ isChildOpen: !openChild.isChildOpen, mainName: name })
+      } else {
+        setOpenChild({ isChildOpen: true, mainName: name })
+      }
+    } else {
+      setOpenChild({ isChildOpen: true, mainName: name })
+    }
+  }
   //Shadows
   const box_Shadow_out =
     '0px 2px 4px rgba(0, 0, 0, 0.4), 0px 7px 13px -3px rgba(0, 0, 0, 0.3), inset 0px -3px 0px rgba(0, 0, 0, 0.2)'
@@ -96,7 +135,10 @@ const SideBarList = ({ open, setOpen }: Props) => {
             <List
               disablePadding
               sx={{
-                bgcolor: x.mainListName === selected ? '#434655' : theme.palette.mLightGray?.main,
+                bgcolor:
+                  x.mainListName === selected
+                    ? theme.palette.mDarkestGray.main
+                    : theme.palette.mLightGray?.main,
                 borderRadius: '7px',
                 boxShadow: x.mainListName === selected ? '' : box_Shadow_out,
                 color: x.mainListName === selected ? theme.palette.mWhite?.main : '',
@@ -107,11 +149,9 @@ const SideBarList = ({ open, setOpen }: Props) => {
                 <ListItemButton
                   onClick={() => {
                     handleClick(x.mainListName)
+                    setSelected(x.mainListName)
                     if (x.isSingle) {
-                      setSelected(x.mainListName)
                       nav(x.mainPath)
-                    } else {
-                      setSelected(x.mainListName)
                     }
                   }}
                   sx={{
@@ -172,9 +212,12 @@ const SideBarList = ({ open, setOpen }: Props) => {
                           key={sub.id}
                           sx={{
                             backgroundColor:
-                              sub.txt === subSelected ? theme.palette.mLightGray?.main : '',
-                            boxShadow: sub.txt === subSelected ? box_Shadow_out : '',
-                            borderRadius: sub.txt === subSelected ? '7px' : '',
+                              sub.txt === subSelected && sub.isSingle
+                                ? theme.palette.mLightGray?.main
+                                : '',
+                            boxShadow:
+                              sub.txt === subSelected && sub.isSingle ? box_Shadow_out : '',
+                            borderRadius: sub.txt === subSelected && sub.isSingle ? '7px' : '',
                           }}
                         >
                           <ListItem disablePadding divider>
@@ -188,7 +231,12 @@ const SideBarList = ({ open, setOpen }: Props) => {
                                 paddingTop: '4px',
                               }}
                               onClick={() => {
-                                nav(sub.path)
+                                handleClickSub(sub.txt)
+                                setSelected(x.mainListName)
+                                setSubSelected(sub.txt)
+                                if (sub.isSingle) {
+                                  nav(sub.path)
+                                }
                               }}
                             >
                               <ListItemIcon
@@ -205,9 +253,16 @@ const SideBarList = ({ open, setOpen }: Props) => {
                                     width: 20,
                                     height: 20,
                                     fill:
-                                      sub.txt === subSelected
+                                      sub.txt === subSelected && sub.isSingle
                                         ? theme.palette?.mBlack?.main
-                                        : theme.palette.mWhite?.main,
+                                        : theme.palette?.mWhite?.main,
+                                    ...(!sub.isSingle && {
+                                      className: `${
+                                        openChild.isChildOpen && openChild.mainName === sub.txt
+                                          ? 'rotate-90'
+                                          : 'rotate-0'
+                                      } transition-all duration-500 ease-in-out`,
+                                    }),
                                   }}
                                 />
                               </ListItemIcon>
@@ -215,13 +270,89 @@ const SideBarList = ({ open, setOpen }: Props) => {
                                 primary={sub.txt}
                                 sx={{
                                   color:
-                                    sub.txt === subSelected
+                                    sub.txt === subSelected && sub.isSingle
                                       ? theme.palette.mBlack?.main
                                       : theme.palette?.mWhite?.main,
                                 }}
                               />
                             </ListItemButton>
                           </ListItem>
+                          {!sub.isSingle && (
+                            <Collapse
+                              in={openChild.isChildOpen && openChild.mainName === sub.txt}
+                              timeout='auto'
+                              translate='yes'
+                            >
+                              <div className='flex flex-col gap-1 rounded-xl overflow-hidden my-2 mx-2 px-[5px] bg-white-main py-2'>
+                                {sub.childList.map((chl, ic) => {
+                                  return (
+                                    <List
+                                      disablePadding
+                                      key={chl.id}
+                                      sx={{
+                                        backgroundColor:
+                                          chl.txt === childSelected
+                                            ? theme.palette.mDarkestGray?.main
+                                            : '',
+                                        boxShadow: chl.txt === childSelected ? box_Shadow_out : '',
+                                        borderRadius: chl.txt === childSelected ? '7px' : '',
+                                      }}
+                                    >
+                                      <ListItem
+                                        disablePadding
+                                        divider={ic === sub.childList.length - 1 ? false : true}
+                                      >
+                                        <ListItemButton
+                                          sx={{
+                                            display: 'flex',
+                                            justifyContent: 'start',
+                                            alignItems: 'center',
+                                            px: '5px',
+                                            paddingBottom: '4px',
+                                            paddingTop: '4px',
+                                            gap: 0.5,
+                                          }}
+                                          onClick={() => {
+                                            nav(chl.path)
+                                          }}
+                                        >
+                                          <ListItemIcon
+                                            sx={{
+                                              minWidth: 10,
+                                              display: 'flex',
+                                              justifyContent: 'center',
+                                              alignItems: 'center',
+                                            }}
+                                          >
+                                            <FetchSvg
+                                              iconName='right-arrow'
+                                              svgProp={{
+                                                width: 16,
+                                                height: 16,
+                                                fill:
+                                                  chl.txt === childSelected
+                                                    ? theme.palette?.mWhite?.main
+                                                    : theme.palette?.mDarkestGray?.main,
+                                              }}
+                                            />
+                                          </ListItemIcon>
+                                          <ListItemText
+                                            primary={chl.txt}
+                                            sx={{
+                                              color:
+                                                chl.txt === childSelected
+                                                  ? theme.palette?.mWhite?.main
+                                                  : theme.palette.mBlack?.main,
+                                            }}
+                                          />
+                                        </ListItemButton>
+                                      </ListItem>
+                                    </List>
+                                  )
+                                })}
+                              </div>
+                            </Collapse>
+                          )}
                         </List>
                       )
                     })}
@@ -254,6 +385,8 @@ const SideBarList = ({ open, setOpen }: Props) => {
                       if (x.isSingle) {
                         nav(x.mainPath)
                         setSelected(x.mainListName)
+                        setOpenSub({ isSubOpen: false, mainName: undefined })
+                        setOpenChild({ isChildOpen: false, mainName: undefined })
                       } else {
                         setSelected(x.mainListName)
                         setOpen(true)

@@ -51,7 +51,7 @@ const MultiTxtInput = ({
                 label={label}
                 InputLabelProps={{ shrink: true }}
                 multiline={isInsideTag ? true : false}
-                minRows={isInsideTag ? 3 : 0}
+                minRows={isInsideTag ? 2 : 0}
               />
             )}
             {...(!isInsideTag && { renderTags: () => null })}

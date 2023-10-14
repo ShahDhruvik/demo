@@ -65,6 +65,7 @@ export const enum TABLES {
   TREATMENT = 'TREATMENT',
   TNC = 'TNC',
   COMPLIANCE = 'COMPLIANCE',
+  ROLE = 'ROLE',
 }
 
 export const formatDate = (dateString: string) => {
@@ -128,15 +129,21 @@ export const enum SIDEBAR_NAMES {
   QUESTION_ANSWER = 'Question Answer',
 }
 export const enum SIDEBAR_SUBLIST_NAMES {
-  COUNTRY = 'Country',
-  STATE = 'State',
-  CITY = 'City',
-  PINCODE = 'Pincode',
+
   PROFILE = 'Profile',
   PACKAGE = 'Packages',
   PLANS = 'Treatments',
   TNC = 'Terms And Conditions',
   COMPLIANCE = 'Compliance',
+  LOCATION = 'Location',
+  ROLES = 'Roles',
+}
+
+export const enum SUBLIST_CHILDLIST_NAMES {
+  COUNTRY = 'Country',
+  STATE = 'State',
+  CITY = 'City',
+  PINCODE = 'Pincode',
 }
 
 export const sidebarItems: SideBarItems[] = [
@@ -148,35 +155,43 @@ export const sidebarItems: SideBarItems[] = [
     isSingle: true,
     mainPath: `${COMMON_PATH.DEFAULT}`,
   },
-  {
-    id: 1,
-    mainListName: SIDEBAR_NAMES.LOCATION,
-    mainImage: 'location',
-    subList: [
-      {
-        id: 0,
-        txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
-        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
-      },
-      {
-        id: 1,
-        txt: SIDEBAR_SUBLIST_NAMES.STATE,
-        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
-      },
-      {
-        id: 2,
-        txt: SIDEBAR_SUBLIST_NAMES.CITY,
-        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
-      },
-      {
-        id: 3,
-        txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
-        path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
-      },
-    ],
-    isSingle: false,
-    mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
-  },
+  // {
+  //   id: 1,
+  //   mainListName: SIDEBAR_NAMES.LOCATION,
+  //   mainImage: 'location',
+  //   subList: [
+  //     {
+  //       id: 0,
+  //       txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
+  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
+  //       isSingle: true,
+  //       childList: []
+  //     },
+  //     {
+  //       id: 1,
+  //       txt: SIDEBAR_SUBLIST_NAMES.STATE,
+  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
+  //       isSingle: true,
+  //       childList: []
+  //     },
+  //     {
+  //       id: 2,
+  //       txt: SIDEBAR_SUBLIST_NAMES.CITY,
+  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
+  //       isSingle: true,
+  //       childList: []
+  //     },
+  //     {
+  //       id: 3,
+  //       txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
+  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
+  //       isSingle: true,
+  //       childList: []
+  //     },
+  //   ],
+  //   isSingle: false,
+  //   mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
+  // },
   {
     id: 2,
     mainListName: SIDEBAR_NAMES.TRIANA,
@@ -186,21 +201,68 @@ export const sidebarItems: SideBarItems[] = [
         id: 0,
         txt: SIDEBAR_SUBLIST_NAMES.PACKAGE,
         path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.PACKAGE}`,
+        isSingle: true,
+        childList: []
       },
       {
         id: 1,
         txt: SIDEBAR_SUBLIST_NAMES.PLANS,
         path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.PLAN}`,
+        isSingle: true,
+        childList: []
       },
       {
         id: 2,
         txt: SIDEBAR_SUBLIST_NAMES.TNC,
         path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.TNC}`,
+        isSingle: true,
+        childList: []
       },
       {
         id: 3,
+        txt: SIDEBAR_SUBLIST_NAMES.LOCATION,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.LOCATION.split('/*')[0]}`,
+        isSingle: false,
+        childList: [
+          {
+            id: 0,
+            txt: SUBLIST_CHILDLIST_NAMES.COUNTRY,
+            path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
+            isSingle: true,
+          },
+          {
+            id: 1,
+            txt: SUBLIST_CHILDLIST_NAMES.STATE,
+            path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
+            isSingle: true,
+          },
+          {
+            id: 2,
+            txt: SUBLIST_CHILDLIST_NAMES.CITY,
+            path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
+            isSingle: true,
+          },
+          {
+            id: 3,
+            txt: SUBLIST_CHILDLIST_NAMES.PINCODE,
+            path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
+            isSingle: true,
+          }
+        ]
+      },
+      {
+        id: 4,
         txt: SIDEBAR_SUBLIST_NAMES.COMPLIANCE,
         path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.COMPLIANCE}`,
+        isSingle: true,
+        childList: []
+      },
+      {
+        id: 5,
+        txt: SIDEBAR_SUBLIST_NAMES.ROLES,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.ROLES}`,
+        isSingle: true,
+        childList: []
       },
     ],
     isSingle: false,
@@ -237,3 +299,30 @@ export const enum INFOBOXES {
   DEFAULT = 'DEFAULT',
   MULTI = 'MULTI',
 }
+
+export enum CompliancesNameEnum {
+  HIPPA = 'HIPPA',
+  GDPR = 'GDPR',
+  PCI = 'PCI',
+  FDA = 'FDA',
+}
+
+export const complianceArray = Object.keys(CompliancesNameEnum).map((key) => ({
+  label: key,
+  _id: key,
+}));
+
+export enum TermsAndConditionNameEnum {
+  WebUser = 'WebUser',
+  Administration = 'Administration',
+  Employee = 'Employee',
+  MoneyBack = 'MoneyBack',
+  MobileUser = 'MobileUser',
+  Provider = 'Provider',
+  Clinic = 'Clinic',
+}
+
+export const tnCArray = Object.keys(TermsAndConditionNameEnum).map((key) => ({
+  label: key,
+  _id: key,
+}));

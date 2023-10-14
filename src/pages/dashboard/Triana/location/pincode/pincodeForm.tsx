@@ -167,112 +167,100 @@ const PincodeForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
     }
   }, [open])
   return (
-    <form onSubmit={handleSubmit(onSubmitHandle)} className='min-h-full flex flex-col'>
-      <div className='px-5  gap-5 mb-5 flex flex-col min-h-[500px]'>
-        <div className='flex flex-col gap-5 flex-1'>
-          <div className='flex gap-5'>
-            <SelectInput
-              clearErrors={clearErrors}
-              control={control}
-              label='Country'
-              name='countryId'
-              options={countries as SearchDDL[]}
-              setError={setError}
-              setValue={setValue}
-              validation={searchSelectValidation('Country')}
-              handleChange={() => {
-                reset((formValues) => {
-                  return { ...formValues, stateId: acDefaultValue, cityId: acDefaultValue }
-                })
-              }}
-            />
-            <SelectInput
-              clearErrors={clearErrors}
-              control={control}
-              label='State'
-              name='stateId'
-              options={states as SearchDDL[]}
-              setError={setError}
-              setValue={setValue}
-              validation={searchSelectValidation('State')}
-              handleChange={() => {
-                reset((formValues) => {
-                  return { ...formValues, cityId: acDefaultValue }
-                })
-              }}
-            />
-          </div>
-          <div className='flex gap-5'>
-            <SelectInput
-              clearErrors={clearErrors}
-              control={control}
-              label='City'
-              name='cityId'
-              options={cities as SearchDDL[]}
-              setError={setError}
-              setValue={setValue}
-              validation={searchSelectValidation('City')}
-            />
-            <NumInput
-              control={control}
-              handleChange={() => {}}
-              name={`value`}
-              placeholder='Enter pincode'
-              label='Pincode'
-              validation={numberFieldValidation(true, undefined, 'Pincode')}
-            />
-          </div>
-          <div className='flex gap-5'>
-            <SelectInput
-              clearErrors={clearErrors}
-              control={control}
-              label='Primary language*'
-              name='primaryLan'
-              options={languages}
-              setError={setError}
-              setValue={setValue}
-              validation={searchSelectValidation('Primary language')}
-            />
-            <SelectInput
-              clearErrors={clearErrors}
-              control={control}
-              label='Secondary language'
-              name='secondaryLan'
-              options={languages}
-              setError={setError}
-              setValue={setValue}
-              validation={{}}
-              notRequired={true}
-            />
-          </div>
-          <div className='flex gap-5'>
-            <SelectInput
-              clearErrors={clearErrors}
-              control={control}
-              label='Secondary language'
-              name='thirdLan'
-              options={languages}
-              setError={setError}
-              setValue={setValue}
-              validation={{}}
-              notRequired={true}
-              sx={{
-                flexGrow: 0.5,
-                maxWidth: '49%',
-              }}
-            />
-            <CheckInput control={control} name='isAvailable' label='available' />
-          </div>
+    <form onSubmit={handleSubmit(onSubmitHandle)} className='flex flex-col flex-1'>
+      <div className='flex-1'>
+        <div className='px-5 grid grid-cols-1 md:grid-cols-2 gap-5 mb-5 '>
+          <SelectInput
+            clearErrors={clearErrors}
+            control={control}
+            label='Country'
+            name='countryId'
+            options={countries as SearchDDL[]}
+            setError={setError}
+            setValue={setValue}
+            validation={searchSelectValidation('Country')}
+            handleChange={() => {
+              reset((formValues) => {
+                return { ...formValues, stateId: acDefaultValue, cityId: acDefaultValue }
+              })
+            }}
+          />
+          <SelectInput
+            clearErrors={clearErrors}
+            control={control}
+            label='State'
+            name='stateId'
+            options={states as SearchDDL[]}
+            setError={setError}
+            setValue={setValue}
+            validation={searchSelectValidation('State')}
+            handleChange={() => {
+              reset((formValues) => {
+                return { ...formValues, cityId: acDefaultValue }
+              })
+            }}
+          />
+          <SelectInput
+            clearErrors={clearErrors}
+            control={control}
+            label='City'
+            name='cityId'
+            options={cities as SearchDDL[]}
+            setError={setError}
+            setValue={setValue}
+            validation={searchSelectValidation('City')}
+          />
+          <NumInput
+            control={control}
+            handleChange={() => {}}
+            name={`value`}
+            placeholder='Enter pincode'
+            label='Pincode'
+            validation={numberFieldValidation(true, undefined, 'Pincode')}
+          />
+          <SelectInput
+            clearErrors={clearErrors}
+            control={control}
+            label='Primary language*'
+            name='primaryLan'
+            options={languages}
+            setError={setError}
+            setValue={setValue}
+            validation={searchSelectValidation('Primary language')}
+          />
+          <SelectInput
+            clearErrors={clearErrors}
+            control={control}
+            label='Secondary language'
+            name='secondaryLan'
+            options={languages}
+            setError={setError}
+            setValue={setValue}
+            validation={{}}
+            notRequired={true}
+          />
+          <SelectInput
+            clearErrors={clearErrors}
+            control={control}
+            label='Secondary language'
+            name='thirdLan'
+            options={languages}
+            setError={setError}
+            setValue={setValue}
+            validation={{}}
+            notRequired={true}
+          />
+          <CheckInput control={control} name='isAvailable' label='available' />
         </div>
-        <FormBtns
-          approvalFnc={() => {}}
-          approvalTxt={type === TABLE_STATES.ADD ? 'Add' : 'Edit'}
-          cancelFnc={handleClose}
-          cancelTxt='Cancel'
-          formSubmitting={isSubmitting}
-          isSubmit={true}
-        />
       </div>
+      <FormBtns
+        approvalFnc={() => {}}
+        approvalTxt={type === TABLE_STATES.ADD ? 'Add' : 'Edit'}
+        cancelFnc={handleClose}
+        cancelTxt='Cancel'
+        formSubmitting={isSubmitting}
+        isSubmit={true}
+      />
     </form>
   )
 }

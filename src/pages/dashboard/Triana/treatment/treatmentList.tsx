@@ -130,20 +130,8 @@ const TreatmentList = ({ handleOpen, setType, open, type, handleClose }: Props) 
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
         maxWidth={'xl'}
-        maxHeight={900}
         open={open}
-        sxProps={{
-          [theme.breakpoints.up('lg')]: {
-            '.MuiPaper-root ': {
-              minWidth: 1000,
-            },
-          },
-          [theme.breakpoints.down('lg')]: {
-            '.MuiPaper-root ': {
-              minWidth: 600,
-            },
-          },
-        }}
+        type={type}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}

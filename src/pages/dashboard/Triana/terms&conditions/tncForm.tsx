@@ -1,8 +1,8 @@
 import FormBtns from '@/components/FormBtn'
 import NumInput from '@/components/NumInput'
 import { useEffect } from 'react'
-import { SearchDDL, TableStates, tnCArray } from '@/types/common'
-import { PackagesArray, TABLE_STATES, TreatmentPackageTypes } from '@/utils/constants'
+import { SearchDDL, TableStates } from '@/types/common'
+import { PackagesArray, TABLE_STATES, TreatmentPackageTypes, tnCArray } from '@/utils/constants'
 import {
   acDefaultValue,
   dateSelectValidation,
@@ -18,7 +18,7 @@ import { useState } from 'react'
 import CheckInput from '@/components/CheckInput'
 import MultiTxtInput from '@/components/MultiTxtInput'
 import TxtInput from '@/components/TxtInput'
-import { Divider } from '@mui/material'
+import { Divider, FormLabel } from '@mui/material'
 import { theme } from '@/context/ThemeProvider'
 import ImageUploadInput from '@/components/ImageInput'
 import MultiSelectInput from '@/components/MultiselectInput'
@@ -30,6 +30,7 @@ import SelectInput from '@/components/SelectInput'
 import { DateInput } from '@/components/DateInput'
 import { createTNC } from '@/lib/termsAndCon'
 import { dropdownCountry } from '@/lib/Country'
+import RichTextEditor from 'react-rte'
 
 type Props = {
   handleClose: () => void
@@ -44,11 +45,12 @@ const TNCForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   const showToast = useToast()
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [countries, setCountries] = useState<SearchDDL[]>([])
+  const [description, setDescription] = useState(RichTextEditor.createEmptyValue())
 
   //API's
   const getCountries = async () => {
     const data = (await dropdownCountry(setLoading, showToast)) as CountryData[]
-    const con: SearchDDL[] = [acDefaultValue]
+    const con: SearchDDL[] = []
     data.map((x) => {
       const conItem: SearchDDL = { label: `${x.name}`, _id: x._id }
       con.push(conItem)
@@ -65,7 +67,7 @@ const TNCForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
       defaultValues: {
         name: acDefaultValue,
         countryIds: [] as SearchDDL[],
-        description: '',
+        description: RichTextEditor.createEmptyValue(),
         effectiveDate: null,
         revisionDate: null,
         header: '',
@@ -84,6 +86,7 @@ const TNCForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
 
   const { isSubmitting, errors } = formState
   const onSubmitHandle: SubmitHandler<any> = async (data) => {
+    data.description = description.toString('html')
     handleClose()
     switch (type) {
       case TABLE_STATES.ADD:
@@ -177,7 +180,7 @@ const TNCForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
             />
           </div>
         </div>
-        <div className='grid grid-cols-auto-fit gap-5 mt-10'>
+        <div className='flex flex-col gap-3 mt-5'>
           <MultiSelectInput
             fields={fields}
             label='Country'
@@ -189,17 +192,18 @@ const TNCForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
             clearErrors={clearErrors}
             setError={setError}
             errMessage={'Select Country'}
-            isPadding={true}
+            isPadding={false}
           />
-          <TxtInput
-            control={control}
-            handleChange={() => {}}
-            name='description'
-            placeholder='Enter description'
-            validation={txtFieldValidation(true)}
-            label='Description'
-            multiline={2.2}
-          />
+          <div>
+            <p className='pl-2 mb-2'> Description</p>
+            <RichTextEditor
+              value={description}
+              onChange={(newValue) => {
+                setDescription(newValue)
+              }}
+              className='min-h-[230px]'
+            />
+          </div>
         </div>
       </div>
       <FormBtns

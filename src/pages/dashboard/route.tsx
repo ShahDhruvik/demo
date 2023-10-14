@@ -21,7 +21,6 @@ const DashboardRoute = ({}: Props) => {
         }
       >
         <Route path={DASHBOARD_PATH.MASTER} element={<DashPage />} />
-        <Route path={DASHBOARD_PATH.LOCATION} element={<LocationRoutes />} />
         <Route path={DASHBOARD_PATH.TRIANA} element={<PackageRoutes />} />
         <Route path={DASHBOARD_PATH.FAQ} element={<FaqRoute />} />
         <Route path={DASHBOARD_PATH.BANNER_SLIDER} element={<BannerSliderRoute />} />

@@ -20,43 +20,59 @@ const Header = ({ open, setOpen }: Props) => {
   const decideName = (path: string) => {
     //url segemnts
     const segments = path.split('/')
-    const lastSegment = segments[segments.length - 1]
-    const lastSecondSegment = segments[segments.length - 2]
-    // Name in Header
-    const item = sidebarItems.find((x) => {
-      const segs = x.mainPath.split('/')
-      const lastSeg = segs[segs.length - 1]
-      return lastSeg === lastSegment
-    })
-    if (item) {
-      //Setting for main path
-      setSecSideBarItem(item.mainListName)
-    } else {
-      // Fetching next Item
-      const nextItem = sidebarItems.find((x) => {
+    //conditions
+    if (segments.length === 2) {
+      const lastSegment = segments[segments.length - 1]
+      const item = sidebarItems.find((x) => {
         const segs = x.mainPath.split('/')
-        const lastSeg = segs[segs.length - 1]
-        return lastSeg === lastSecondSegment
+        const last = segs[segs.length - 1]
+        return last === lastSegment
       })
-      if (nextItem) {
-        if (!nextItem.isSingle) {
-          const subListItems = nextItem.subList
-          const nextItemMatch = subListItems.find((x) => {
-            const nextLastSegs = x.path.split('/')
-            const nextLastSeg = nextLastSegs[nextLastSegs.length - 1]
-            return nextLastSeg === lastSegment
-          })
-          if (nextItemMatch) {
-            setSecSideBarItem(nextItemMatch.txt)
-          } else {
-            setSecSideBarItem(undefined)
-          }
-        } else {
-          setSecSideBarItem(undefined)
-        }
-      } else {
-        setSecSideBarItem(undefined)
+      if (item) {
+        setSecSideBarItem(item.mainListName)
       }
+    } else if (segments.length === 3) {
+      const lastSegment = segments[segments.length - 1]
+      const lastSecondSegment = segments[segments.length - 2]
+      const item = sidebarItems.find((x) => {
+        const segs = x.mainPath.split('/')
+        const last = segs[segs.length - 1]
+        return last === lastSecondSegment
+      })
+      if (item) {
+        const next = item.subList.find((x) => {
+          const segs = x.path.split('/')
+          const last = segs[segs.length - 1]
+          return last === lastSegment
+        })
+        setSecSideBarItem(next.txt)
+      }
+    } else if (segments.length === 4) {
+      const lastSegment = segments[segments.length - 1]
+      const lastSecondSegment = segments[segments.length - 2]
+      const lastThirdSegment = segments[segments.length - 3]
+      const item = sidebarItems.find((x) => {
+        const segs = x.mainPath.split('/')
+        const last = segs[segs.length - 1]
+        return last === lastThirdSegment
+      })
+      if (item) {
+        const next = item.subList.find((x) => {
+          const segs = x.path.split('/')
+          const last = segs[segs.length - 1]
+          return last === lastSecondSegment
+        })
+
+        if (next) {
+          const nextChild = next.childList.find((x) => {
+            const segs = x.path.split('/')
+            const last = segs[segs.length - 1]
+            return last === lastSegment
+          })
+          setSecSideBarItem(nextChild.txt)
+        }
+      }
+    } else {
     }
   }
   useEffect(() => {

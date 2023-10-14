@@ -23,14 +23,14 @@ type Props = {
 const CheckInput = ({ control, name, label, handleToggle, sxProps }: Props) => {
   const shoeToast = useToast()
   return (
-    <div className='flex items-center'>
+    <div className='flex items-center '>
       <Controller
         name={name}
         control={control}
         render={({ field, fieldState }) => {
           const { onChange: fieldOnChange, ...rest } = field
           return (
-            <div className='flex flex-col gap-1'>
+            <div className=''>
               <Checkbox
                 {...rest}
                 onChange={(e, checked) => {
@@ -47,6 +47,9 @@ const CheckInput = ({ control, name, label, handleToggle, sxProps }: Props) => {
                   <FetchSvg iconName='check-box' svgProp={{ width: '1rem', height: '1rem' }} />
                 }
                 icon={<div className='h-4 aspect-square  border-[2px] border-black-main'></div>}
+                sx={{
+                  maxWidth: 'max-content',
+                }}
               />
               <FormHelperText>{fieldState.invalid ?? fieldState.error?.message}</FormHelperText>
             </div>
@@ -56,7 +59,6 @@ const CheckInput = ({ control, name, label, handleToggle, sxProps }: Props) => {
       />
       <FormLabel
         sx={{
-          mb: 1,
           ...(sxProps ? sxProps : {}),
         }}
       >

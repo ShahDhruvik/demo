@@ -19,7 +19,7 @@ const FormBtns = ({
   formSubmitting,
 }: Props) => {
   return (
-    <Box display={'flex'} justifyContent={'center'} gap={'12px'}>
+    <Box display={'flex'} justifyContent={'end'} gap={'12px'} alignItems={'end'} px={5} pt={5}>
       <div>
         <Button
           variant='outlined'

@@ -1,24 +1,21 @@
 import { ReactNode } from 'react'
 import { DialogContent, DialogProps, Dialog, Fade, SxProps, Theme } from '@mui/material'
-import { ALIGN_DIALOG } from '../utils/constants'
-import { AlignDialogProp } from '../types/common'
+import { ALIGN_DIALOG, TABLE_STATES } from '../utils/constants'
+import { AlignDialogProp, TableStates } from '../types/common'
 import { theme } from '../context/ThemeProvider'
 interface Props {
   open: boolean
   handleClose: () => void
   align?: AlignDialogProp
   isFullScreen?: boolean
-  maxHeight?: number
   maxWidth: DialogProps['maxWidth']
   disableClickAway?: boolean
   children: ReactNode
   header: { isHeader: boolean; component: ReactNode }
   action: { isAction: boolean; component: ReactNode }
-  paddingOfContent?: string
-  // minWidth?: number
-  minHeight?: number
   sxProps?: SxProps<Theme>
   dialogStyleProps?: SxProps<Theme>
+  type: TableStates
 }
 
 const CustomDialog = ({
@@ -26,16 +23,14 @@ const CustomDialog = ({
   handleClose,
   align,
   isFullScreen,
-  maxHeight,
   maxWidth,
   disableClickAway,
   children,
   header,
   action,
-  paddingOfContent,
-  minHeight,
   sxProps,
   dialogStyleProps,
+  type,
 }: Props) => {
   //Dialog Allignment
   const otherProps = { m: '1rem 0.5rem ' }
@@ -80,7 +75,7 @@ const CustomDialog = ({
         handleClose()
       }
     },
-    scroll: 'paper',
+    // scroll: 'paper',
     maxWidth: maxWidth,
     fullScreen: isFullScreen,
   }
@@ -91,8 +86,13 @@ const CustomDialog = ({
       sx={{
         '.MuiPaper-root ': {
           borderRadius: '7px',
-          minHeight: minHeight ?? 0,
+          minHeight:
+            type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT ? `calc(50vh + 35vh)` : '',
+          minWidth:
+            type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT ? `calc(50vw + 35vw)` : '',
           background: theme.palette.mLightGray?.main,
+          display: 'flex',
+          flexDirection: 'column',
         },
         ...sxProps,
       }}
@@ -102,15 +102,16 @@ const CustomDialog = ({
       {header.isHeader && header.component}
       <DialogContent
         sx={{
-          maxHeight: maxHeight ?? 400,
-          overflowY: 'auto',
-          padding: paddingOfContent ?? '',
           ...dialogStyleProps,
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
         }}
         className='scrollBarContent'
       >
         {children}
       </DialogContent>
+
       {action.isAction && action.component}
     </Dialog>
     // </Fade>

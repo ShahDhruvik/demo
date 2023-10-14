@@ -5,6 +5,7 @@ import FetchSvg from './fetchSvg'
 import logo from '@/assets/images/logo.png'
 
 import SideBarList from './SideBarList'
+import { Divider } from '@mui/material'
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
@@ -38,8 +39,8 @@ const SideBar = ({ open, setOpen }: Props) => {
       <div className='min-h-screen flex flex-col '>
         <div
           className={`flex ${
-            !open ? 'justify-center' : 'justify-between pl-2 pr-3  '
-          } items-center  min-h-[64px]  mb-3 `}
+            !open ? 'justify-center' : 'justify-between pl-2 pr-3   '
+          } items-center  min-h-[64px] mb-3 `}
         >
           {!open && (
             <button onClick={() => setOpen(true)}>
@@ -49,7 +50,7 @@ const SideBar = ({ open, setOpen }: Props) => {
                   width: 20,
                   height: 20,
                 }}
-                wrapperStyle='shadow-box-out rounded-[7px] p-2 '
+                wrapperStyle='shadow-box-in  rounded-[7px] p-2 '
               />
             </button>
           )}
@@ -63,9 +64,9 @@ const SideBar = ({ open, setOpen }: Props) => {
           {open && (
             <button
               onClick={() => setOpen(false)}
-              className='-mr-2 bg-lightGray-main shadow-box-out rounded-lg p-1'
+              className=' bg-white-main shadow-box-in rounded-lg p-1   z-[2000px]'
             >
-              <FetchSvg iconName='back' svgProp={{ width: 20, height: 20 }} />
+              <FetchSvg iconName='undo' svgProp={{ width: 20, height: 20 }} />
             </button>
           )}
         </div>

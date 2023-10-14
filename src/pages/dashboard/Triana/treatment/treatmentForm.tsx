@@ -114,8 +114,8 @@ const TreatmentForm = ({ handleClose, entity, getModifiedData, type }: Props) =>
   }, [])
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandle)}>
-      <div className='px-5 grid grid-cols-auto-fit gap-5 mb-5'>
+    <form onSubmit={handleSubmit(onSubmitHandle)} className='flex flex-col flex-1'>
+      <div className='px-5 grid grid-cols-auto-fit gap-5 mb-5 flex-1'>
         <TxtInput
           control={control}
           handleChange={() => {}}

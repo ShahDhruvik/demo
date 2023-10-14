@@ -9,14 +9,10 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import PackageForm from './packageForm'
+import CityForm from './cityForm'
 import { theme } from '@/context/ThemeProvider'
 import { CountryData } from '@/types/location'
 import { deleteCity, getCity, inactiveCity } from '@/lib/City'
-import { getPincode } from '@/lib/Pincode'
-import { deletePackage, getPackage, inactivePackage } from '@/lib/Packages'
-import { PackageData } from '@/types/package'
-import PackageView from './packageView'
 
 type Props = {
   handleOpen: () => void
@@ -26,7 +22,7 @@ type Props = {
   handleClose: () => void
 }
 
-const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
+const CityList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -43,15 +39,15 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
 
   // Record and Control States
   const [data, setData] = useState<any[]>([])
-  const [entity, setEntity] = useState<PackageData | undefined>()
+  const [entity, setEntity] = useState<CountryData | undefined>()
   const [controls, setControls] = useState({})
   const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
   const getData = async () => {
-    const response = await getPackage(setLoading, showToast, setNotFound, notFound, handleControls)
+    const response = await getCity(setLoading, showToast, setNotFound, notFound, handleControls)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
-        setNotFound([TABLES.PINCODE])
+        setNotFound([TABLES.CITY])
       } else {
         setNotFound([])
         setData(records)
@@ -73,18 +69,13 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   ///headCells
   const headCells: HeadCell[] = [
     {
-      id: 'title',
-      label: 'Title',
+      id: 'name',
+      label: 'Name',
       isSort: true,
     },
     {
-      id: 'price',
-      label: 'Price',
-      isSort: true,
-    },
-    {
-      id: 'description',
-      label: 'Description',
+      id: 'shortName',
+      label: 'Short Name',
       isSort: true,
     },
     {
@@ -98,7 +89,7 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   // Inactive and Delete entity
   const inactiveEntity = async () => {
     handleClose()
-    const res = await inactivePackage(
+    const res = await inactiveCity(
       setLoading,
       showToast,
       entity?._id as string,
@@ -110,7 +101,7 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   }
   const deleteEntity = async () => {
     handleClose()
-    const res = await deletePackage(setLoading, showToast, entity?._id as string)
+    const res = await deleteCity(setLoading, showToast, entity?._id as string)
     if (res) {
       getModifiedData()
     }
@@ -127,28 +118,23 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         controls={controls as Controls}
         handleControls={handleControls}
         setHandleControls={setHandleControls}
-        actions={[
-          ACTIONS_TABLE.DELETE,
-          ACTIONS_TABLE.EDIT,
-          ACTIONS_TABLE.SWITCH,
-          ACTIONS_TABLE.VIEW,
-        ]}
-        tableHeading={{ tableId: TABLES.PACKAGE, tableName: 'Package' }}
-        notFound={notFound.includes(TABLES.PACKAGE)}
+        actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
+        tableHeading={{ tableId: TABLES.CITY, tableName: 'City' }}
+        notFound={notFound.includes(TABLES.CITY)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
       <CustomDialog
         action={{ isAction: false, component: null }}
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
-        maxWidth={'xl'}
+        maxWidth={'sm'}
         open={open}
         type={type}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}
       >
-        <ActionModal handleClose={handleClose} type={type} entityName='Package'>
+        <ActionModal handleClose={handleClose} type={type} entityName='City'>
           {type === TABLE_STATES.INACTIVE && (
             <SwitchDeleteModal
               actionFnc={() => {
@@ -180,18 +166,17 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
             />
           )}
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <PackageForm
+            <CityForm
               handleClose={handleClose}
               type={type}
-              entity={entity as PackageData}
+              entity={entity as CountryData}
               getModifiedData={getModifiedData}
             />
           )}
-          {type === TABLE_STATES.VIEW && <PackageView entity={entity as PackageData} />}
         </ActionModal>
       </CustomDialog>
     </Box>
   )
 }
 
-export default PackageList
+export default CityList

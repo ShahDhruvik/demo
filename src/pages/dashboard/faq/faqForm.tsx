@@ -90,6 +90,7 @@ const FaqForm = ({ handleClose, entity, setHandleControls, getData, type, open }
           name='question'
           placeholder='Enter question'
           validation={{ ...txtFieldValidation(true, 'Description') }}
+          label='Question'
         />
       </div>
       <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>

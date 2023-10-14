@@ -6,6 +6,8 @@ import { TRIANA_PATH } from '@/paths/index'
 import TreatmentPage from './treatment/page'
 import TNCPage from './terms&conditions/page'
 import CompliancePage from './compliance/page'
+import LocationRoutes from './location/route'
+import RolesPage from './roles/page'
 
 type Props = {}
 
@@ -17,6 +19,8 @@ const PackageRoutes = (props: Props) => {
       <Route path={TRIANA_PATH.PLAN} element={<TreatmentPage />} />
       <Route path={TRIANA_PATH.TNC} element={<TNCPage />} />
       <Route path={TRIANA_PATH.COMPLIANCE} element={<CompliancePage />} />
+      <Route path={TRIANA_PATH.LOCATION} element={<LocationRoutes />} />
+      <Route path={TRIANA_PATH.ROLES} element={<RolesPage />} />
     </RouteWrapper>
   )
 }

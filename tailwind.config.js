@@ -52,6 +52,11 @@ export default {
         light: '#787d78',
         dark: '#787d78',
       },
+      darkestGray: {
+        main: '#434655',
+        light: '#434655',
+        dark: '#434655',
+      },
       orange: {
         main: '#db4437',
         light: '#db4437',

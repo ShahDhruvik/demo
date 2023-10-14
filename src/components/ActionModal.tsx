@@ -15,7 +15,7 @@ type Props = {
 
 const ActionModal = ({ handleClose, type, children, entityName }: Props) => {
   return (
-    <>
+    <div className='flex flex-col flex-1'>
       <Box
         marginBottom={4}
         position={'sticky'}
@@ -62,8 +62,8 @@ const ActionModal = ({ handleClose, type, children, entityName }: Props) => {
           <FetchSvg iconName='dismiss' svgProp={{ width: 30, height: 30 }} />
         </IconButton>
       </Box>
-      {children}
-    </>
+      <div className='flex flex-col flex-1'>{children}</div>
+    </div>
   )
 }
 

@@ -10,7 +10,6 @@ export const enum COMMON_PATH {
 
 export const enum DASHBOARD_PATH {
   MASTER = '/',
-  LOCATION = '/location/*',
   TRIANA = '/triana/*',
   FAQ = '/faq/*',
   BANNER_SLIDER = '/banner-slider/*',
@@ -38,4 +37,6 @@ export const enum TRIANA_PATH {
   PLAN = '/plan',
   TNC = '/tnc',
   COMPLIANCE = '/compliance',
+  LOCATION = '/location/*',
+  ROLES = '/roles',
 }

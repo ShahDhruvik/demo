@@ -79,8 +79,8 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
       label: 'Available',
       isSort: true,
       type: 'InformedStatus',
-      trueTxt: 'YES',
-      falseTxt: 'NO',
+      // trueTxt: 'YES',
+      // falseTxt: 'NO',
     },
     {
       id: 'isActive',
@@ -136,7 +136,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         sxProps={{
           [theme.breakpoints.up('lg')]: {
             '.MuiPaper-root ': {
-              minWidth: 800,
+              minWidth: 1000,
             },
           },
           [theme.breakpoints.down('lg')]: {

@@ -47,18 +47,18 @@ const getCompliance = async (
         const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${COMPLIANCE_PATH.GET}`, handleControls);
         if (res.data.success) {
             if (res.data.data.records.length === 0) {
-                notFound([...notFoundArray, TABLES.PACKAGE]);
+                notFound([...notFoundArray, TABLES.COMPLIANCE]);
             } else {
                 notFound([]);
             }
             return res.data.data;
         } else {
-            notFound([...notFoundArray, TABLES.PACKAGE]);
+            notFound([...notFoundArray, TABLES.COMPLIANCE]);
         }
     } catch (error: any) {
         console.log(error);
         if (error.response.status === 404) {
-            notFound([...notFoundArray, TABLES.PACKAGE]);
+            notFound([...notFoundArray, TABLES.COMPLIANCE]);
         } else {
             toast('error', error.response.statusText);
         }

@@ -9,6 +9,7 @@ import {
   INFOBOXES,
   SIDEBAR_NAMES,
   SIDEBAR_SUBLIST_NAMES,
+  SUBLIST_CHILDLIST_NAMES,
   TABLE_STATES,
 } from '../utils/constants'
 import { Theme } from '@mui/material'
@@ -57,10 +58,15 @@ export type AlignDialogProp =
   | ALIGN_DIALOG.TOP_RIGHT
 
 export type LoadingState = {
-  loading: { isLoading: boolean, isPage: boolean, pageProps?: { image: any, pageTxt: string } };
-  setLoading: Dispatch<SetStateAction<{ isLoading: boolean, isPage: boolean, pageProps?: { image: any, pageTxt: string, } }>>;
-};
-
+  loading: { isLoading: boolean; isPage: boolean; pageProps?: { image: any; pageTxt: string } }
+  setLoading: Dispatch<
+    SetStateAction<{
+      isLoading: boolean
+      isPage: boolean
+      pageProps?: { image: any; pageTxt: string }
+    }>
+  >
+}
 
 export type SelectDDL = { label: string; _id: string }
 
@@ -163,24 +169,36 @@ export type SidebarNames =
   | undefined
 
 export type SidebarSubListNames =
-  | SIDEBAR_SUBLIST_NAMES.CITY
-  | SIDEBAR_SUBLIST_NAMES.COUNTRY
-  | SIDEBAR_SUBLIST_NAMES.PINCODE
-  | SIDEBAR_SUBLIST_NAMES.STATE
+
   | SIDEBAR_SUBLIST_NAMES.PROFILE
   | SIDEBAR_SUBLIST_NAMES.PACKAGE
   | SIDEBAR_SUBLIST_NAMES.PLANS
   | SIDEBAR_SUBLIST_NAMES.TNC
   | SIDEBAR_SUBLIST_NAMES.COMPLIANCE
+  | SIDEBAR_SUBLIST_NAMES.LOCATION
+  | SIDEBAR_SUBLIST_NAMES.ROLES
+  | undefined
+
+export type SidebarChildListNames =
+  | SUBLIST_CHILDLIST_NAMES.COUNTRY
+  | SUBLIST_CHILDLIST_NAMES.STATE
+  | SUBLIST_CHILDLIST_NAMES.PINCODE
+  | SUBLIST_CHILDLIST_NAMES.CITY
   | undefined
 
 export type SideBarItems = {
-  id: number,
-  mainListName: SidebarNames,
-  mainImage: string,
-  subList: { id: number, txt: SidebarSubListNames, path: string }[],
-  isSingle: boolean,
-  mainPath: string,
+  id: number
+  mainListName: SidebarNames
+  mainImage: string
+  subList: {
+    id: number
+    txt: SidebarSubListNames
+    path: string
+    isSingle: boolean
+    childList: { id: number; txt: SidebarChildListNames; path: string; isSingle: boolean }[]
+  }[]
+  isSingle: boolean
+  mainPath: string
 }
 
 export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI
@@ -188,7 +206,6 @@ export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
 export type ShowToastFunction = (type: ToastType, message: string, options?: ToastOptions) => void
-
 
 export type Radios = { value: string; name: string }
 export type Currencies = {
@@ -203,18 +220,3 @@ export type Languages = {
   label: string
   value: string
 }
-
-export enum TermsAndConditionNameEnum {
-  WebUser = 'WebUser',
-  Administration = 'Administration',
-  Employee = 'Employee',
-  MoneyBack = 'MoneyBack',
-  MobileUser = 'MobileUser',
-  Provider = 'Provider',
-  Clinic = 'Clinic',
-}
-
-export const tnCArray = Object.keys(TermsAndConditionNameEnum).map((key) => ({
-  label: key,
-  _id: key,
-}));
