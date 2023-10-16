@@ -8,7 +8,7 @@ export type TNCFields = {
     revisionDate: Date | null
     header: string
     image: File | null
-    description: EditorValue
+    description: { subHeader: string, description: string }[]
     revisionVersion: string
 }
 
