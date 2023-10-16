@@ -124,7 +124,7 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.COMPLIANCE, tableName: 'Compliance' }}
+        // tableHeading={{ tableId: TABLES.COMPLIANCE, tableName: 'Compliance' }}
         notFound={notFound.includes(TABLES.COMPLIANCE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />

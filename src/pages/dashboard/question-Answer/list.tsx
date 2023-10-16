@@ -37,21 +37,24 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   const showToast = useToast() as ShowToastFunction
   const { setNotFound, notFound } = useNotFound()
 
+  //default controls
+  const defaultControls = {
+    search: '',
+    currentPage: 1,
+    limitPerPage: limitOfPage,
+    sort: 'questionId',
+    sortOrder: 'asc',
+  }
+
   // Record and Control States
   const [data, setData] = useState<QnaFields[]>([])
   const [entity, setEntity] = useState<QnaFields | undefined>()
   const [controls, setControls] = useState({})
-  const [handleControls, setHandleControls] = useState<HandleControls>({
-    search: '',
-    currentPage: 1,
-    limitPerPage: limitOfPage,
-    sort: 'createdAt',
-    sortOrder: 'asc',
-  })
+  const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
   const [tree, setTree] = useState<any[]>([])
 
   const getData = async () => {
-    const response = await getAllQnas(setLoading, showToast, setNotFound, handleControls)
+    const response = await getAllQnas(setLoading, showToast, setNotFound, notFound, handleControls)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
@@ -64,6 +67,10 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
     } else {
       setData([])
     }
+  }
+
+  const getModifiedData = () => {
+    setHandleControls(defaultControls)
   }
 
   useEffect(() => {
@@ -83,23 +90,22 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
       isSort: false,
     },
     {
+      id: 'type',
+      label: 'Type',
+      isSort: false,
+    },
+    {
       id: 'isFinal',
       label: 'Final Question',
       isSort: false,
       type: 'isFinal',
     },
     // {
-    //   id: 'isFalse',
-    //   label: 'Final Question',
+    //   id: 'isActive',
+    //   label: 'Status',
     //   isSort: false,
     //   type: 'InformedStatus',
     // },
-    {
-      id: 'isActive',
-      label: 'Status',
-      isSort: false,
-      type: 'InformedStatus',
-    },
   ]
 
   //Inactive and Delete entity
@@ -194,7 +200,7 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[]}
-        tableHeading={{ tableId: TABLES.QUESTION_ANSWER, tableName: 'Question Answer' }}
+        // tableHeading={{ tableId: TABLES.QUESTION_ANSWER, tableName: 'Question Answer' }}
         notFound={notFound.includes(TABLES.QUESTION_ANSWER)}
         btnTxtArray={[
           { btnType: HEADERBTNS.CREATE, btnText: 'Create' },
@@ -221,7 +227,7 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
           },
         }}
         maxHeight={600}
-        minHeight={500}
+        minHeight={600}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}
@@ -259,15 +265,19 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
           )} */}
           {type === TABLE_STATES.ADD && (
             <QnaForm
+              // handleClose={handleClose}
+              // entity={entity}
+              // getData={getData}
+              // setHandleControls={setHandleControls}
+              // type={type as unknown as AllowedAction}
+              // open={open}
               handleClose={handleClose}
+              type={type}
               entity={entity}
-              getData={getData}
-              setHandleControls={setHandleControls}
-              type={type as unknown as AllowedAction}
-              open={open}
+              getModifiedData={getModifiedData}
             />
           )}
-          {type === TABLE_STATES.EDIT && (
+          {/* {type === TABLE_STATES.EDIT && (
             <QnaForm
               handleClose={handleClose}
               entity={entity}
@@ -276,7 +286,7 @@ const QnaList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
               type={type as unknown as AllowedAction}
               open={open}
             />
-          )}
+          )} */}
           {type === TABLE_STATES.VIEW && (
             <div className='px-7'>
               <TreeView {...required} {...handlers} gapMode='padding' depthGap={20} />

@@ -7,28 +7,28 @@ import {
 } from '@/types/common'
 import axiosInstance from '../../axiosInstance'
 import { COMMON_MESSAGE } from '@/utils/commonMessages'
-import { BANNER_SLIDER, } from '@/utils/endPoints'
+import { BANNER_SLIDER } from '@/utils/endPoints'
 import { BannerSliderFormFields } from '@/types/bannerSlider'
+import { TABLES } from '@/utils/constants'
 
 export const createBannerSlider = async (
   loading: LoadingState['setLoading'],
   toast: ShowToastFunction,
-  handleClose: () => void,
   formData: BannerSliderFormFields,
 ) => {
   try {
     loading({ isLoading: true, isPage: false })
     const data = {
       title: formData.title,
-      image: formData.image,
+      image: String(formData.image),
     }
     const res = await axiosInstance.post(BANNER_SLIDER.create, data)
-
     if (res.data.success) {
-      handleClose()
       toast('success', COMMON_MESSAGE.Success)
+      return res
+    } else {
+      toast('error', res.data.message)
     }
-    return res.data.success
   } catch (error) {
     console.log(error)
     toast('error', error.message)
@@ -41,20 +41,29 @@ export const getAllBannerSliders = async (
   loading: LoadingState['setLoading'],
   toast: ShowToastFunction,
   notFound: NotFoundState['setNotFound'],
+  notFoundArray: NotFoundState['notFound'],
   handleControls: HandleControls,
 ) => {
   try {
     loading({ isLoading: true, isPage: false })
     const res = await axiosInstance.post(BANNER_SLIDER.getAll, handleControls)
     if (res.data.success) {
-      notFound(['true'])
+      if (res.data.data.records.length === 0) {
+        notFound([...notFoundArray, TABLES.BANNER_SLIDER])
+      } else {
+        notFound([])
+      }
       return res.data.data
     } else {
-      notFound(['false'])
+      notFound([...notFoundArray, TABLES.BANNER_SLIDER])
     }
   } catch (error) {
     console.log(error)
-    toast('error', error.message)
+    if (error.response.status === 404) {
+      notFound([...notFoundArray, TABLES.BANNER_SLIDER])
+    } else {
+      toast('error', error.response.statusText)
+    }
   } finally {
     loading({ isLoading: false, isPage: false })
   }
@@ -63,7 +72,6 @@ export const getAllBannerSliders = async (
 export const editBannerSlider = async (
   loading: LoadingState['setLoading'],
   toast: ShowToastFunction,
-  handleClose: () => void,
   formData: BannerSliderFormFields,
   id: string,
 ) => {
@@ -75,10 +83,11 @@ export const editBannerSlider = async (
     }
     const res = await axiosInstance.put(`${BANNER_SLIDER.edit}${id}`, data)
     if (res.data.success) {
-      handleClose()
-      toast('success', COMMON_MESSAGE.Success)
+      toast('success', COMMON_MESSAGE.Updated)
+      return res
+    } else {
+      toast('error', res.data.message)
     }
-    return res.data.success
   } catch (error) {
     console.log(error)
     toast('error', error.message)
@@ -96,7 +105,7 @@ export const deleteBannerSlider = async (
     loading({ isLoading: true, isPage: false })
     const res = await axiosInstance.put(`${BANNER_SLIDER.delete}${id}`)
     if (res.data.success) {
-      toast('success', COMMON_MESSAGE.Success)
+      toast('success', COMMON_MESSAGE.Deleted)
     }
     return res.data.success
   } catch (error) {
@@ -110,21 +119,25 @@ export const deleteBannerSlider = async (
 export const inActiveBannerSlider = async (
   loading: LoadingState['setLoading'],
   toast: ShowToastFunction,
-  isActive: boolean,
   id: string,
+  active: boolean,
 ) => {
   try {
     loading({ isLoading: true, isPage: false })
-    const res = await axiosInstance.put(`${BANNER_SLIDER.inActive}${id}`, {
-      isActive,
-    })
+    const res = await axiosInstance.put(`${BANNER_SLIDER.inActive}${id}`, { isActive: active })
     if (res.data.success) {
-      toast('success', COMMON_MESSAGE.Success)
+      toast('success', active ? COMMON_MESSAGE.Inactived : COMMON_MESSAGE.Activated)
+    } else {
+      toast('info', res.data.message)
     }
     return res.data.success
   } catch (error) {
     console.log(error)
-    toast('error', error.message)
+    if (error.response.status === 400) {
+      toast('info', error.response.statusText)
+    } else {
+      toast('error', error.response.statusText)
+    }
   } finally {
     loading({ isLoading: false, isPage: false })
   }

@@ -1,6 +1,6 @@
-// All the endpoints of API are defined here 
+// All the endpoints of API are defined here
 export const enum DEF_PATHS {
-  COMMON = '/common'
+  COMMON = '/common',
 }
 
 export const enum COUNTRY_PATH {
@@ -12,38 +12,38 @@ export const enum COUNTRY_PATH {
   DROPDOWN = '/country/dropdown',
 }
 export const enum LANGUAGE_PATH {
-    DROPDOWN = '/language/dropdown',
+  DROPDOWN = '/language/dropdown',
 }
 export const enum CURRENCY_PATH {
-    DROPDOWN = '/currency/dropdown',
+  DROPDOWN = '/currency/dropdown',
 }
 export const enum PACKAGE_PATH {
-    CREATE = '/treatment-package/create',
-    GET = '/treatment-package',
-    EDIT = '/treatment-package/edit',
-    INACTIVE = '/treatment-package/inactive',
-    DELETE = '/treatment-package/delete',
-    DROPDOWN = '/treatment-package/dropdown',
+  CREATE = '/treatment-package/create',
+  GET = '/treatment-package',
+  EDIT = '/treatment-package/edit',
+  INACTIVE = '/treatment-package/inactive',
+  DELETE = '/treatment-package/delete',
+  DROPDOWN = '/treatment-package/dropdown',
 }
 export const enum TNC_PATH {
-    CREATE = '/terms-condition/create',
-    GET = '/terms-condition',
-    INACTIVE = '/terms-condition/inactive',
-    DROPDOWN = '/terms-condition/dropdown',
+  CREATE = '/terms-condition/create',
+  GET = '/terms-condition',
+  INACTIVE = '/terms-condition/inactive',
+  DROPDOWN = '/terms-condition/dropdown',
 }
 export const enum COMPLIANCE_PATH {
-    CREATE = '/compliance/create',
-    GET = '/compliance',
-    INACTIVE = '/compliance/inactive',
-    DROPDOWN = '/compliance/dropdown',
+  CREATE = '/compliance/create',
+  GET = '/compliance',
+  INACTIVE = '/compliance/inactive',
+  DROPDOWN = '/compliance/dropdown',
 }
 export const enum TREATMENT_PATH {
-    CREATE = '/treatment/create',
-    GET = '/treatment',
-    EDIT = '/treatment/edit',
-    INACTIVE = '/treatment/inactive',
-    DELETE = '/treatment/delete',
-    DROPDOWN = '/treatment/dropdown',
+  CREATE = '/treatment/create',
+  GET = '/treatment',
+  EDIT = '/treatment/edit',
+  INACTIVE = '/treatment/inactive',
+  DELETE = '/treatment/delete',
+  DROPDOWN = '/treatment/dropdown',
 }
 
 export const enum STATE_PATH {
@@ -92,4 +92,17 @@ export const enum QNA {
   delete = '/common/question-answer/delete/',
   inActive = '/common/question-answer/inactive/',
   treatmentPlan = '/common/treatment-plan',
+}
+
+export const enum INSURANCE_COMPANY_PATH {
+  CREATE = '/insurance-company/create',
+  GET = '/insurance-company',
+  INACTIVE = '/insurance-company/inactive/',
+}
+
+export const enum DOMAIN {
+  create = '/common/domain/create',
+  getAll = '/common/domain',
+  edit = '/common/domain/edit/',
+  inActive = '/common/domain/inactive/',
 }

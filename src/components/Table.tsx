@@ -24,7 +24,7 @@ type Props = {
   headCells: any[]
   controls: Controls
   actions: Actions
-  tableHeading: { tableId: string; tableName: string }
+  tableHeading?: { tableId: string; tableName: string }
   handleControls: HandleControls
   setHandleControls: React.Dispatch<React.SetStateAction<HandleControls>>
   tabs?: { isTabs: boolean; tabComponent: any }
@@ -142,7 +142,7 @@ const CustomTable = ({
   return (
     <Paper sx={{ width: '100%', borderRadius: '10px' }} elevation={3}>
       <TableHeaderControls
-        heading={tableHeading.tableName}
+        heading={tableHeading && tableHeading.tableName}
         searchFnc={search}
         clickFnc={create}
         tabs={tabs}

@@ -9,11 +9,11 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import PincodeForm from './pincodeForm'
+import InsuranceCompanyForm from './form'
 import { theme } from '@/context/ThemeProvider'
-import { CountryData } from '@/types/location'
-import { deleteCity, getCity, inactiveCity } from '@/lib/City'
-import { deletePincode, getPincode, inactivePincode } from '@/lib/Pincode'
+import { insuranceCompanyData } from '@/types/insuranceCompany'
+import { getInsuranceCompany, inactiveInsuranceCompany } from '@/lib/insuranceCompany'
+import TreeView, { useTreeState } from 'react-hyper-tree'
 
 type Props = {
   handleOpen: () => void
@@ -23,7 +23,7 @@ type Props = {
   handleClose: () => void
 }
 
-const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
+const InsuranceCompanyList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -40,15 +40,23 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
 
   // Record and Control States
   const [data, setData] = useState<any[]>([])
-  const [entity, setEntity] = useState<CountryData | undefined>()
+  const [entity, setEntity] = useState<insuranceCompanyData | undefined>()
   const [controls, setControls] = useState({})
   const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
+  const [tree, setTree] = useState<any[]>([])
+
   const getData = async () => {
-    const response = await getPincode(setLoading, showToast, setNotFound, notFound, handleControls)
+    const response = await getInsuranceCompany(
+      setLoading,
+      showToast,
+      setNotFound,
+      notFound,
+      handleControls,
+    )
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
-        setNotFound([TABLES.PINCODE])
+        setNotFound([TABLES.INSURANCE_COMPANY])
       } else {
         setNotFound([])
         setData(records)
@@ -70,17 +78,29 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   ///headCells
   const headCells: HeadCell[] = [
     {
-      id: 'value',
-      label: 'Pincode',
-      isSort: true,
+      id: 'name',
+      label: 'Name',
+      isSort: false,
     },
     {
-      id: 'isAvailable',
-      label: 'Available',
-      isSort: true,
-      type: 'InformedStatus',
-      trueTxt: 'YES',
-      falseTxt: 'NO',
+      id: 'country',
+      label: 'Country',
+      isSort: false,
+    },
+    {
+      id: 'state',
+      label: 'State',
+      isSort: false,
+    },
+    {
+      id: 'city',
+      label: 'City',
+      isSort: false,
+    },
+    {
+      id: 'pinCode',
+      label: 'Pincode',
+      isSort: false,
     },
     {
       id: 'isActive',
@@ -93,7 +113,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   // Inactive and Delete entity
   const inactiveEntity = async () => {
     handleClose()
-    const res = await inactivePincode(
+    const res = await inactiveInsuranceCompany(
       setLoading,
       showToast,
       entity?._id as string,
@@ -103,13 +123,94 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
       getModifiedData()
     }
   }
-  const deleteEntity = async () => {
-    handleClose()
-    const res = await deletePincode(setLoading, showToast, entity?._id as string)
-    if (res) {
-      getModifiedData()
+
+  // const tree = entity?.plans?.map((x) => {
+  //   return {
+  //     id: x?.coverageType,
+  //     name: x?.planNo,
+  //     children: x?.memberId?.map((y) => {
+  //       return {
+  //         id: Math.random(),
+  //         name: y,
+  //       }
+  //     }),
+  //   }
+  // })
+
+  // const xx = () => {
+  //   const t = entity?.plans?.map((x) => {
+  //     return {
+  //       id: x?.coverageType,
+  //       name: x?.planNo,
+  //       children: x?.memberId?.map((y) => {
+  //         return {
+  //           id: Math.random(),
+  //           name: y,
+  //         }
+  //       }),
+  //     }
+  //   })
+  //   setTree(t)
+  // }
+
+  const xx = () => {
+    const tut = []
+    for (const plan of entity.plans) {
+      if (plan) {
+        const p = {
+          id: plan?.planNo,
+          name: plan?.planNo,
+          children: plan?.memberId?.map((y) => {
+            return {
+              id: Math.random(),
+              name: y,
+            }
+          }),
+        }
+        const index = tut.findIndex((x) => x.name === plan.coverageType)
+        if (index >= 0) tut[index].children.push(p)
+        else tut.push({ name: plan.coverageType, children: [p] })
+      }
     }
+    // console.log(tut)
+    // const a = entity?.plans?.map((x) => {
+    //   return {
+    //     id: x?.planNo,
+    //     name: x?.planNo,
+    //     children: x?.memberId?.map((y) => {
+    //       return {
+    //         id: Math.random(),
+    //         name: y,
+    //       }
+    //     }),
+    //   }
+    // })
+
+    // const t = entity?.plans?.map((x) => {
+    //   return {
+    //     id: x?.coverageType,
+    //     name: x?.coverageType,
+    //     children: a ?? [],
+    //   }
+    // })
+    // const res = []
+
+    setTree(tut)
   }
+
+  useEffect(() => {
+    if (entity) {
+      xx()
+    }
+  }, [entity])
+
+  const { required, handlers } = useTreeState({
+    data: tree ? tree : [],
+    id: 'storyTree',
+    // defaultOpened: true,
+    multipleSelect: true,
+    // refreshAsyncNodes: true,
+  })
 
   return (
     <Box>
@@ -122,9 +223,9 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         controls={controls as Controls}
         handleControls={handleControls}
         setHandleControls={setHandleControls}
-        actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
+        actions={[ACTIONS_TABLE.SWITCH, ACTIONS_TABLE.VIEW]}
         // tableHeading={{ tableId: TABLES.PINCODE, tableName: 'Pincode' }}
-        notFound={notFound.includes(TABLES.PINCODE)}
+        notFound={notFound.includes(TABLES.INSURANCE_COMPANY)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
       <CustomDialog
@@ -136,20 +237,22 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         sxProps={{
           [theme.breakpoints.up('lg')]: {
             '.MuiPaper-root ': {
-              minWidth: 800,
+              minWidth: 1000,
             },
           },
           [theme.breakpoints.down('lg')]: {
             '.MuiPaper-root ': {
-              minWidth: 600,
+              minWidth: 800,
             },
           },
         }}
+        maxHeight={600}
+        minHeight={600}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}
       >
-        <ActionModal handleClose={handleClose} type={type} entityName='Pincode'>
+        <ActionModal handleClose={handleClose} type={type} entityName='Insurance Company'>
           {type === TABLE_STATES.INACTIVE && (
             <SwitchDeleteModal
               actionFnc={() => {
@@ -170,23 +273,18 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
               type={type}
             />
           )}
-          {type === TABLE_STATES.DELETE && (
-            <SwitchDeleteModal
-              actionFnc={() => {
-                deleteEntity()
-              }}
-              approvalTxt={'Delete'}
+          {type === TABLE_STATES.ADD && (
+            <InsuranceCompanyForm
               handleClose={handleClose}
               type={type}
-            />
-          )}
-          {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <PincodeForm
-              handleClose={handleClose}
-              type={type}
-              entity={entity as CountryData}
+              entity={entity as insuranceCompanyData}
               getModifiedData={getModifiedData}
             />
+          )}
+          {type === TABLE_STATES.VIEW && (
+            <div className='px-7'>
+              <TreeView {...required} {...handlers} gapMode='padding' depthGap={20} />
+            </div>
           )}
         </ActionModal>
       </CustomDialog>
@@ -194,4 +292,4 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
   )
 }
 
-export default PincodeList
+export default InsuranceCompanyList

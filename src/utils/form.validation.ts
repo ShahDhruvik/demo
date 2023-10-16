@@ -1,5 +1,9 @@
 export const acDefaultValue = { label: 'Select', _id: '00' }
-export const numberFieldValidation = (isRequired: boolean, length?: number, type?: 'Phone' | 'Pincode' | 'Days') => {
+export const numberFieldValidation = (
+  isRequired: boolean,
+  length?: number,
+  type?: 'Phone' | 'Pincode' | 'Days',
+) => {
   switch (type) {
     case 'Phone':
       if (isRequired) {
@@ -14,7 +18,7 @@ export const numberFieldValidation = (isRequired: boolean, length?: number, type
             value: 10,
             message: '10 digits are allowed',
           },
-        };
+        }
       } else {
         return {
           min: { value: 0, message: 'Only positive integers allowed' },
@@ -26,18 +30,18 @@ export const numberFieldValidation = (isRequired: boolean, length?: number, type
             value: 10,
             message: '10 digits are allowed',
           },
-        };
+        }
       }
     case 'Days':
       if (isRequired) {
         return {
           required: 'required.',
           min: { value: 1, message: 'Must be greater than 0' },
-        };
+        }
       } else {
         return {
           min: { value: 1, message: 'Must be greater than 0' },
-        };
+        }
       }
     case 'Pincode':
       if (isRequired) {
@@ -52,7 +56,7 @@ export const numberFieldValidation = (isRequired: boolean, length?: number, type
             value: 6,
             message: '6 digits are allowed',
           },
-        };
+        }
       } else {
         return {
           min: { value: 0, message: 'Only positive integers allowed' },
@@ -64,7 +68,7 @@ export const numberFieldValidation = (isRequired: boolean, length?: number, type
             value: 6,
             message: '6 digits are allowed',
           },
-        };
+        }
       }
     default:
       return {
@@ -75,9 +79,9 @@ export const numberFieldValidation = (isRequired: boolean, length?: number, type
           message: `Atmost ${length ?? 20} digits are required`,
         },
         min: { value: 1, message: 'Must be greater than 0' },
-      };
+      }
   }
-};
+}
 
 export const searchSelectValidation = (label: string, notRequired?: boolean) => {
   if (notRequired) {
@@ -85,7 +89,7 @@ export const searchSelectValidation = (label: string, notRequired?: boolean) => 
   } else {
     return {
       validate: (value: any) => {
-        return value._id !== acDefaultValue._id || `Select ${label}`
+        return value?._id !== acDefaultValue?._id || `Select ${label}`
       },
     }
   }

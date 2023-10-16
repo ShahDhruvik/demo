@@ -38,7 +38,7 @@ const TableHeader = ({
       <TableHead
         sx={{
           borderBottom: '2px solid ',
-          borderColor: theme.palette.mDarkBlue?.main,
+          borderColor: theme.palette.mDarkGray?.main,
         }}
       >
         <TableRow>

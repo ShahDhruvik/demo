@@ -15,14 +15,13 @@ export const enum DASHBOARD_PATH {
   FAQ = '/faq/*',
   BANNER_SLIDER = '/banner-slider/*',
   QUESTION_ANSWER = '/question-answer/*',
+  DOMAIN = '/domain/*',
 }
 
 export const enum AUTH_PATH {
   LOGIN = '/login',
   LOGOUT = '/log-out',
 }
-
-
 
 export const enum ABOUT_PATH {
   CONTACT = '/contact',
@@ -38,4 +37,5 @@ export const enum TRIANA_PATH {
   PLAN = '/plan',
   TNC = '/tnc',
   COMPLIANCE = '/compliance',
+  INSURANCE_COMPANY = '/insurance-company',
 }

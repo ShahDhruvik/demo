@@ -3,22 +3,28 @@ import axiosInstance from '../../axiosInstance'
 import { COMMON_MESSAGE } from '@/utils/commonMessages'
 import { QNA } from '@/utils/endPoints'
 import { QnaFormFields } from '@/types/questionAnswerTypes'
+import { TABLES } from '@/utils/constants'
 
 export const createQna = async (
   loading: LoadingState['setLoading'],
   toast: ShowToastFunction,
-  handleClose: () => void,
+  // handleClose: () => void,
   formData: any,
 ) => {
   try {
     loading({ isLoading: true, isPage: false })
     const res = await axiosInstance.post(QNA.create, { records: formData })
-
     if (res.data.success) {
-      handleClose()
       toast('success', COMMON_MESSAGE.Success)
+      return res
+    } else {
+      toast('error', res.data.message)
     }
-    return res.data.success
+    // if (res.data.success) {
+    //   handleClose()
+    //   toast('success', COMMON_MESSAGE.Success)
+    // }
+    // return res.data.success
   } catch (error) {
     console.log(error)
     toast('error', error.message)
@@ -31,20 +37,35 @@ export const getAllQnas = async (
   loading: LoadingState['setLoading'],
   toast: ShowToastFunction,
   notFound: NotFoundState['setNotFound'],
+  notFoundArray: NotFoundState['notFound'],
   handleControls: HandleControls,
 ) => {
   try {
     loading({ isLoading: true, isPage: false })
     const res = await axiosInstance.post(QNA.getAll, handleControls)
+    // if (res.data.success) {
+    //   notFound(['true'])
+    //   return res.data.data
+    // } else {
+    //   notFound(['false'])
+    // }
     if (res.data.success) {
-      notFound(['true'])
+      if (res.data.data.records.length === 0) {
+        notFound([...notFoundArray, TABLES.QUESTION_ANSWER])
+      } else {
+        notFound([])
+      }
       return res.data.data
     } else {
-      notFound(['false'])
+      notFound([...notFoundArray, TABLES.QUESTION_ANSWER])
     }
   } catch (error) {
     console.log(error)
-    toast('error', error.message)
+    if (error.response.status === 404) {
+      notFound([...notFoundArray, TABLES.QUESTION_ANSWER])
+    } else {
+      toast('error', error.response.statusText)
+    }
   } finally {
     loading({ isLoading: false, isPage: false })
   }

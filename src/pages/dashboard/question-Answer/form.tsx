@@ -1,10 +1,14 @@
-import FileUploadInput from '@/components/FileUploadInput'
 import FormBtns from '@/components/FormBtn'
-import TxtInput from '@/components/TxtInput'
 import { useLoading } from '@/context/LoadingContext'
 import { useToast } from '@/hooks/useToast'
-import { AllowedAction, HandleControls, SearchDDL, ShowToastFunction } from '@/types/common'
-import { limitOfPage } from '@/utils/constants'
+import {
+  AllowedAction,
+  HandleControls,
+  QnaType,
+  ShowToastFunction,
+  TableStates,
+} from '@/types/common'
+import { TABLE_STATES, limitOfPage } from '@/utils/constants'
 import React, { Dispatch, useEffect, SetStateAction, useState } from 'react'
 import {
   Controller,
@@ -23,41 +27,27 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form'
-import { txtFieldValidation, numberFieldValidation, labelAndError } from '@/utils/form.validation'
-import { createQna, editQna, getAllTreatmentPlan, getAllQnas } from '@/lib/Question-Answer'
+import { createQna } from '@/lib/Question-Answer'
 import { QnaFields, QnaFormFields } from '@/types/questionAnswerTypes'
 import * as XLSX from 'xlsx'
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Checkbox,
-  Chip,
-  Divider,
-  FormControlLabel,
-  MenuItem,
-  Paper,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Table,
-  TableBody,
-} from '@mui/material'
+import { Button, Divider } from '@mui/material'
 import FetchSvg from '@/components/fetchSvg'
 import { theme } from '@/context/ThemeProvider'
-import { StyledInputBase, TextFieldCustom } from '@/components/MuiStyledComponents'
 import { useNotFound } from '@/context/NotFound'
-import SelectInput, { listBoxPropsDropdown } from '@/components/SelectInput'
+import { styled } from '@mui/system'
+import { toast } from 'react-toastify'
 
 type Props = {
+  // handleClose: () => void
+  // entity: QnaFields
+  // getData: () => void
+  // setHandleControls: Dispatch<SetStateAction<HandleControls>>
+  // type: AllowedAction
+  // open: boolean
   handleClose: () => void
+  type: TableStates
   entity: QnaFields
-  getData: () => void
-  setHandleControls: Dispatch<SetStateAction<HandleControls>>
-  type: AllowedAction
-  open: boolean
+  getModifiedData: () => void
 }
 
 type OptionType = {
@@ -75,94 +65,31 @@ type ExcelDataRow = {
   options: OptionType[]
 }
 
-const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }: Props) => {
+const QnaForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   const { setLoading } = useLoading()
   const { setNotFound, notFound } = useNotFound()
   const showToast = useToast() as ShowToastFunction
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
   const { control, handleSubmit, setValue, formState, reset, setError, clearErrors } = useForm({
     defaultValues: {
       question: '',
       questionId: 0,
       isFinal: false,
       type: '',
-      // treatmentPlanIds: [] as { label: string; _id: string }[],
       options: [
         {
           value: '',
           label: '',
-          // nextQuestionId: [] as { label: string; _id: string }[],
           nextQuestionId: -1,
           treatmentId: -1,
         },
       ],
     },
   })
-  const [treatmentPlan, setTreatmentPlan] = useState<SearchDDL[]>([])
-  const [nextQue, setNextQne] = useState<SearchDDL[]>([])
 
-  const [errs, setErrs] = useState([])
+  const [errs, setErrs] = useState<any[]>([])
   const { isSubmitting, errors } = formState
 
-  // const { replace, fields } = useFieldArray({
-  //   control: control,
-  //   name: 'treatmentPlanIds',
-  //   rules: {
-  //     required: 'Atleast One Required',
-  //   },
-  // })
-
   const [data, setData] = useState<ExcelDataRow[] | null>(null)
-
-  const getTreatmentPlan = async () => {
-    const data = (await getAllTreatmentPlan(setLoading, showToast, setNotFound, {
-      search: '',
-      currentPage: 1,
-      limitPerPage: 100,
-      sort: 'createdAt',
-      sortOrder: 'asc',
-    })) as any[]
-    const user: SearchDDL[] = []
-    data?.map((x) => {
-      const userItem: SearchDDL = { label: x.title, _id: x._id }
-      user.push(userItem)
-    })
-    setTreatmentPlan(user)
-  }
-
-  const getNextQue = async () => {
-    const data = (await getAllQnas(setLoading, showToast, setNotFound, {
-      search: '',
-      currentPage: 1,
-      limitPerPage: 100,
-      sort: 'createdAt',
-      sortOrder: 'asc',
-    })) as any[]
-    const user: SearchDDL[] = []
-    data?.map((x) => {
-      const userItem: SearchDDL = { label: x.question, _id: x._id }
-      user.push(userItem)
-    })
-    setNextQne(user)
-  }
-
-  //getting the users
-  useEffect(() => {
-    getTreatmentPlan()
-    getNextQue()
-  }, [])
-
-  // useEffect(() => {
-  //   if (entity) {
-  //     setValue('question', entity?.question)
-  //     setValue('questionId', entity?.questionId)
-  //     setValue('isFinal', entity?.isFinal)
-  //     setValue('treatmentPlanIds', entity?.treatmentPlanIds)
-  //     setValue('options', entity?.options)
-  //   } else {
-  //     reset()
-  //   }
-  // }, [entity])
 
   useEffect(() => {
     if (type === 'ADD') {
@@ -173,8 +100,8 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
 
+    setErrs([])
     if (file) {
-      // setErrs([])
       const reader = new FileReader()
 
       reader.onload = (event) => {
@@ -186,7 +113,7 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
         const sheetData = XLSX.utils.sheet_to_json(sheet)
 
         const formattedData = sheetData.map((row: any) => ({
-          questionId: row.questionId,
+          questionId: row.questionId === 0 ? -1 : row.questionId,
           question: row.question,
           type: row.type,
           isFinal: row.isFinal,
@@ -194,7 +121,7 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
             {
               value: row.options,
               label: row.options,
-              nextQuestionId: Number(row.nextQuestionId) || -1,
+              nextQuestionId: row.nextQuestionId !== undefined ? row.nextQuestionId : -1,
               treatmentId: row.treatmentId || -1,
             },
           ],
@@ -203,7 +130,7 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
         const x: {
           question: string
           questionId: number
-          type: string
+          type: any
           isFinal: boolean
           options: {
             value: string
@@ -212,6 +139,7 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
             treatmentId: number
           }[]
         }[] = []
+
         for (const [index, elementx] of formattedData.entries()) {
           const element = elementx as any
           if (element.questionId) {
@@ -234,271 +162,189 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
             }
           }
         }
-        console.log(x, 'XXXXXXXXXXXXXXXXXXX')
+
+        console.log(x, 'xxxxxxxx')
+
+        let error: {
+          errName: string
+        }[] = []
+
+        for (const item of x) {
+          if (item.questionId <= 0) {
+            // setErrs([
+            //   ...errs,
+            //   {
+            //     errName: `Question id should not be Zero(0) or Negative`,
+            //   },
+            // ])
+            error.push({
+              errName: `Question id should not be Zero(0) or Negative`,
+            })
+          }
+
+          if (!Object.values(QnaType).includes(item.type)) {
+            // setErrs([
+            //   ...errs,
+            //   {
+            //     errName: `At Question Number ${item.questionId}, Type should be one of the following: "${QnaType.SELECT}" or "${QnaType.MULTI}" or "${QnaType.SHORT_ANS}"`,
+            //   },
+            // ])
+            error.push({
+              errName: `At Question Number ${item.questionId}, Type should be one of the following: "${QnaType.SELECT}" or "${QnaType.MULTI}" or "${QnaType.SHORT_ANS}"`,
+            })
+          }
+
+          for (const opt of item.options) {
+            if (item.isFinal === true && opt.treatmentId <= 0) {
+              // setErrs([
+              //   ...errs,
+              //   {
+              //     errName: `At Question Number ${item.questionId}, One of the options is missing treatmentId.`,
+              //   },
+              // ])
+              error.push({
+                errName: `At Question Number ${item.questionId}, One of the options is missing treatmentId.`,
+              })
+            }
+            if (!item.isFinal && opt.nextQuestionId === -1) {
+              // setErrs([
+              //   ...errs,
+              //   {
+              //     errName: `At Question Number ${item.questionId}, One of the options is missing nextQuestionId.`,
+              //   },
+              // ])
+              error.push({
+                errName: `At Question Number ${item.questionId}, One of the options is missing nextQuestionId.`,
+              })
+            }
+          }
+          setErrs(error)
+        }
         setData(x)
-        // setErrs(errors)
       }
 
       reader.readAsArrayBuffer(file)
     }
   }
 
+  console.log(errs, 'err')
+
   const onSubmitHandle = async (values: QnaFormFields) => {
-    if (type === 'ADD') {
-      const res = await createQna(setLoading, showToast, handleClose, data)
-      if (res) {
-        reset()
-        setHandleControls({
-          search: '',
-          currentPage: 1,
-          limitPerPage: limitOfPage,
-          sort: 'createdAt',
-          sortOrder: 'asc',
-        })
-        await getData()
-      }
-    } else if (type === 'EDIT') {
-      const res = await editQna(setLoading, showToast, handleClose, values, entity._id)
-      if (res) {
-        reset()
-        setHandleControls({
-          search: '',
-          currentPage: 1,
-          limitPerPage: limitOfPage,
-          sort: 'createdAt',
-          sortOrder: 'asc',
-        })
-        await getData()
-      }
-    } else {
-      return
+    // if (type === 'ADD') {
+    //   const res = await createQna(setLoading, showToast, handleClose, data)
+    //   if (res) {
+    //     reset()
+    //     setHandleControls({
+    //       search: '',
+    //       currentPage: 1,
+    //       limitPerPage: limitOfPage,
+    //       sort: 'createdAt',
+    //       sortOrder: 'asc',
+    //     })
+    //     await getData()
+    //   }
+    // } else {
+    //   return
+    // }
+    handleClose()
+    switch (type) {
+      case TABLE_STATES.ADD:
+        const res = await createQna(setLoading, showToast, data)
+        if (res) {
+          reset()
+          getModifiedData()
+        } else {
+          reset()
+        }
+        break
+      default:
+        break
     }
   }
+
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  })
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmitHandle)}>
         {type === 'ADD' && (
           <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
-            {/* <FileUploadInput
-            imageUrl={'image'}
-            setImageUrl={setImageUrl}
-            handleFileChange={handleFileChange}
-            editable={true}
-          /> */}
-            <input type='file' accept='.xlsx' onChange={handleFileUpload} />
+            <div className='flex items-center justify-center'>
+              {errs?.length > 0 ? (
+                <Button
+                  component='label'
+                  variant='contained'
+                  color='mPink'
+                  endIcon={<FetchSvg iconName='fileUpload' />}
+                  disabled={true}
+                >
+                  Upload file
+                  <VisuallyHiddenInput
+                    type='file'
+                    accept='.xlsx'
+                    onChange={handleFileUpload}
+                    disabled={true}
+                  />
+                </Button>
+              ) : (
+                <Button
+                  component='label'
+                  variant='contained'
+                  color='mPink'
+                  endIcon={<FetchSvg iconName='fileUpload' />}
+                >
+                  Upload file
+                  <VisuallyHiddenInput type='file' accept='.xlsx' onChange={handleFileUpload} />
+                </Button>
+              )}
+            </div>
+            {/* <input type='file' accept='.xlsx' onChange={handleFileUpload} /> */}
           </div>
         )}
-        {type === 'EDIT' && (
-          <>
-            <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
-              <TxtInput
-                control={control}
-                handleChange={() => {}}
-                name='question'
-                placeholder='Enter question'
-                validation={{ ...txtFieldValidation(true, 'Description') }}
-              />
-              <TxtInput
-                control={control}
-                handleChange={() => {}}
-                name='questionId'
-                placeholder='Enter questionId'
-                validation={{ ...numberFieldValidation(true) }}
-              />
-            </div>
-            {/* <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
-              <Autocomplete
-                disableClearable
-                multiple={true}
-                getOptionLabel={(option) => option.label}
-                isOptionEqualToValue={(option, val) => option._id === val._id}
-                options={treatmentPlan}
-                onChange={(e, val) => {
-                  if (val !== null) {
-                    if (val.length === 0) {
-                      // replace(val)
-                      setError('treatmentPlanIds', {
-                        type: 'validate',
-                        message: 'Select treatmentPlan',
-                      })
-                    } else {
-                      const valFields = val.map((x) => {
-                        return { label: x.label, _id: x._id }
-                      })
-                      replace(valFields)
-                      clearErrors('treatmentPlanIds')
-                    }
-                  }
-                }}
-                value={fields}
-                renderTags={(value) =>
-                  value.map((option, index) => {
-                    return (
-                      <Chip
-                        sx={{
-                          background: '#ffffff',
-                          border: '2px solid black',
-                          fontWeight: '500',
-                          fontSize: '14px',
-                          borderRadius: '10px',
-                          my: '5px',
-                          mx: '2px',
-                        }}
-                        deleteIcon={<FetchSvg iconName='ser' />}
-                        variant='outlined'
-                        label={option.label}
-                        key={index}
-                        onDelete={(e) => {
-                          const emails = [...fields]
-                          emails.splice(index, 1)
-                          replace(emails)
-                        }}
-                      />
-                    )
-                  })
-                }
-                renderOption={(props, option) => {
-                  const selectedGroup = fields
-                    .map((x) => {
-                      return x._id
-                    })
-                    .includes(option._id)
-                  return (
-                    <MenuItem
-                      value={option._id}
-                      {...props}
-                      key={Math.random()}
-                      sx={{
-                        color: 'black',
-                        fontWeight: '300',
-                        backgroundColor: 'white',
-                      }}
-                      selected={selectedGroup}
-                    >
-                      <Box
-                        display={'flex'}
-                        alignItems={'center'}
-                        justifyContent={'space-between'}
-                        width={'100%'}
-                      >
-                        <Typography>{option.label}</Typography>
-                        {selectedGroup && <FetchSvg iconName='ser' />}
-                      </Box>
-                    </MenuItem>
-                  )
-                }}
-                renderInput={(params) => {
-                  return (
-                    <TextFieldCustom
-                      theme={theme}
-                      {...params}
-                      InputProps={{
-                        ...params.InputProps,
-                        endAdornment: null,
-                      }}
-                      className='txtInput'
-                      sx={{
-                        maxWidth: '400px',
-                      }}
-                      {...labelAndError(
-                        errors.treatmentPlanIds ? true : false,
-                        'Select treatmentPlan',
-                        'TreatmentPlan*',
-                        'Select treatmentPlan',
-                      )}
-                    />
-                  )
-                }}
-                ListboxProps={listBoxPropsDropdown()}
-              />
-              <Controller
-                name='isFinal'
-                control={control}
-                defaultValue={false}
-                render={({ field }) => (
-                  <FormControlLabel control={<Checkbox {...field} />} label='Final Question?' />
-                )}
-              />
-            </div> */}
-            <div className='px-5 flex items-center justify-between  gap-3 mb-3'>
-              <h1 className='text-xl font-semibold'>Options</h1>
-            </div>
-            <Divider
-              sx={{
-                border: '1px solid',
-                borderColor: theme.palette.mPink?.main,
-                marginBottom: '12px',
-                mx: '10px',
-              }}
-            />
-            <div className='px-5 grid gap-3 mb-5'>
-              {entity.options.map((x, i) => {
-                return (
-                  <div className='flex items-center gap-3 '>
-                    <TxtInput
-                      control={control}
-                      handleChange={() => {}}
-                      name={`options.${i}.value`}
-                      placeholder='Enter value'
-                      validation={{}}
-                      sx={{
-                        flexGrow: 0.5,
-                      }}
-                    />
-                    <TxtInput
-                      control={control}
-                      handleChange={() => {}}
-                      name={`options.${i}.label`}
-                      placeholder='Enter label'
-                      validation={{}}
-                      sx={{
-                        flexGrow: 0.5,
-                      }}
-                    />
-                    {/* <TxtInput
-                      control={control}
-                      handleChange={() => {}}
-                      name={`options.${i}.nextQuestionId`}
-                      placeholder='Enter nextQuestionId'
-                      validation={{ ...numberFieldValidation(true) }}
-                      sx={{
-                        flexGrow: 0.5,
-                      }}
-                    /> */}
-                    {/* <SelectInput
-                      options={nextQue}
-                      name={`options.${i}.nextQuestionId`}
-                      control={control}
-                      label={'Next Question'}
-                      setValue={nextQuestionId}
-                      validation={{}}
-                    /> */}
-                  </div>
-                )
-              })}
-            </div>
-          </>
+        {errs?.length > 0 ? (
+          <FormBtns
+            approvalFnc={() => {}}
+            approvalTxt='Add'
+            cancelFnc={handleClose}
+            cancelTxt='Cancel'
+            formSubmitting={!isSubmitting}
+            isSubmit={true}
+            disable={true}
+          />
+        ) : (
+          <FormBtns
+            approvalFnc={() => {}}
+            approvalTxt='Add'
+            cancelFnc={handleClose}
+            cancelTxt='Cancel'
+            formSubmitting={isSubmitting}
+            isSubmit={true}
+          />
         )}
-        <FormBtns
-          approvalFnc={() => {}}
-          approvalTxt='Add'
-          cancelFnc={handleClose}
-          cancelTxt='Cancel'
-          formSubmitting={isSubmitting}
-          isSubmit={true}
-        />
       </form>
-      <div>
-        {errs.map((x) => (
-          <p>{x}</p>
+      <div className='px-7 pt-3'>
+        {errs?.map((x) => (
+          <ul key={Math.random()}>
+            <li className='text-orange-dark'>*{x.errName}</li>
+          </ul>
         ))}
       </div>
-      {type === 'ADD' && (
+      {type === 'ADD' && data?.length !== 0 && (
         <div>
           <div className='flex py-5 px-2 w-full text-center'>
             <div className='w-[15%]'>QuestionId</div>
             <div className='w-[30%]'>Question</div>
+            <div className='w-[10%]'>Type</div>
             <div className='w-[10%]'>isFinal</div>
             <div className='w-[35%]'>Options</div>
           </div>
@@ -510,51 +356,55 @@ const QnaForm = ({ handleClose, entity, setHandleControls, getData, type, open }
               mx: '10px',
             }}
           />
-          {data?.map((x) => (
-            <div key={Math.random()}>
-              <div className='flex py-5 px-2 w-full text-center' key={Math.random()}>
-                <div className='w-[15%]'>{x.questionId}</div>
-                <div className='w-[30%]'>{x.question}</div>
-                <div className='w-[10%]'>{x.isFinal ? 'True' : 'False'}</div>
-                <div className='w-[35%]'>
-                  <div className='flex items-center justify-center gap-2'>
-                    <div className='flex items-center flex-col'>
-                      <span className='font-bold'>Value</span>
-                      {x.options?.map((y) => (
-                        <div
-                          key={Math.random()}
-                          className='border-2 border-black-main px-3 rounded-md my-1'
-                        >
-                          {y.value}
-                        </div>
-                      ))}
-                    </div>
-                    {!x.isFinal && (
+          {/* className='max-h-[280px] overflow-auto scrollBar' */}
+          <div className='max-h-[250px] overflow-auto scrollBar'>
+            {data?.map((x) => (
+              <div key={Math.random()}>
+                <div className='flex py-5 px-2 w-full text-center' key={Math.random()}>
+                  <div className='w-[15%]'>{x.questionId}</div>
+                  <div className='w-[30%]'>{x.question}</div>
+                  <div className='w-[10%]'>{x.type}</div>
+                  <div className='w-[10%]'>{x.isFinal ? 'True' : 'False'}</div>
+                  <div className='w-[35%]'>
+                    <div className='flex items-center justify-center gap-2'>
                       <div className='flex items-center flex-col'>
-                        <span className='font-bold'>QueId</span>
+                        <span className='font-bold'>Value</span>
                         {x.options?.map((y) => (
                           <div
                             key={Math.random()}
                             className='border-2 border-black-main px-3 rounded-md my-1'
                           >
-                            {y?.nextQuestionId ? y?.nextQuestionId : 0}
+                            {y.value}
                           </div>
                         ))}
                       </div>
-                    )}
+                      {!x.isFinal && (
+                        <div className='flex items-center flex-col'>
+                          <span className='font-bold'>NextQueId</span>
+                          {x.options?.map((y) => (
+                            <div
+                              key={Math.random()}
+                              className='border-2 border-black-main px-3 rounded-md my-1'
+                            >
+                              {y?.nextQuestionId ? y?.nextQuestionId : 0}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
+                <Divider
+                  sx={{
+                    border: '1px solid',
+                    borderColor: theme.palette.mDarkGray?.main,
+                    marginBottom: '12px',
+                    mx: '10px',
+                  }}
+                />
               </div>
-              <Divider
-                sx={{
-                  border: '1px solid',
-                  borderColor: theme.palette.mDarkGray?.main,
-                  marginBottom: '12px',
-                  mx: '10px',
-                }}
-              />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </>

@@ -115,7 +115,7 @@ const TableContent = ({
                               display: 'inline-block',
                               fontWeight: '700',
                               fontSize: '16px',
-                              color: 'rgba(226, 0, 116, 0.7)',
+                              color: '#004DAA',
                               marginRight: '10px',
                             }}
                             onClick={() => handleView(row)}

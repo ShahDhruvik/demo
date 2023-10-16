@@ -189,7 +189,7 @@ input[type='number'] {
 
 .svgPink {
   & > path {
-    fill: rgba(226, 0, 116, 0.7);
+    fill: #004daa;
   }
 }
 .svgWhite {

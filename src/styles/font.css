@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: 'Poppins';
   font-weight: 100;
   src: url('../fonts/Poppins-Thin.woff2') format('woff2');
@@ -68,4 +68,76 @@
   src: url('../fonts/Poppins-Black.woff2') format('woff2');
   src: url('../fonts/Poppins-Black.woff') format('woff');
   src: url('../fonts/Poppins-Black.ttf') format('ttf');
+} */
+
+/* @font-face {
+  font-family: 'NunitoSans';
+  font-weight: 100;
+  src: url('../fonts/Poppins-Thin.woff2') format('woff2');
+  src: url('../fonts/Poppins-Thin.woff') format('woff');
+  src: url('../fonts/Poppins-Thin.ttf') format('ttf');
+} */
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 200;
+  /* src: url('../fonts/Poppins-ExtraLight.woff2') format('woff2');
+  src: url('../fonts/Poppins-ExtraLight.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-ExtraLight.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 300;
+  /* src: url('../fonts/Poppins-Light.woff2') format('woff2');
+  src: url('../fonts/Poppins-Light.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-Light.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 400;
+  /* src: url('../fonts/Poppins-Regular.woff2') format('woff2');
+  src: url('../fonts/Poppins-Regular.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 500;
+  /* src: url('../fonts/Poppins-Medium.woff2') format('woff2');
+  src: url('../fonts/Poppins-Medium.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-Medium.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 600;
+  /* src: url('../fonts/Poppins-Semibold.woff2') format('woff2');
+  src: url('../fonts/Poppins-Semibold.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-SemiBold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 700;
+  /* src: url('../fonts/Poppins-Bold.woff2') format('woff2');
+  src: url('../fonts/Poppins-Bold.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-Bold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 800;
+  /* src: url('../fonts/Poppins-ExtraBold.woff2') format('woff2');
+  src: url('../fonts/Poppins-ExtraBold.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-ExtraBold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'NunitoSans_7pt';
+  font-weight: 900;
+  /* src: url('../fonts/Poppins-Black.woff2') format('woff2');
+  src: url('../fonts/Poppins-Black.woff') format('woff'); */
+  src: url('../fonts/NunitoSans_7pt-Black.ttf') format('ttf');
 }

@@ -121,7 +121,7 @@ const TreatmentList = ({ handleOpen, setType, open, type, handleClose }: Props) 
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.TREATMENT, tableName: 'Treatment' }}
+        // tableHeading={{ tableId: TABLES.TREATMENT, tableName: 'Treatment' }}
         notFound={notFound.includes(TABLES.TREATMENT)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />

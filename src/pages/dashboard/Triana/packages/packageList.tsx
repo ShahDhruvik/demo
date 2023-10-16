@@ -133,7 +133,7 @@ const PackageList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
           ACTIONS_TABLE.SWITCH,
           ACTIONS_TABLE.VIEW,
         ]}
-        tableHeading={{ tableId: TABLES.PACKAGE, tableName: 'Package' }}
+        // tableHeading={{ tableId: TABLES.PACKAGE, tableName: 'Package' }}
         notFound={notFound.includes(TABLES.PACKAGE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />

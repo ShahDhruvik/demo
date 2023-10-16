@@ -57,10 +57,15 @@ export type AlignDialogProp =
   | ALIGN_DIALOG.TOP_RIGHT
 
 export type LoadingState = {
-  loading: { isLoading: boolean, isPage: boolean, pageProps?: { image: any, pageTxt: string } };
-  setLoading: Dispatch<SetStateAction<{ isLoading: boolean, isPage: boolean, pageProps?: { image: any, pageTxt: string, } }>>;
-};
-
+  loading: { isLoading: boolean; isPage: boolean; pageProps?: { image: any; pageTxt: string } }
+  setLoading: Dispatch<
+    SetStateAction<{
+      isLoading: boolean
+      isPage: boolean
+      pageProps?: { image: any; pageTxt: string }
+    }>
+  >
+}
 
 export type SelectDDL = { label: string; _id: string }
 
@@ -71,18 +76,18 @@ export type HeadCell = {
   isDate?: boolean
   isToolTip?: boolean
   type?:
-  | 'image'
-  | 'date'
-  | 'linkTxt'
-  | 'linkNumber'
-  | 'chechBox'
-  | 'InformedStatus'
-  | 'Warranty'
-  | 'checkBoxDate'
-  | 'linkTxtView'
-  | 'downlaodLink'
-  | 'actions'
-  | 'isFinal'
+    | 'image'
+    | 'date'
+    | 'linkTxt'
+    | 'linkNumber'
+    | 'chechBox'
+    | 'InformedStatus'
+    | 'Warranty'
+    | 'checkBoxDate'
+    | 'linkTxtView'
+    | 'downlaodLink'
+    | 'actions'
+    | 'isFinal'
   lengthOftext?: number
   imageSrc?: string
   linkPath?: any
@@ -175,12 +180,12 @@ export type SidebarSubListNames =
   | undefined
 
 export type SideBarItems = {
-  id: number,
-  mainListName: SidebarNames,
-  mainImage: string,
-  subList: { id: number, txt: SidebarSubListNames, path: string }[],
-  isSingle: boolean,
-  mainPath: string,
+  id: number
+  mainListName: SidebarNames
+  mainImage: string
+  subList: { id: number; txt: SidebarSubListNames; path: string }[]
+  isSingle: boolean
+  mainPath: string
 }
 
 export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI
@@ -188,7 +193,6 @@ export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
 export type ShowToastFunction = (type: ToastType, message: string, options?: ToastOptions) => void
-
 
 export type Radios = { value: string; name: string }
 export type Currencies = {
@@ -217,4 +221,10 @@ export enum TermsAndConditionNameEnum {
 export const tnCArray = Object.keys(TermsAndConditionNameEnum).map((key) => ({
   label: key,
   _id: key,
-}));
+}))
+
+export enum QnaType {
+  SELECT = 'Single Select',
+  MULTI = 'Short Answer',
+  SHORT_ANS = 'Multi Choice',
+}

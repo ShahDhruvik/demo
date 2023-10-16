@@ -126,7 +126,7 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.TNC, tableName: 'Terms & Conditions' }}
+        // tableHeading={{ tableId: TABLES.TNC, tableName: 'Terms & Conditions' }}
         notFound={notFound.includes(TABLES.TNC)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
