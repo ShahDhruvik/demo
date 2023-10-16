@@ -87,9 +87,13 @@ const CustomDialog = ({
         '.MuiPaper-root ': {
           borderRadius: '7px',
           minHeight:
-            type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT ? `calc(50vh + 35vh)` : '',
+            type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT || type === TABLE_STATES.VIEW
+              ? `calc(50vh + 35vh)`
+              : '',
           minWidth:
-            type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT ? `calc(50vw + 35vw)` : '',
+            type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT || type === TABLE_STATES.VIEW
+              ? `calc(50vw + 35vw)`
+              : '',
           background: theme.palette.mLightGray?.main,
           display: 'flex',
           flexDirection: 'column',

@@ -234,20 +234,7 @@ const InsuranceCompanyList = ({ handleOpen, setType, open, type, handleClose }: 
         handleClose={handleClose}
         maxWidth={'sm'}
         open={open}
-        sxProps={{
-          [theme.breakpoints.up('lg')]: {
-            '.MuiPaper-root ': {
-              minWidth: 1000,
-            },
-          },
-          [theme.breakpoints.down('lg')]: {
-            '.MuiPaper-root ': {
-              minWidth: 800,
-            },
-          },
-        }}
-        maxHeight={600}
-        minHeight={600}
+        type={type}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}
