@@ -1,3 +1,4 @@
+import { EditorValue } from 'react-rte'
 import { SearchDDL } from './common'
 
 export type TNCFields = {
@@ -7,7 +8,7 @@ export type TNCFields = {
     revisionDate: Date | null
     header: string
     image: File | null
-    description: string
+    description: EditorValue
     revisionVersion: string
 }
 

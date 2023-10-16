@@ -41,6 +41,7 @@ const MultiTxtInput = ({
             freeSolo={true}
             options={[]}
             value={value}
+            isOptionEqualToValue={(option, value) => option === value}
             onChange={(event, newValue) => onChange(newValue)}
             renderInput={(params) => (
               <TextField

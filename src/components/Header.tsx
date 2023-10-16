@@ -83,7 +83,7 @@ const Header = ({ open, setOpen }: Props) => {
       <CustomAppBar open={open} theme={theme}>
         <div className='px-5 min-h-[64px] flex items-center'>
           <div className='flex-1 flex items-center min-h-[64px]  gap-2'>
-            <h1 className='text-2xl text-lightGray-main font-semibold drop-shadow-2xl'>
+            <h1 className='text-2xl text-lightGray-main font-black  drop-shadow-2xl'>
               {secSideBarItem ? secSideBarItem : 'loading...'}
             </h1>
           </div>

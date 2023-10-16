@@ -2,6 +2,7 @@ import { HeadCell, Radios, SideBarItems } from "@/types/common";
 import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, TRIANA_PATH, } from "../paths";
+import { acDefaultValue } from "./form.validation";
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -307,10 +308,10 @@ export enum CompliancesNameEnum {
   FDA = 'FDA',
 }
 
-export const complianceArray = Object.keys(CompliancesNameEnum).map((key) => ({
+export const complianceArray = [...Object.keys(CompliancesNameEnum).map((key) => ({
   label: key,
   _id: key,
-}));
+})), acDefaultValue];
 
 export enum TermsAndConditionNameEnum {
   WebUser = 'WebUser',
@@ -322,7 +323,7 @@ export enum TermsAndConditionNameEnum {
   Clinic = 'Clinic',
 }
 
-export const tnCArray = Object.keys(TermsAndConditionNameEnum).map((key) => ({
+export const tnCArray = [acDefaultValue, ...Object.keys(TermsAndConditionNameEnum).map((key) => ({
   label: key,
   _id: key,
-}));
+}))];

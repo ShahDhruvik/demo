@@ -6,7 +6,7 @@ export type ComplianceFields = {
     revisionDate: Date | null
     header: string
     image: File | null
-    description: string
+    description: { subHeader: string, description: string }[]
     revisionVersion: string
 }
 

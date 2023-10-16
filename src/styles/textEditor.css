@@ -1,0 +1,15 @@
+.h1-style {
+  font-size: 30px;
+  font-weight: bold;
+}
+.h2-style {
+  font-size: 24px;
+  font-weight: bold;
+}
+.h3-style {
+  font-size: 20px;
+  font-weight: bold;
+}
+.block-style {
+  @apply text-black-main bg-gray-main p-3 font-extrabold text-xl;
+}
