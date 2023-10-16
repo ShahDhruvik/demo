@@ -8,6 +8,7 @@ import PackageRoutes from './Triana/route'
 import FaqRoute from './faq/route'
 import BannerSliderRoute from './banner-Slider/route'
 import QnaRoute from './question-Answer/route'
+import DomainRoute from './domain/route'
 interface Props {}
 
 const DashboardRoute = ({}: Props) => {
@@ -25,6 +26,7 @@ const DashboardRoute = ({}: Props) => {
         <Route path={DASHBOARD_PATH.FAQ} element={<FaqRoute />} />
         <Route path={DASHBOARD_PATH.BANNER_SLIDER} element={<BannerSliderRoute />} />
         <Route path={DASHBOARD_PATH.QUESTION_ANSWER} element={<QnaRoute />} />
+        <Route path={DASHBOARD_PATH.DOMAIN} element={<DomainRoute />} />
       </Route>
     </RouteWrapper>
   )

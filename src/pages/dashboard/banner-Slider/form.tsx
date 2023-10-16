@@ -5,36 +5,28 @@ import { useLoading } from '@/context/LoadingContext'
 import { useToast } from '@/hooks/useToast'
 import { createBannerSlider, editBannerSlider } from '@/lib/Banner-Slider'
 import { BannerSliderFields, BannerSliderFormFields } from '@/types/bannerSlider'
-import { AllowedAction, HandleControls, ShowToastFunction } from '@/types/common'
-import { limitOfPage } from '@/utils/constants'
+import { AllowedAction, HandleControls, ShowToastFunction, TableStates } from '@/types/common'
+import { TABLE_STATES, limitOfPage } from '@/utils/constants'
 import React, { Dispatch, useEffect, SetStateAction, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { txtFieldValidation } from '@/utils/form.validation'
+import ImageUploadInput from '@/components/ImageInput'
 
 type Props = {
   handleClose: () => void
-  entity: BannerSliderFields
-  getData: () => void
-  setHandleControls: Dispatch<SetStateAction<HandleControls>>
-  type: AllowedAction
-  open: boolean
+  type: TableStates
+  entity: BannerSliderFormFields
+  getModifiedData: () => void
 }
 
-const BannerSliderForm = ({
-  handleClose,
-  entity,
-  setHandleControls,
-  getData,
-  type,
-  open,
-}: Props) => {
+const BannerSliderForm = ({ handleClose, entity, getModifiedData, type }: Props) => {
   const { setLoading } = useLoading()
-  const showToast = useToast() as ShowToastFunction
+  const showToast = useToast()
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const { control, handleSubmit, setValue, formState, reset } = useForm({
     defaultValues: {
       title: '',
-      image: '',
+      image: null,
     },
   })
   const { isSubmitting } = formState
@@ -54,35 +46,29 @@ const BannerSliderForm = ({
     }
   }, [open])
 
-  const onSubmitHandle = async (data: BannerSliderFormFields) => {
-    if (type === 'ADD') {
-      const res = await createBannerSlider(setLoading, showToast, handleClose, data)
-      if (res) {
-        reset()
-        setHandleControls({
-          search: '',
-          currentPage: 1,
-          limitPerPage: limitOfPage,
-          sort: 'createdAt',
-          sortOrder: 'asc',
-        })
-        await getData()
-      }
-    } else if (type === 'EDIT') {
-      const res = await editBannerSlider(setLoading, showToast, handleClose, data, entity._id)
-      if (res) {
-        reset()
-        setHandleControls({
-          search: '',
-          currentPage: 1,
-          limitPerPage: limitOfPage,
-          sort: 'createdAt',
-          sortOrder: 'asc',
-        })
-        await getData()
-      }
-    } else {
-      return
+  const onSubmitHandle: SubmitHandler<BannerSliderFormFields> = async (data) => {
+    handleClose()
+    switch (type) {
+      case TABLE_STATES.ADD:
+        const res = await createBannerSlider(setLoading, showToast, data)
+        if (res) {
+          reset()
+          getModifiedData()
+        } else {
+          reset()
+        }
+        break
+      case TABLE_STATES.EDIT:
+        const resp = await editBannerSlider(setLoading, showToast, data, entity._id)
+        if (resp) {
+          reset()
+          getModifiedData()
+        } else {
+          reset()
+        }
+        break
+      default:
+        break
     }
   }
 
@@ -90,19 +76,24 @@ const BannerSliderForm = ({
     const selectedFile = event.target.files[0]
     if (selectedFile) {
       const url = URL.createObjectURL(selectedFile)
-      setImageUrl(url)
-      setValue('image', selectedFile)
+      setImageUrl(String(url))
+      setValue('image', selectedFile as string)
     }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandle)}>
-      <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
-        <FileUploadInput
+      <div className='px-5 flex justify-center gap-3 mb-5'>
+        {/* <FileUploadInput
           imageUrl={'image'}
           setImageUrl={setImageUrl}
           handleFileChange={handleFileChange}
           editable={true}
+        /> */}
+        <ImageUploadInput
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          handleFileChange={handleFileChange}
         />
       </div>
       <div className='px-5 grid grid-cols-auto-fit gap-3 mb-5'>
@@ -111,7 +102,8 @@ const BannerSliderForm = ({
           handleChange={() => {}}
           name='title'
           placeholder='Enter title'
-          validation={{ ...txtFieldValidation(true, 'ShortName') }}
+          validation={{ ...txtFieldValidation(true) }}
+          label='Title*'
         />
       </div>
       <FormBtns

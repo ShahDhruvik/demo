@@ -8,19 +8,22 @@ export default {
     },
     colors: {
       pink: {
+        // main: '#e20074',
         main: '#e20074',
         light: '#e20074',
         dark: '#e20074',
       },
       darkBlue: {
-        main: '#0a3876',
-        light: '#0a3876',
-        dark: '#0a3876',
+        // main: '#003876',
+        main: '#003876',
+        light: '#003876',
+        dark: '#003876',
       },
       midBlue: {
-        main: '#d8dae8',
-        light: '#d8dae8',
-        dark: '#d8dae8',
+        main: '#d9e3f8',
+        light: '#d9e3f8',
+        dark: '#d9e3f8',
+        // dark: '#004DAA',
       },
       blue: {
         main: '#00a1f1',
@@ -58,9 +61,9 @@ export default {
         dark: '#434655',
       },
       orange: {
-        main: '#db4437',
-        light: '#db4437',
-        dark: '#db4437',
+        main: '#de605d',
+        light: '#de605d',
+        dark: '#de605d',
       },
       lightOrange: {
         main: '#de605d',
@@ -78,9 +81,9 @@ export default {
         dark: '#006571',
       },
       yellow: {
-        main: '#ffbb00',
-        light: '#ffbb00',
-        dark: '#ffbb00',
+        main: '#ffb900',
+        light: '#ffb900',
+        dark: '#ffb900',
       },
       lime: {
         main: '#f6f9f7',
@@ -93,9 +96,9 @@ export default {
         dark: '#ffffff',
       },
       black: {
-        main: '#000000',
-        light: '#000000',
-        dark: '#000000',
+        main: '#2B2A2A',
+        light: '#2B2A2A',
+        dark: '#2B2A2A',
       },
     },
     extend: {
@@ -138,7 +141,7 @@ export default {
         planCardRatio: '2/3',
       },
       fontFamily: {
-        sans: ['Poppins', 'sans'],
+        sans: ['NunitoSans_7pt', 'sans'],
       },
       boxShadow: {
         'box-out': `0px 2px 4px rgba(0, 0, 0, 0.4), 0px 7px 13px -3px rgba(0, 0, 0, 0.3), inset 0px -3px 0px rgba(0, 0, 0, 0.2)`,

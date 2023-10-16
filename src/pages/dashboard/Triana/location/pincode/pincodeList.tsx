@@ -123,7 +123,7 @@ const PincodeList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.PINCODE, tableName: 'Pincode' }}
+        // tableHeading={{ tableId: TABLES.PINCODE, tableName: 'Pincode' }}
         notFound={notFound.includes(TABLES.PINCODE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />

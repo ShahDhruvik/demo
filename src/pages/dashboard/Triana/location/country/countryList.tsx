@@ -130,7 +130,7 @@ const CountryList = ({ handleOpen, setType, open, type, handleClose }: Props) =>
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.COUNTRY, tableName: 'Country' }}
+        // tableHeading={{ tableId: TABLES.COUNTRY, tableName: 'Country' }}
         notFound={notFound.includes(TABLES.COUNTRY)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />

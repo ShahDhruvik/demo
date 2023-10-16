@@ -147,19 +147,21 @@ type Props = {
 export const theme: Theme = createTheme({
   palette: {
     mPink: {
+      // main: '#e20074',
       main: '#e20074',
       dark: '#e20074',
       light: '#e20074',
     },
     mDarkBlue: {
-      main: '#0a3876',
-      light: '#0a3876',
-      dark: '#0a3876',
+      // main: '#003876',
+      main: '#003876',
+      light: '#003876',
+      dark: '#003876',
     },
     mMidBlue: {
-      main: '#d8dae8',
-      light: '#d8dae8',
-      dark: '#d8dae8',
+      main: '#d9e3f8',
+      light: '#d9e3f8',
+      dark: '#d9e3f8',
     },
     mBlue: {
       main: '#00a1f1',
@@ -207,9 +209,9 @@ export const theme: Theme = createTheme({
       dark: '#0f9d58',
     },
     mYellow: {
-      main: '#ffbb00',
-      light: '#ffbb00',
-      dark: '#ffbb00',
+      main: '#ffb900',
+      light: '#ffb900',
+      dark: '#ffb900',
     },
     mWhite: {
       main: '#ffffff',
@@ -222,9 +224,9 @@ export const theme: Theme = createTheme({
       dark: '#2b2a2a',
     },
     mBlack: {
-      main: '#000000',
-      light: '#000000',
-      dark: '#000000',
+      main: '#2B2A2A',
+      light: '#2B2A2A',
+      dark: '#2B2A2A',
     },
     mDarkestGray: {
       main: '#434655',
@@ -362,7 +364,7 @@ export const theme: Theme = createTheme({
           '.Mui-checked': {
             // color: '#3441A3',
             '.MuiSwitch-thumb': {
-              color: '#e20074',
+              color: '#0F9D58',
             },
           },
           '.MuiSwitch-thumb': {
@@ -387,7 +389,7 @@ export const theme: Theme = createTheme({
           },
           '.Mui-selected': {
             border: '0px',
-            backgroundColor: '#e20074 !important',
+            backgroundColor: '#003876 !important',
             color: '#ffffff',
             fontWeight: '700',
           },

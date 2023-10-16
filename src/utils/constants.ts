@@ -1,7 +1,7 @@
-import { HeadCell, Radios, SideBarItems } from "@/types/common";
-import { format, parseISO } from "date-fns";
-import { enUS } from "date-fns/locale";
-import { COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, TRIANA_PATH, } from "../paths";
+import { HeadCell, Radios, SideBarItems } from '@/types/common'
+import { format, parseISO } from 'date-fns'
+import { enUS } from 'date-fns/locale'
+import { COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, TRIANA_PATH } from '../paths'
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -66,6 +66,8 @@ export const enum TABLES {
   TNC = 'TNC',
   COMPLIANCE = 'COMPLIANCE',
   ROLE = 'ROLE',
+  INSURANCE_COMPANY = 'INSURANCE_COMPANY',
+  DOMAIN = 'DOMAIN',
 }
 
 export const formatDate = (dateString: string) => {
@@ -87,9 +89,9 @@ export const sortTableRowsByHeadCells = (tableRow: any[], headCell: HeadCell[]) 
     } else {
       sortedTableRows.push(cell)
     }
-  });
-  return sortedTableRows;
-};
+  })
+  return sortedTableRows
+}
 
 export enum TreatmentPackageTypes {
   INTERNAL = 'INTERNAL',
@@ -97,8 +99,11 @@ export enum TreatmentPackageTypes {
   PREMIUM = 'PREMIUM',
 }
 
-
-export const PackagesArray: Radios[] = [{ value: TreatmentPackageTypes.PREMIUM, name: 'Premium' }, { value: TreatmentPackageTypes.PARENT, name: 'Parent' }, { value: TreatmentPackageTypes.INTERNAL, name: 'Internal' }]
+export const PackagesArray: Radios[] = [
+  { value: TreatmentPackageTypes.PREMIUM, name: 'Premium' },
+  { value: TreatmentPackageTypes.PARENT, name: 'Parent' },
+  { value: TreatmentPackageTypes.INTERNAL, name: 'Internal' },
+]
 
 export const enum ACTIONS_TABLE {
   ADD = 'ADD',
@@ -127,6 +132,7 @@ export const enum SIDEBAR_NAMES {
   FAQ = 'FAQ',
   BANNER_SLIDER = 'Banner Slider',
   QUESTION_ANSWER = 'Question Answer',
+  DOMAIN = 'Domain',
 }
 export const enum SIDEBAR_SUBLIST_NAMES {
 
@@ -137,6 +143,7 @@ export const enum SIDEBAR_SUBLIST_NAMES {
   COMPLIANCE = 'Compliance',
   LOCATION = 'Location',
   ROLES = 'Roles',
+  INSURANCE_COMPANY = 'Insurance Company',
 }
 
 export const enum SUBLIST_CHILDLIST_NAMES {
@@ -264,6 +271,13 @@ export const sidebarItems: SideBarItems[] = [
         isSingle: true,
         childList: []
       },
+      {
+        id: 4,
+        txt: SIDEBAR_SUBLIST_NAMES.INSURANCE_COMPANY,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.INSURANCE_COMPANY}`,
+        isSingle: true,
+        childList: []
+      },
     ],
     isSingle: false,
     mainPath: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}`,
@@ -292,8 +306,15 @@ export const sidebarItems: SideBarItems[] = [
     isSingle: true,
     mainPath: `${DASHBOARD_PATH.QUESTION_ANSWER.split('/*')[0]}`,
   },
+  {
+    id: 6,
+    mainListName: SIDEBAR_NAMES.DOMAIN,
+    mainImage: 'qna',
+    subList: [],
+    isSingle: true,
+    mainPath: `${DASHBOARD_PATH.DOMAIN.split('/*')[0]}`,
+  },
 ]
-
 
 export const enum INFOBOXES {
   DEFAULT = 'DEFAULT',

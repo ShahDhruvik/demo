@@ -146,7 +146,7 @@ const SelectInput = ({
             ListItemDropdown(
               props,
               option,
-              field.value._id,
+              field.value?._id,
               tooltip ? tooltip.isTooltip : false,
               tooltip ? tooltip.length : 13,
             )

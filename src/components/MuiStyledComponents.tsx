@@ -133,7 +133,7 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%',
     // height: '36px',
     [theme.breakpoints.up('sm')]: {
-      width: '246px',
+      width: '400px',
     },
   },
 }))

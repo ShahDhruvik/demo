@@ -13,6 +13,7 @@ import {
   TABLE_STATES,
 } from '../utils/constants'
 import { Theme } from '@mui/material'
+import { acDefaultValue } from '@/utils/form.validation'
 // Other types regarding the individual entity will have separate file (ex: user.types.ts)
 export type PaletteColor = {
   light?: string
@@ -166,6 +167,7 @@ export type SidebarNames =
   | SIDEBAR_NAMES.FAQ
   | SIDEBAR_NAMES.BANNER_SLIDER
   | SIDEBAR_NAMES.QUESTION_ANSWER
+  | SIDEBAR_NAMES.DOMAIN
   | undefined
 
 export type SidebarSubListNames =
@@ -177,6 +179,7 @@ export type SidebarSubListNames =
   | SIDEBAR_SUBLIST_NAMES.COMPLIANCE
   | SIDEBAR_SUBLIST_NAMES.LOCATION
   | SIDEBAR_SUBLIST_NAMES.ROLES
+  | SIDEBAR_SUBLIST_NAMES.INSURANCE_COMPANY
   | undefined
 
 export type SidebarChildListNames =
@@ -219,4 +222,25 @@ export type Languages = {
   isActive: boolean
   label: string
   value: string
+}
+
+export enum TermsAndConditionNameEnum {
+  WebUser = 'WebUser',
+  Administration = 'Administration',
+  Employee = 'Employee',
+  MoneyBack = 'MoneyBack',
+  MobileUser = 'MobileUser',
+  Provider = 'Provider',
+  Clinic = 'Clinic',
+}
+
+export const tnCArray = [...Object.keys(TermsAndConditionNameEnum).map((key) => ({
+  label: key,
+  _id: key,
+})), acDefaultValue]
+
+export enum QnaType {
+  SELECT = 'Single Select',
+  MULTI = 'Short Answer',
+  SHORT_ANS = 'Multi Choice',
 }

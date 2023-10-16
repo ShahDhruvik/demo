@@ -8,6 +8,7 @@ type Props = {
   cancelTxt: string
   approvalTxt: string
   formSubmitting: boolean
+  disable?: boolean
 }
 
 const FormBtns = ({
@@ -17,6 +18,7 @@ const FormBtns = ({
   cancelTxt,
   approvalTxt,
   formSubmitting,
+  disable,
 }: Props) => {
   return (
     <Box display={'flex'} justifyContent={'end'} gap={'12px'} alignItems={'end'} px={5} pt={5}>
@@ -34,14 +36,26 @@ const FormBtns = ({
           {cancelTxt}
         </Button>
       </div>
-      <Button
-        color='mPink'
-        onClick={() => approvalFnc()}
-        type={isSubmit ? 'submit' : 'button'}
-        disabled={formSubmitting}
-      >
-        {!formSubmitting ? approvalTxt : 'Please wait ...'}
-      </Button>
+      {!disable ? (
+        <Button
+          color='mPink'
+          onClick={() => approvalFnc()}
+          type={isSubmit ? 'submit' : 'button'}
+          disabled={formSubmitting}
+        >
+          {!formSubmitting ? approvalTxt : 'Please wait ...'}
+        </Button>
+      ) : (
+        <Button
+          color='mPink'
+          onClick={() => approvalFnc()}
+          type={isSubmit ? 'button' : 'button'}
+          disabled={formSubmitting}
+          sx={{ disabled: 'true' }}
+        >
+          {approvalTxt}
+        </Button>
+      )}
     </Box>
   )
 }

@@ -58,7 +58,7 @@ const SideBar = ({ open, setOpen }: Props) => {
           {open && (
             <div className='flex items-center gap-1 '>
               <img src={logo} alt='' className='w-10 aspect-square rounded-full bg-white-main' />
-              <h1 className='text-2xl font-semibold text-darkBlue-main'>Oopchar</h1>
+              <h1 className='text-2xl font-semibold text-darkBlue-main'>oopchar</h1>
             </div>
           )}
           {open && (

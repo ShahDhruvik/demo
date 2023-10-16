@@ -7,7 +7,7 @@ import { HEADERBTNS } from '@/utils/constants'
 import { HeaderBtnTypes } from '@/types/common'
 import FetchSvg from './fetchSvg'
 type Props = {
-  heading: string
+  heading?: string
   searchFnc: (srhTxt: string) => void
   clickFnc: () => void
   tabs?: { isTabs: boolean; tabComponent: any }
@@ -55,9 +55,9 @@ const TableHeaderControls = ({
         sx={{
           pb: 1,
           pt: 1,
-          borderBottom: '2px solid',
+          borderBottom: '4px solid',
           borderTop: tabs?.isTabs ? '1px solid' : '',
-          borderColor: theme.palette.mPink?.main,
+          borderColor: theme.palette.mDarkGray?.main,
           px: '16px',
           width: '100%',
           [theme.breakpoints.down('md')]: {
@@ -66,25 +66,27 @@ const TableHeaderControls = ({
         }}
         display={'flex'}
         alignItems={'center'}
-        justifyContent={'space-between'}
+        justifyContent={heading ? 'space-between' : 'end'}
       >
-        <Typography
-          sx={{
-            color: theme.palette.mDarkBlue?.main,
-            fontWeight: '600',
-            fontSize: '18px',
-            backgroundColor: theme.palette.mLightGray?.main,
-            px: 3,
-            py: 0.5,
-            borderRadius: '7px',
-            boxShadow: `${theme.palette.mWhite?.main} 0px 0.0625em 0.0625em, ${theme.palette.mDarkBlue?.main} 0px 0.10em 0.10em, ${theme.palette.mWhite?.main} 0px 0px 0px 1px inset`,
-          }}
-          variant='h6'
-          id='tableTitle'
-          component='div'
-        >
-          {heading}
-        </Typography>
+        {heading && (
+          <Typography
+            sx={{
+              color: theme.palette.mDarkBlue?.main,
+              fontWeight: '600',
+              fontSize: '18px',
+              backgroundColor: theme.palette.mLightGray?.main,
+              px: 3,
+              py: 0.5,
+              borderRadius: '7px',
+              boxShadow: `${theme.palette.mWhite?.main} 0px 0.0625em 0.0625em, ${theme.palette.mDarkBlue?.main} 0px 0.10em 0.10em, ${theme.palette.mWhite?.main} 0px 0px 0px 1px inset`,
+            }}
+            variant='h6'
+            id='tableTitle'
+            component='div'
+          >
+            {heading}
+          </Typography>
+        )}
 
         <Box
           display={'flex'}

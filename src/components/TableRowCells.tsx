@@ -451,10 +451,10 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
           {row[x.id] === true && (
             <Typography
               sx={{
-                backgroundColor: 'rgba(11, 166, 73, 0.15)',
+                backgroundColor: '#F6F9F7',
                 borderRadius: '27px',
                 textAlign: 'center',
-                color: '#0BA649',
+                color: '#0f9D58',
                 fontWeight: '600',
                 fontSize: '16px',
                 lineHeight: '35px',
@@ -469,10 +469,10 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
           {row[x.id] === false && (
             <Typography
               sx={{
-                backgroundColor: 'rgba(255, 103, 103, 0.15)',
+                backgroundColor: '#F6F9F7',
                 borderRadius: '27px',
                 textAlign: 'center',
-                color: '#FF6767',
+                color: '#DB4437',
                 fontWeight: '600',
                 fontSize: '16px',
                 lineHeight: '35px',
@@ -498,10 +498,10 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
           {row[x.id] === true && (
             <Typography
               sx={{
-                backgroundColor: 'rgba(11, 166, 73, 0.15)',
+                backgroundColor: '#F6F9F7',
                 borderRadius: '27px',
                 textAlign: 'center',
-                color: '#0BA649',
+                color: '#0f9D58',
                 fontWeight: '600',
                 fontSize: '16px',
                 lineHeight: '35px',
@@ -516,10 +516,10 @@ const TableRowCell = ({ x, i, row, handleChecked, handleView, selectedRows }: Pr
           {row[x.id] === false && (
             <Typography
               sx={{
-                backgroundColor: 'rgba(255, 103, 103, 0.15)',
+                backgroundColor: '#F6F9F7',
                 borderRadius: '27px',
                 textAlign: 'center',
-                color: '#FF6767',
+                color: '#DB4437',
                 fontWeight: '600',
                 fontSize: '16px',
                 lineHeight: '35px',

@@ -32,23 +32,26 @@ type Props = {
 const FaqList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
-  const showToast = useToast() as ShowToastFunction
+  const showToast = useToast()
   const { setNotFound, notFound } = useNotFound()
 
-  // Record and Control States
-  const [data, setData] = useState<FaqFields[]>([])
-  const [entity, setEntity] = useState<FaqFields | undefined>()
-  const [controls, setControls] = useState({})
-  const [handleControls, setHandleControls] = useState<HandleControls>({
+  //default controls
+  const defaultControls = {
     search: '',
     currentPage: 1,
     limitPerPage: limitOfPage,
     sort: 'createdAt',
     sortOrder: 'asc',
-  })
+  }
+
+  // Record and Control States
+  const [data, setData] = useState<FaqFields[]>([])
+  const [entity, setEntity] = useState<FaqFields | undefined>()
+  const [controls, setControls] = useState({})
+  const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
 
   const getData = async () => {
-    const response = await getAllFaqs(setLoading, showToast, setNotFound, handleControls)
+    const response = await getAllFaqs(setLoading, showToast, setNotFound, notFound, handleControls)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
@@ -61,6 +64,10 @@ const FaqList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
     } else {
       setData([])
     }
+  }
+
+  const getModifiedData = () => {
+    setHandleControls(defaultControls)
   }
 
   useEffect(() => {
@@ -89,36 +96,23 @@ const FaqList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
 
   //Inactive and Delete entity
   const inactiveEntity = async () => {
+    handleClose()
     const res = await inActiveFaq(
       setLoading,
       showToast,
-      entity.isActive as boolean,
       entity?._id as string,
+      entity?.isActive as boolean,
     )
     if (res) {
-      setHandleControls({
-        search: '',
-        currentPage: 1,
-        limitPerPage: limitOfPage,
-        sort: 'createdAt',
-        sortOrder: 'asc',
-      })
-      await getData()
-      handleClose()
+      getModifiedData()
     }
   }
+
   const deleteEntity = async () => {
+    handleClose()
     const res = await deleteFaq(setLoading, showToast, entity?._id as string)
     if (res) {
-      setHandleControls({
-        search: '',
-        currentPage: 1,
-        limitPerPage: limitOfPage,
-        sort: 'siteName',
-        sortOrder: 'asc',
-      })
-      await getData()
-      handleClose()
+      getModifiedData()
     }
   }
 
@@ -134,7 +128,7 @@ const FaqList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.FAQ, tableName: 'FAQ' }}
+        // tableHeading={{ tableId: TABLES.FAQ, tableName: 'FAQ' }}
         notFound={notFound.includes(TABLES.FAQ)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
@@ -183,11 +177,9 @@ const FaqList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
             <FaqForm
               handleClose={handleClose}
-              entity={entity}
-              getData={getData}
-              setHandleControls={setHandleControls}
-              type={type as unknown as AllowedAction}
-              open={open}
+              type={type}
+              entity={entity as FaqFields}
+              getModifiedData={getModifiedData}
             />
           )}
         </ActionModal>

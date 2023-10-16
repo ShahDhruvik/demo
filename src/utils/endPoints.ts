@@ -1,6 +1,6 @@
-// All the endpoints of API are defined here 
+// All the endpoints of API are defined here
 export const enum DEF_PATHS {
-  COMMON = '/common'
+  COMMON = '/common',
 }
 
 export const enum COUNTRY_PATH {
@@ -100,4 +100,17 @@ export const enum QNA {
   delete = '/common/question-answer/delete/',
   inActive = '/common/question-answer/inactive/',
   treatmentPlan = '/common/treatment-plan',
+}
+
+export const enum INSURANCE_COMPANY_PATH {
+  CREATE = '/insurance-company/create',
+  GET = '/insurance-company',
+  INACTIVE = '/insurance-company/inactive/',
+}
+
+export const enum DOMAIN {
+  create = '/common/domain/create',
+  getAll = '/common/domain',
+  edit = '/common/domain/edit/',
+  inActive = '/common/domain/inactive/',
 }

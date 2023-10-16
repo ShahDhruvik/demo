@@ -32,23 +32,32 @@ type Props = {
 const BannerSliderList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
-  const showToast = useToast() as ShowToastFunction
+  const showToast = useToast()
   const { setNotFound, notFound } = useNotFound()
 
-  // Record and Control States
-  const [data, setData] = useState<BannerSliderFields[]>([])
-  const [entity, setEntity] = useState<BannerSliderFields | undefined>()
-  const [controls, setControls] = useState({})
-  const [handleControls, setHandleControls] = useState<HandleControls>({
+  //default controls
+  const defaultControls = {
     search: '',
     currentPage: 1,
     limitPerPage: limitOfPage,
     sort: 'createdAt',
     sortOrder: 'asc',
-  })
+  }
+
+  // Record and Control States
+  const [data, setData] = useState<BannerSliderFields[]>([])
+  const [entity, setEntity] = useState<BannerSliderFields | undefined>()
+  const [controls, setControls] = useState({})
+  const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
 
   const getData = async () => {
-    const response = await getAllBannerSliders(setLoading, showToast, setNotFound, handleControls)
+    const response = await getAllBannerSliders(
+      setLoading,
+      showToast,
+      setNotFound,
+      notFound,
+      handleControls,
+    )
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
@@ -61,6 +70,10 @@ const BannerSliderList = ({ handleOpen, setType, open, type, handleClose }: Prop
     } else {
       setData([])
     }
+  }
+
+  const getModifiedData = () => {
+    setHandleControls(defaultControls)
   }
 
   useEffect(() => {
@@ -90,36 +103,22 @@ const BannerSliderList = ({ handleOpen, setType, open, type, handleClose }: Prop
 
   //Inactive and Delete entity
   const inactiveEntity = async () => {
+    handleClose()
     const res = await inActiveBannerSlider(
       setLoading,
       showToast,
-      entity.isActive as boolean,
       entity?._id as string,
+      entity?.isActive as boolean,
     )
     if (res) {
-      setHandleControls({
-        search: '',
-        currentPage: 1,
-        limitPerPage: limitOfPage,
-        sort: 'createdAt',
-        sortOrder: 'asc',
-      })
-      await getData()
-      handleClose()
+      getModifiedData()
     }
   }
   const deleteEntity = async () => {
+    handleClose()
     const res = await deleteBannerSlider(setLoading, showToast, entity?._id as string)
     if (res) {
-      setHandleControls({
-        search: '',
-        currentPage: 1,
-        limitPerPage: limitOfPage,
-        sort: 'siteName',
-        sortOrder: 'asc',
-      })
-      await getData()
-      handleClose()
+      getModifiedData()
     }
   }
 
@@ -135,7 +134,7 @@ const BannerSliderList = ({ handleOpen, setType, open, type, handleClose }: Prop
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.BANNER_SLIDER, tableName: 'Banner Slider' }}
+        // tableHeading={{ tableId: TABLES.BANNER_SLIDER, tableName: 'Banner Slider' }}
         notFound={notFound.includes(TABLES.BANNER_SLIDER)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
@@ -184,11 +183,9 @@ const BannerSliderList = ({ handleOpen, setType, open, type, handleClose }: Prop
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
             <BannerSliderForm
               handleClose={handleClose}
-              entity={entity}
-              getData={getData}
-              setHandleControls={setHandleControls}
-              type={type as unknown as AllowedAction}
-              open={open}
+              type={type}
+              entity={entity as BannerSliderFields}
+              getModifiedData={getModifiedData}
             />
           )}
         </ActionModal>
