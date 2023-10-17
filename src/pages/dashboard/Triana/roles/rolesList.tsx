@@ -129,7 +129,7 @@ const RolesList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.ROLE, tableName: 'Role' }}
+        // tableHeading={{ tableId: TABLES.ROLE, tableName: 'Role' }}
         notFound={notFound.includes(TABLES.ROLE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />

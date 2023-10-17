@@ -131,7 +131,7 @@ const UserList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         handleControls={handleControls}
         setHandleControls={setHandleControls}
         actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
-        tableHeading={{ tableId: TABLES.USER, tableName: 'User' }}
+        // tableHeading={{ tableId: TABLES.USER, tableName: 'User' }}
         notFound={notFound.includes(TABLES.USER)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
