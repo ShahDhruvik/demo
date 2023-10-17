@@ -2,6 +2,7 @@ import { InfoBoxes } from '@/types/common'
 import { INFOBOXES } from '@/utils/constants'
 import { Divider } from '@mui/material'
 import { ReactNode } from 'react'
+import { EditorValue } from 'react-rte'
 
 type Props = {
   type: InfoBoxes
@@ -10,18 +11,21 @@ type Props = {
   number?: number
   rows?: any[]
   fieldName?: string
+  EditorVal?: EditorValue
 }
 
-const InfoBox = ({ type, title, info, number, rows, fieldName }: Props) => {
+const InfoBox = ({ type, title, info, number, rows, fieldName, EditorVal }: Props) => {
   switch (type) {
     case INFOBOXES.DEFAULT:
       return (
-        <div className='flex shadow-box-out  max-w-xs'>
-          <div className='bg-lightGreen-main px-7 flex items-center justify-center'>
+        <div className='flex shadow-box-out'>
+          {/* <div className='bg-lightGreen-main px-7 flex items-center justify-center'>
             <p className='text-xl text-white-main font-semibold'>{number}</p>
-          </div>
+          </div> */}
           <div className='flex-1 bg-[#F8F9FF]'>
-            <h4 className='px-2 py-1  text-lg  tracking-wider font-bold '>{title}</h4>
+            <h4 className='px-2 py-1  text-lg text-white-main  tracking-wider font-bold bg-lightGreen-main'>
+              {title}
+            </h4>
             <Divider />
             {info}
           </div>
@@ -51,7 +55,23 @@ const InfoBox = ({ type, title, info, number, rows, fieldName }: Props) => {
         </div>
       )
       break
-
+    // case INFOBOXES.EDITOR:
+    //   const container = document.getElementById('yourContainerId');
+    //   return (
+    //     <div className='flex shadow-box-out  max-w-xs'>
+    //       {/* <div className='bg-lightGreen-main px-7 flex items-center justify-center'>
+    //           <p className='text-xl text-white-main font-semibold'>{number}</p>
+    //         </div> */}
+    //       <div className='flex-1 bg-[#F8F9FF]'>
+    //         <h4 className='px-2 py-1  text-lg text-white-main  tracking-wider font-bold bg-lightGreen-main'>
+    //           {title}
+    //         </h4>
+    //         <Divider />
+    //         <div id={}></div>
+    //       </div>
+    //     </div>
+    //   )
+    //   break
     default:
       break
   }

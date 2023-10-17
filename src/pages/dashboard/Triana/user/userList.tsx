@@ -9,10 +9,11 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import TNCForm from './tncForm'
-import { getTNC, inactiveTNC } from '@/lib/termsAndCon'
-import { TNCData } from '@/types/termsAndCondition'
-import TncView from './tncView'
+import CountryForm from './userForm'
+import { theme } from '@/context/ThemeProvider'
+import { deleteCountry, getCountry, inactiveCountry } from '@/lib/Country'
+import { CountryData } from '@/types/location'
+import { deleteUser, getUser, inactiveUser } from '@/lib/user'
 
 type Props = {
   handleOpen: () => void
@@ -22,7 +23,7 @@ type Props = {
   handleClose: () => void
 }
 
-const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
+const UserList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   //context
   const { setLoading } = useLoading()
   const showToast = useToast()
@@ -39,15 +40,16 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
 
   // Record and Control States
   const [data, setData] = useState<any[]>([])
-  const [entity, setEntity] = useState<TNCData | undefined>()
+  const [entity, setEntity] = useState<CountryData | undefined>()
   const [controls, setControls] = useState({})
   const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
+
   const getData = async () => {
-    const response = await getTNC(setLoading, showToast, setNotFound, notFound, handleControls)
+    const response = await getUser(setLoading, showToast, setNotFound, notFound, handleControls)
     if (response) {
       const { records, ...rest } = response
       if (records.length === 0) {
-        setNotFound([TABLES.PINCODE])
+        setNotFound([TABLES.COUNTRY])
       } else {
         setNotFound([])
         setData(records)
@@ -74,16 +76,19 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
       isSort: true,
     },
     {
-      id: 'effectiveDate',
-      label: 'Effective Date',
+      id: 'shortName',
+      label: 'Short Name',
       isSort: true,
-      type: 'date',
     },
     {
-      id: 'revisionDate',
-      label: 'Revision Date',
+      id: 'isoCode',
+      label: 'ISO code',
       isSort: true,
-      type: 'date',
+    },
+    {
+      id: 'code',
+      label: 'Code',
+      isSort: true,
     },
     {
       id: 'isActive',
@@ -96,12 +101,19 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
   // Inactive and Delete entity
   const inactiveEntity = async () => {
     handleClose()
-    const res = await inactiveTNC(
+    const res = await inactiveUser(
       setLoading,
       showToast,
       entity?._id as string,
       entity?.isActive as boolean,
     )
+    if (res) {
+      getModifiedData()
+    }
+  }
+  const deleteEntity = async () => {
+    handleClose()
+    const res = await deleteUser(setLoading, showToast, entity?._id as string)
     if (res) {
       getModifiedData()
     }
@@ -118,23 +130,23 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         controls={controls as Controls}
         handleControls={handleControls}
         setHandleControls={setHandleControls}
-        actions={[ACTIONS_TABLE.SWITCH, ACTIONS_TABLE.VIEW]}
-        tableHeading={{ tableId: TABLES.TNC, tableName: 'Terms & Conditions' }}
-        notFound={notFound.includes(TABLES.TNC)}
+        actions={[ACTIONS_TABLE.DELETE, ACTIONS_TABLE.EDIT, ACTIONS_TABLE.SWITCH]}
+        tableHeading={{ tableId: TABLES.USER, tableName: 'User' }}
+        notFound={notFound.includes(TABLES.USER)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
       />
       <CustomDialog
         action={{ isAction: false, component: null }}
         header={{ isHeader: false, component: false }}
         handleClose={handleClose}
-        maxWidth={'xl'}
+        maxWidth={'sm'}
         open={open}
         type={type}
         dialogStyleProps={{
           padding: '0px 0px 24px 0px',
         }}
       >
-        <ActionModal handleClose={handleClose} type={type} entityName='Terms & Conditions'>
+        <ActionModal handleClose={handleClose} type={type} entityName='User'>
           {type === TABLE_STATES.INACTIVE && (
             <SwitchDeleteModal
               actionFnc={() => {
@@ -155,19 +167,28 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
               type={type}
             />
           )}
-          {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <TNCForm
+          {type === TABLE_STATES.DELETE && (
+            <SwitchDeleteModal
+              actionFnc={() => {
+                deleteEntity()
+              }}
+              approvalTxt={'Delete'}
               handleClose={handleClose}
               type={type}
-              entity={entity as TNCData}
+            />
+          )}
+          {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
+            <CountryForm
+              handleClose={handleClose}
+              type={type}
+              entity={entity as CountryData}
               getModifiedData={getModifiedData}
             />
           )}
-          {type === TABLE_STATES.VIEW && <TncView entity={entity as TNCData} />}
         </ActionModal>
       </CustomDialog>
     </Box>
   )
 }
 
-export default TNCList
+export default UserList

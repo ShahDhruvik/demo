@@ -67,6 +67,7 @@ export const enum TABLES {
   TNC = 'TNC',
   COMPLIANCE = 'COMPLIANCE',
   ROLE = 'ROLE',
+  USER = 'USER',
 }
 
 export const formatDate = (dateString: string) => {
@@ -138,6 +139,7 @@ export const enum SIDEBAR_SUBLIST_NAMES {
   COMPLIANCE = 'Compliance',
   LOCATION = 'Location',
   ROLES = 'Roles',
+  USER = 'User',
 }
 
 export const enum SUBLIST_CHILDLIST_NAMES {
@@ -156,43 +158,6 @@ export const sidebarItems: SideBarItems[] = [
     isSingle: true,
     mainPath: `${COMMON_PATH.DEFAULT}`,
   },
-  // {
-  //   id: 1,
-  //   mainListName: SIDEBAR_NAMES.LOCATION,
-  //   mainImage: 'location',
-  //   subList: [
-  //     {
-  //       id: 0,
-  //       txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //     {
-  //       id: 1,
-  //       txt: SIDEBAR_SUBLIST_NAMES.STATE,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //     {
-  //       id: 2,
-  //       txt: SIDEBAR_SUBLIST_NAMES.CITY,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //     {
-  //       id: 3,
-  //       txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //   ],
-  //   isSingle: false,
-  //   mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
-  // },
   {
     id: 2,
     mainListName: SIDEBAR_NAMES.TRIANA,
@@ -265,6 +230,13 @@ export const sidebarItems: SideBarItems[] = [
         isSingle: true,
         childList: []
       },
+      {
+        id: 6,
+        txt: SIDEBAR_SUBLIST_NAMES.USER,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.USER}`,
+        isSingle: true,
+        childList: []
+      },
     ],
     isSingle: false,
     mainPath: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}`,
@@ -299,6 +271,7 @@ export const sidebarItems: SideBarItems[] = [
 export const enum INFOBOXES {
   DEFAULT = 'DEFAULT',
   MULTI = 'MULTI',
+  EDITOR = 'EDITOR',
 }
 
 export enum CompliancesNameEnum {

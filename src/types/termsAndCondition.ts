@@ -8,7 +8,7 @@ export type TNCFields = {
     revisionDate: Date | null
     header: string
     image: File | null
-    description: { subHeader: string, description: string }[]
+    description: { title: string, description: string }[]
     revisionVersion: string
 }
 
@@ -38,5 +38,6 @@ export type TNCData = {
         createdAt: string
         updatedAt: string
         __v: number
-    }[]
+    }[],
+    subheaders: { title: string, description: string }[]
 }

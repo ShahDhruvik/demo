@@ -39,4 +39,5 @@ export const enum TRIANA_PATH {
   COMPLIANCE = '/compliance',
   LOCATION = '/location/*',
   ROLES = '/roles',
+  USER = '/users',
 }

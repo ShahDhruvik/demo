@@ -9,11 +9,13 @@ import { Box } from '@mui/material'
 import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
-import TNCForm from './complianceForm'
+import ComplianceForm from './complianceForm'
 import { theme } from '@/context/ThemeProvider'
 import { PackageData } from '@/types/package'
 import { getTNC, inactiveTNC } from '@/lib/termsAndCon'
 import { getCompliance, inactiveCompliance } from '@/lib/complaince'
+import ComplianceView from './complianceView'
+import { ComplianceData } from '@/types/compliance'
 
 type Props = {
   handleOpen: () => void
@@ -40,7 +42,7 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
 
   // Record and Control States
   const [data, setData] = useState<any[]>([])
-  const [entity, setEntity] = useState<PackageData | undefined>()
+  const [entity, setEntity] = useState<ComplianceData | undefined>()
   const [controls, setControls] = useState({})
   const [handleControls, setHandleControls] = useState<HandleControls>(defaultControls)
   const getData = async () => {
@@ -119,7 +121,7 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
         controls={controls as Controls}
         handleControls={handleControls}
         setHandleControls={setHandleControls}
-        actions={[ACTIONS_TABLE.SWITCH]}
+        actions={[ACTIONS_TABLE.SWITCH, ACTIONS_TABLE.VIEW]}
         tableHeading={{ tableId: TABLES.COMPLIANCE, tableName: 'Compliance' }}
         notFound={notFound.includes(TABLES.COMPLIANCE)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
@@ -157,13 +159,14 @@ const ComplianceList = ({ handleOpen, setType, open, type, handleClose }: Props)
             />
           )}
           {(type === TABLE_STATES.ADD || type === TABLE_STATES.EDIT) && (
-            <TNCForm
+            <ComplianceForm
               handleClose={handleClose}
               type={type}
-              entity={entity as PackageData}
+              entity={entity as ComplianceData}
               getModifiedData={getModifiedData}
             />
           )}
+          {type === TABLE_STATES.VIEW && <ComplianceView entity={entity as ComplianceData} />}
         </ActionModal>
       </CustomDialog>
     </Box>

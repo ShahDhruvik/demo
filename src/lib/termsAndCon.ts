@@ -20,7 +20,7 @@ const createTNC = async (
             image: '',
             header: formData.header,
             revisionVersion: formData.revisionVersion,
-            description: formData.description
+            subheaders: formData.description
         };
         const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${TNC_PATH.CREATE}`, data);
         if (res.data.success) {
