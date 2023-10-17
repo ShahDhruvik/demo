@@ -2,6 +2,7 @@ import { HeadCell, Radios, SideBarItems } from '@/types/common'
 import { format, parseISO } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import { COMMON_PATH, DASHBOARD_PATH, LOCATION_PATH, TRIANA_PATH } from '../paths'
+import { acDefaultValue } from './form.validation'
 
 // ALl your constants and enums. This includes pre-defined functions and other commonly used variables. ex: date-format functions, other standarad maintaining function
 export const x = 10
@@ -68,6 +69,7 @@ export const enum TABLES {
   ROLE = 'ROLE',
   INSURANCE_COMPANY = 'INSURANCE_COMPANY',
   DOMAIN = 'DOMAIN',
+  USER = 'USER',
 }
 
 export const formatDate = (dateString: string) => {
@@ -144,6 +146,7 @@ export const enum SIDEBAR_SUBLIST_NAMES {
   LOCATION = 'Location',
   ROLES = 'Roles',
   INSURANCE_COMPANY = 'Insurance Company',
+  USER = 'User',
 }
 
 export const enum SUBLIST_CHILDLIST_NAMES {
@@ -162,43 +165,6 @@ export const sidebarItems: SideBarItems[] = [
     isSingle: true,
     mainPath: `${COMMON_PATH.DEFAULT}`,
   },
-  // {
-  //   id: 1,
-  //   mainListName: SIDEBAR_NAMES.LOCATION,
-  //   mainImage: 'location',
-  //   subList: [
-  //     {
-  //       id: 0,
-  //       txt: SIDEBAR_SUBLIST_NAMES.COUNTRY,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.COUNTRY}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //     {
-  //       id: 1,
-  //       txt: SIDEBAR_SUBLIST_NAMES.STATE,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.STATE}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //     {
-  //       id: 2,
-  //       txt: SIDEBAR_SUBLIST_NAMES.CITY,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.CITY}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //     {
-  //       id: 3,
-  //       txt: SIDEBAR_SUBLIST_NAMES.PINCODE,
-  //       path: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}${LOCATION_PATH.PINCODE}`,
-  //       isSingle: true,
-  //       childList: []
-  //     },
-  //   ],
-  //   isSingle: false,
-  //   mainPath: `${DASHBOARD_PATH.LOCATION.split('/*')[0]}`,
-  // },
   {
     id: 2,
     mainListName: SIDEBAR_NAMES.TRIANA,
@@ -272,9 +238,16 @@ export const sidebarItems: SideBarItems[] = [
         childList: []
       },
       {
-        id: 4,
+        id: 6,
         txt: SIDEBAR_SUBLIST_NAMES.INSURANCE_COMPANY,
         path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.INSURANCE_COMPANY}`,
+        isSingle: true,
+        childList: []
+      },
+      {
+        id: 7,
+        txt: SIDEBAR_SUBLIST_NAMES.USER,
+        path: `${DASHBOARD_PATH.TRIANA.split('/*')[0]}${TRIANA_PATH.USER}`,
         isSingle: true,
         childList: []
       },
@@ -319,6 +292,7 @@ export const sidebarItems: SideBarItems[] = [
 export const enum INFOBOXES {
   DEFAULT = 'DEFAULT',
   MULTI = 'MULTI',
+  EDITOR = 'EDITOR',
 }
 
 export enum CompliancesNameEnum {
@@ -328,10 +302,10 @@ export enum CompliancesNameEnum {
   FDA = 'FDA',
 }
 
-export const complianceArray = Object.keys(CompliancesNameEnum).map((key) => ({
+export const complianceArray = [...Object.keys(CompliancesNameEnum).map((key) => ({
   label: key,
   _id: key,
-}));
+})), acDefaultValue];
 
 export enum TermsAndConditionNameEnum {
   WebUser = 'WebUser',
@@ -343,7 +317,7 @@ export enum TermsAndConditionNameEnum {
   Clinic = 'Clinic',
 }
 
-export const tnCArray = Object.keys(TermsAndConditionNameEnum).map((key) => ({
+export const tnCArray = [acDefaultValue, ...Object.keys(TermsAndConditionNameEnum).map((key) => ({
   label: key,
   _id: key,
-}));
+}))];

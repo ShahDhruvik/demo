@@ -15,31 +15,29 @@ import { NotFoundProvider } from './context/NotFound'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <ReduxProvider>
-          <AppThemeProvider>
-            <LoadingProvider>
-              <ToastContainer
-                limit={3}
-                position='top-right'
-                autoClose={3000}
-                pauseOnFocusLoss={false}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                theme='colored'
-                icon={false}
-              />
-              <NotFoundProvider>
-                <App />
-              </NotFoundProvider>
-            </LoadingProvider>
-          </AppThemeProvider>
-        </ReduxProvider>
-      </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <AuthProvider>
+      <ReduxProvider>
+        <AppThemeProvider>
+          <LoadingProvider>
+            <ToastContainer
+              limit={3}
+              position='top-right'
+              autoClose={3000}
+              pauseOnFocusLoss={false}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              theme='colored'
+              icon={false}
+            />
+            <NotFoundProvider>
+              <App />
+            </NotFoundProvider>
+          </LoadingProvider>
+        </AppThemeProvider>
+      </ReduxProvider>
+    </AuthProvider>
+  </BrowserRouter>,
 )

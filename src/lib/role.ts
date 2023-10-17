@@ -143,7 +143,7 @@ const dropdownRole = async (
         loading({ isLoading: true, isPage: false });
         const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${ROLE_PATH.DROPDOWN}`, {});
         if (res.data.success) {
-            return res.data.data.records;
+            return res.data.data;
         } else {
             return [];
         }

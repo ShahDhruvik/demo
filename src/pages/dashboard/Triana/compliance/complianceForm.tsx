@@ -22,14 +22,16 @@ import SelectInput from '@/components/SelectInput'
 import { DateInput } from '@/components/DateInput'
 import { createTNC } from '@/lib/termsAndCon'
 import { dropdownCountry } from '@/lib/Country'
-import { ComplianceFields } from '@/types/compliance'
+import { ComplianceData, ComplianceFields } from '@/types/compliance'
 import RichTextEditor from 'react-rte'
 import { createCompliance } from '@/lib/complaince'
+import RTEInput from '@/components/RTEInput'
+import { Button, Chip } from '@mui/material'
 
 type Props = {
   handleClose: () => void
   type: TableStates
-  entity: PackageData
+  entity: ComplianceData
   getModifiedData: () => void
 }
 
@@ -61,7 +63,7 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
       defaultValues: {
         name: acDefaultValue,
         countryIds: [] as SearchDDL[],
-        description: '',
+        description: [],
         revisionDate: null,
         header: '',
         image: null,
@@ -74,11 +76,15 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
     name: 'countryIds',
     rules: { validate: (val) => val.length !== 0 || 'Select countries' },
   })
+  const des = useFieldArray({
+    control: control,
+    name: 'description',
+    rules: { validate: (val) => val.length !== 0 || 'Create subheaders' },
+  })
 
   //Validation
-
   const { isSubmitting, errors } = formState
-  const onSubmitHandle: SubmitHandler<any> = async (data) => {
+  const onSubmitHandle: SubmitHandler<ComplianceFields> = async (data) => {
     handleClose()
     switch (type) {
       case TABLE_STATES.ADD:
@@ -94,7 +100,6 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
         break
     }
   }
-  //API
 
   //File onChange
   const handleFileChange = (event: any) => {
@@ -113,8 +118,25 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
     }
   }, [open])
 
-  // handle type of packages
+  //second form
+  const secondForm = useForm({
+    defaultValues: {
+      subHeader: '',
+      descriptionX: RichTextEditor.createEmptyValue(),
+    },
+  })
 
+  const onSubmitSecondForm: SubmitHandler<any> = async (data) => {
+    des.replace([
+      ...des.fields,
+      { title: data.subHeader, description: data.descriptionX.toString('html') },
+    ])
+    secondForm.reset({
+      subHeader: '',
+      descriptionX: RichTextEditor.createEmptyValue(),
+    })
+    clearErrors('description')
+  }
   return (
     <form onSubmit={handleSubmit(onSubmitHandle)}>
       <div className='px-5 mb-5'>
@@ -176,15 +198,70 @@ const ComplianceForm = ({ handleClose, entity, getModifiedData, type }: Props) =
             errMessage={'Select Country'}
             isPadding={false}
           />
-          <div>
-            <p className='pl-2 mb-2'> Description</p>
-            <RichTextEditor
-              value={description}
-              onChange={(newValue) => {
-                setDescription(newValue)
-              }}
-              className='min-h-[230px]'
-            />
+
+          <div className='flex mt-5 gap-4'>
+            <div className='px-5 bg-white-main py-3 rounded-md min-w-[300px] flex flex-col gap-2 max-h-[380px] overflow-y-scroll scrollBar'>
+              {errors.description && (
+                <p className='text-lightOrange-main'>{`${
+                  errors?.description.root?.message ?? errors?.description?.message
+                }*`}</p>
+              )}
+              {des.fields.map((x, i) => {
+                return (
+                  <Chip
+                    label={x.title}
+                    key={x.id}
+                    sx={{
+                      minHeight: '40px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      borderRadius: '7px',
+                    }}
+                    onClick={() => {
+                      secondForm.reset({
+                        subHeader: x.title,
+                        descriptionX: RichTextEditor.createValueFromString(x.description, 'html'),
+                      })
+                      const deleted = des.fields.filter((y) => y.id !== x.id)
+                      des.replace(deleted)
+                      if (deleted.length === 0) {
+                        setError('description', { type: 'validate', message: 'Create Subheaders' })
+                      }
+                    }}
+                    onDelete={() => {
+                      const deleted = des.fields.filter((y) => y.id !== x.id)
+                      des.replace(deleted)
+                      if (deleted.length === 0) {
+                        setError('description', { type: 'validate', message: 'Create Subheaders' })
+                      }
+                    }}
+                  />
+                )
+              })}
+            </div>
+            <div className='flex-1'>
+              <TxtInput
+                control={secondForm.control}
+                name='subHeader'
+                handleChange={() => {}}
+                label='Sub header*'
+                placeholder='Enter sub header'
+                validation={txtFieldValidation(true)}
+              />
+              <div>
+                <p className='pl-2 mb-1 mt-4'> Description</p>
+                <RTEInput name='descriptionX' control={secondForm.control} />
+              </div>
+              <div className='flex justify-end  mt-2 mr-2  rounded-md py-2 px-2'>
+                <Button
+                  sx={{ minWidth: 'max-content', maxHeight: '20px' }}
+                  color={'mPink'}
+                  onClick={secondForm.handleSubmit(onSubmitSecondForm)}
+                >
+                  Add
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -180,6 +180,7 @@ export type SidebarSubListNames =
   | SIDEBAR_SUBLIST_NAMES.LOCATION
   | SIDEBAR_SUBLIST_NAMES.ROLES
   | SIDEBAR_SUBLIST_NAMES.INSURANCE_COMPANY
+  | SIDEBAR_SUBLIST_NAMES.USER
   | undefined
 
 export type SidebarChildListNames =
@@ -204,7 +205,7 @@ export type SideBarItems = {
   mainPath: string
 }
 
-export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI
+export type InfoBoxes = INFOBOXES.DEFAULT | INFOBOXES.MULTI | INFOBOXES.EDITOR
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
 

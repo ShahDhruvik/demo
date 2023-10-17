@@ -6,26 +6,35 @@ export type ComplianceFields = {
     revisionDate: Date | null
     header: string
     image: File | null
-    description: string
+    description: { title: string, description: string }[]
     revisionVersion: string
 }
 
-// export type PackageData = {
-//     _id: string
-//     title: string
-//     discount: string
-//     description: string
-//     isParent: boolean
-//     isPremium: boolean
-//     isInternal: boolean
-//     image: string
-//     price: string
-//     points: string[]
-//     isActive: boolean
-//     isDeleted: boolean
-//     createdAt: string
-//     updatedAt: string
-//     __v: 0
-//     packages: any[]
-//     tag: string[]
-// }
+export type ComplianceData = {
+    _id: string
+    name: string
+    countryIds: string[]
+    revisionDate: string
+    header: string
+    image: string
+    revisionVersion: string
+    description: string
+    isActive: boolean
+    isDeleted: boolean
+    createdAt: string
+    updatedAt: string
+    __v: number
+    countries: {
+        _id: string
+        name: string
+        shortName: string
+        code: number
+        isoCode: string
+        isActive: true
+        isDeleted: false
+        createdAt: string
+        updatedAt: string
+        __v: number
+    }[],
+    subheaders: { title: string, description: string }[]
+}

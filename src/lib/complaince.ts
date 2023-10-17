@@ -4,10 +4,11 @@ import { DEF_PATHS, COMPLIANCE_PATH } from "@/utils/endPoints"
 import { TABLES, } from "@/utils/constants"
 import axiosInstance from "../axiosInstance"
 import { TNCFields } from "@/types/termsAndCondition"
+import { ComplianceFields } from "@/types/compliance"
 const createCompliance = async (
     loading: LoadingState['setLoading'],
     toast: ShowToastFunction,
-    formData: TNCFields,
+    formData: ComplianceFields,
 ) => {
     try {
         loading({ isLoading: true, isPage: false })
@@ -18,7 +19,7 @@ const createCompliance = async (
             image: '',
             header: formData.header,
             revisionVersion: formData.revisionVersion,
-            description: formData.description
+            subheaders: formData.description
         };
         const res = await axiosInstance.post(`${DEF_PATHS.COMMON}${COMPLIANCE_PATH.CREATE}`, data);
         if (res.data.success) {

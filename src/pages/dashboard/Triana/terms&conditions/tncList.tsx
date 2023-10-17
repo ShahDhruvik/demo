@@ -10,11 +10,9 @@ import CustomDialog from '@/components/Dialog-custom'
 import ActionModal from '@/components/ActionModal'
 import SwitchDeleteModal from '@/components/SwitchDeleteModal'
 import TNCForm from './tncForm'
-import { theme } from '@/context/ThemeProvider'
-import { deletePackage, getPackage, inactivePackage } from '@/lib/Packages'
-import { PackageData } from '@/types/package'
 import { getTNC, inactiveTNC } from '@/lib/termsAndCon'
 import { TNCData } from '@/types/termsAndCondition'
+import TncView from './tncView'
 
 type Props = {
   handleOpen: () => void
@@ -88,11 +86,6 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
       type: 'date',
     },
     {
-      id: 'description',
-      label: 'Description',
-      isSort: true,
-    },
-    {
       id: 'isActive',
       label: 'Active',
       isSort: false,
@@ -125,7 +118,7 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
         controls={controls as Controls}
         handleControls={handleControls}
         setHandleControls={setHandleControls}
-        actions={[ACTIONS_TABLE.SWITCH]}
+        actions={[ACTIONS_TABLE.SWITCH, ACTIONS_TABLE.VIEW]}
         // tableHeading={{ tableId: TABLES.TNC, tableName: 'Terms & Conditions' }}
         notFound={notFound.includes(TABLES.TNC)}
         btnTxtArray={[{ btnType: HEADERBTNS.CREATE, btnText: 'Create' }]}
@@ -170,6 +163,7 @@ const TNCList = ({ handleOpen, setType, open, type, handleClose }: Props) => {
               getModifiedData={getModifiedData}
             />
           )}
+          {type === TABLE_STATES.VIEW && <TncView entity={entity as TNCData} />}
         </ActionModal>
       </CustomDialog>
     </Box>
